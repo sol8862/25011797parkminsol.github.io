@@ -1,355 +1,842 @@
 <!doctype html>
-<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>KM 시험 피드백 작성기</title></head><body>
-<p id="loading">사이트를 준비하고 있습니다. 이 화면이 계속 보이면 파일의 두 조각이 모두 복사되었는지 확인해 주세요.</p>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>KM올케어 시험 피드백 작성기</title>
+  <meta name="description" content="중간·기말고사 분석 피드백을 빠르게 작성하고 복사·인쇄하는 도구">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231d513d'/%3E%3Cpath d='M17 17h30v30H17z' fill='none' stroke='%23fff' stroke-width='4'/%3E%3Cpath d='M24 32l6 6 12-14' fill='none' stroke='%23f4c95d' stroke-width='5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+  <style>
+    :root{--green:#173f32;--green2:#245b47;--mint:#eaf3ee;--line:#d7e1dc;--ink:#16231e;--muted:#66736d;--paper:#fff;--bg:#f3f6f4;--yellow:#f5c95d;--red:#b54343;--shadow:0 10px 30px rgba(27,57,45,.09)}
+    *{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--ink);font-family:Pretendard,"Apple SD Gothic Neo","Noto Sans KR",sans-serif;line-height:1.55}
+    button,input,select,textarea{font:inherit} button{cursor:pointer}.shell{max-width:1480px;margin:auto;padding:24px}.top{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:18px}.brand{display:flex;align-items:center;gap:12px}.mark{width:42px;height:42px;border-radius:12px;background:var(--green);display:grid;place-items:center;color:white;font-weight:900}.brand h1{font-size:1.35rem;margin:0}.brand p{margin:1px 0 0;color:var(--muted);font-size:.9rem}.top-actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+    .layout{display:grid;grid-template-columns:minmax(0,1fr) minmax(380px,.78fr);gap:20px;align-items:start}.panel{background:var(--paper);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow);overflow:hidden}.panel-head{padding:18px 20px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center}.panel-head h2{font-size:1rem;margin:0}.form{padding:20px}.section{padding-bottom:22px;margin-bottom:22px;border-bottom:1px solid #e8eeeb}.section:last-child{border:0;margin:0;padding:0}.section-title{display:flex;align-items:center;gap:9px;margin:0 0 14px;font-size:1rem}.num{width:25px;height:25px;border-radius:8px;background:var(--green);color:white;display:grid;place-items:center;font-size:.78rem;font-weight:800}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.span2{grid-column:span 2}.field label{display:block;font-size:.78rem;font-weight:700;color:#52605a;margin-bottom:6px}.field input,.field select,.field textarea{width:100%;border:1px solid #cfdad5;border-radius:10px;background:#fbfcfb;padding:10px 11px;min-height:43px;color:var(--ink)}.field textarea{resize:vertical;min-height:74px}.field input:focus,.field select:focus,.field textarea:focus{outline:3px solid rgba(36,91,71,.13);border-color:var(--green2)}.direct-field{padding:12px;border:1px solid #ead48f;border-radius:12px;background:#fffaf0}.direct-field label{color:#66511b}.direct-field label::before{content:"✎ ";color:#b68813}.direct-field textarea{background:#fff;min-height:88px}
+    .chips{display:flex;flex-wrap:wrap;gap:8px}.chip{border:1px solid #cbd8d2;background:white;color:#33423b;border-radius:999px;padding:8px 12px;font-size:.86rem}.chip.active{background:var(--green);border-color:var(--green);color:white}.hint{font-size:.78rem;color:var(--muted);margin:8px 0 0}.question-tools{display:grid;grid-template-columns:120px 1fr;gap:9px;align-items:end;margin-bottom:10px}.question-list{display:grid;gap:7px}.question-row{display:grid;grid-template-columns:52px 1fr 85px 1.35fr 36px;gap:7px;align-items:center;padding:8px;background:#f8faf9;border:1px solid #e2e9e5;border-radius:10px}.question-row input,.question-row select{width:100%;min-width:0;border:1px solid #cfdad5;border-radius:8px;background:white;padding:8px;font-size:.83rem}.q-labels{display:grid;grid-template-columns:52px 1fr 85px 1.35fr 36px;gap:7px;padding:0 8px;color:var(--muted);font-size:.72rem;font-weight:700}.q-labels span{text-align:center}.wrong-list{display:grid;gap:10px}.wrong-row{display:grid;grid-template-columns:82px 1fr 1fr 38px;gap:8px;align-items:end;padding:11px;background:#f8faf9;border:1px solid #e2e9e5;border-radius:12px}.wrong-row .field label{font-size:.72rem}.wrong-row .custom-reason{grid-column:1/-1}.wrong-row .custom-reason[hidden]{display:none}.icon-btn{height:42px;border:1px solid #dfcaca;background:white;color:var(--red);border-radius:9px}.question-row .icon-btn{height:36px}.add{margin-top:10px;width:100%;border:1px dashed #9bb5a9;color:var(--green);background:#f4f9f6;border-radius:10px;padding:10px;font-weight:700}.primary,.secondary,.ghost{border-radius:10px;padding:10px 15px;font-weight:800;border:1px solid transparent}.primary{background:var(--green);color:white}.secondary{background:var(--yellow);color:#312a18}.ghost{background:white;border-color:var(--line);color:#415048}
+    .preview-wrap{position:sticky;top:18px}.preview-tools{display:flex;gap:7px;flex-wrap:wrap;justify-content:flex-end}.preview{padding:25px;background:#eef1ef}.doc{display:grid;gap:18px}.print-page{position:relative;min-height:850px;background:#fff;border:1px solid #202020;overflow:hidden;padding-bottom:42px}.print-page>*:not(.watermark){position:relative;z-index:1}.page-brand{height:38px;padding:10px 14px 7px;display:flex;justify-content:space-between;align-items:center;font-family:"Batang","AppleMyungjo",serif;font-size:.78rem}.page-brand b{font-size:.82rem}.watermark{position:absolute;z-index:0;inset:0;display:grid;place-items:center;color:rgba(55,68,61,.075);font-family:Georgia,serif;font-weight:900;font-style:italic;font-size:12rem;letter-spacing:-1.1rem;transform:rotate(-10deg);pointer-events:none;user-select:none}.page-footer{position:absolute!important;bottom:10px;left:18px;right:18px;text-align:right;color:#69736e;font-family:"Batang","AppleMyungjo",serif;font-size:.7rem}.doc-head{display:grid;grid-template-columns:1fr 120px 180px;border:1px solid #222;border-bottom:0;margin:0 14px}.doc-head>div{padding:9px 12px;border-right:1px solid #222;text-align:center;font-weight:800}.doc-head>div:last-child{border:0}.doc-title{padding:12px;text-align:center;border:1px solid #222;border-bottom:0;margin:0 14px;font-size:1.16rem;font-weight:900}.student-line{display:grid;grid-template-columns:1fr 1fr 1fr;border:1px solid #222;border-bottom:0;margin:0 14px}.student-line div{padding:8px 12px;text-align:center;font-weight:800}.student-line div+div{border-left:1px solid #222}.analysis-title{padding:8px;text-align:center;font-weight:900;border:1px solid #222;border-bottom:0;margin:0 14px;background:rgba(237,244,233,.86)}.analysis-table{width:calc(100% - 28px);margin:0 14px;border-collapse:collapse;font-size:.76rem;border:1px solid #222}.analysis-table th,.analysis-table td{border-right:1px solid #222;border-bottom:1px solid #222;padding:5px;text-align:center}.analysis-table th:last-child,.analysis-table td:last-child{border-right:0}.analysis-table tr:last-child td{border-bottom:0}.analysis-table th{background:rgba(242,246,241,.88)}.analysis-empty{padding:15px!important;color:#8a958f}.feedback-sheet{margin:0 14px;border:1px solid #222}.feedback-block{padding:22px 21px;border-bottom:1px solid #222;min-height:180px}.feedback-block:last-child{border:0}.feedback-block h3{text-align:center;font-size:.93rem;margin:0 0 13px}.feedback-block p{margin:0;white-space:pre-wrap;font-family:"Batang","AppleMyungjo",serif;font-size:.93rem;line-height:1.78;word-break:keep-all}.feedback-block p[contenteditable="true"]{border-radius:7px;padding:4px 6px;margin:-4px -6px;transition:.15s}.feedback-block p[contenteditable="true"]:hover{background:#fffbea;box-shadow:0 0 0 1px #ead68a}.feedback-block p[contenteditable="true"]:focus{outline:3px solid rgba(245,201,93,.42);background:#fffdf3}.placeholder{color:#98a29d}.toast{position:fixed;z-index:30;bottom:24px;left:50%;transform:translate(-50%,30px);background:#17231e;color:white;padding:10px 15px;border-radius:10px;opacity:0;pointer-events:none;transition:.25s}.toast.show{opacity:1;transform:translate(-50%,0)}
+    .draft-dialog{width:min(620px,calc(100% - 28px));padding:0;border:0;border-radius:18px;box-shadow:0 22px 70px rgba(16,35,27,.28);color:var(--ink)}.draft-dialog::backdrop{background:rgba(13,27,22,.55)}.draft-list{display:grid;gap:9px;padding:16px 20px 22px;max-height:62vh;overflow:auto}.draft-empty{padding:28px 12px;text-align:center;color:var(--muted);background:#f7f9f8;border-radius:12px}.draft-item{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;align-items:center;padding:12px;border:1px solid var(--line);border-radius:12px;background:#fbfcfb}.draft-item.current{border-color:#d0a72d;background:#fffaf0}.draft-info{min-width:0}.draft-info strong,.draft-info small{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.draft-info small{margin-top:2px;color:var(--muted);font-size:.76rem}.draft-actions{display:flex;gap:6px}.draft-actions button{border-radius:8px;padding:7px 10px;font-size:.78rem;font-weight:800}.draft-load{border:1px solid var(--green);background:var(--green);color:white}.draft-delete{border:1px solid #dfcaca;background:white;color:var(--red)}
+    @media(max-width:1020px){.layout{grid-template-columns:1fr}.preview-wrap{position:static}.grid{grid-template-columns:repeat(2,1fr)}}
+    @media(max-width:620px){.shell{padding:12px}.top{align-items:flex-start}.brand p{display:none}.top-actions{flex-wrap:wrap;justify-content:flex-end}.grid{grid-template-columns:1fr}.span2{grid-column:span 1}.question-tools{grid-template-columns:95px 1fr}.q-labels{display:none}.question-row{grid-template-columns:42px 74px 36px}.question-row .qrange,.question-row .qtype{grid-column:2/4}.wrong-row{grid-template-columns:70px 1fr 38px}.wrong-row .concept{grid-column:2/4}.panel{border-radius:14px}.preview{padding:10px}.print-page{min-height:670px}.doc-head{grid-template-columns:1fr 72px 92px}.doc-head>div{padding:7px 4px;font-size:.7rem}.doc-title{font-size:.92rem}.student-line div{padding:7px 3px;font-size:.68rem}.analysis-table{font-size:.62rem}.feedback-block{padding:16px;min-height:150px}.feedback-block p{font-size:.82rem}.watermark{font-size:8rem}}
+    @media print{body{background:white}.shell{padding:0;max-width:none}.top,.editor-panel,.preview-tools,.panel-head{display:none!important}.layout{display:block}.preview-wrap,.panel{position:static;box-shadow:none;border:0}.preview{padding:0}.doc{display:block}.print-page{min-height:268mm;border:0;padding-bottom:12mm;break-after:page;page-break-after:always;overflow:hidden}.print-page:last-child{break-after:auto;page-break-after:auto}.doc-head,.doc-title,.student-line,.analysis-title,.analysis-table,.feedback-sheet{margin-left:0;margin-right:0}.analysis-table{width:100%}.feedback-block p{font-size:10.5pt;line-height:1.75;outline:0!important;background:white!important;box-shadow:none!important}@page{size:A4;margin:14mm}}
+    .watermark{color:transparent;font-size:0;letter-spacing:0;font-style:normal;transform:none;overflow:hidden}.watermark img{display:block;width:92%;height:auto;opacity:.42;mix-blend-mode:multiply;transform:translateY(14%)}
+    @media(max-width:620px){.watermark img{width:96%;opacity:.38}}
+    /* Keep the logo continuous across opaque table/feedback backgrounds. */
+    .print-page{isolation:isolate}
+    .watermark{z-index:2}
+    .watermark img{opacity:.20}
+    @media print{.watermark{z-index:2!important}.watermark img{opacity:.20!important}}
+    .question-row,.q-labels{grid-template-columns:52px 1fr 76px 68px 1.35fr 36px}.doc-head>div{padding:5px 9px;line-height:1.2}.doc-title{padding:7px;line-height:1.25}.student-line div{padding:5px 8px;line-height:1.2}.page-brand{height:33px;padding-top:7px;padding-bottom:5px}
+    .qtype-wrap{display:grid;gap:5px;min-width:0}.qtype-wrap select,.qtype-wrap input{width:100%;min-width:0}.qtype-custom[hidden]{display:none}
+    @media(max-width:620px){.question-row{grid-template-columns:42px 68px 62px 36px;grid-template-areas:"num result score remove" "range range range range" "type type type type"}.question-row .item-num{grid-area:num}.question-row .qresult{grid-area:result}.question-row .qscore{grid-area:score}.question-row .remove-q{grid-area:remove}.question-row .qrange{grid-area:range}.question-row .qtype-wrap{grid-area:type}.doc-head>div{padding:4px 3px}.doc-title{padding:6px}.student-line div{padding:4px 2px}}
+    .doc-title{padding:3px 8px;font-size:1rem;line-height:1.15;min-height:0}.analysis-title{padding:2px 8px;font-size:.82rem;line-height:1.2;min-height:0}
+    @media(max-width:620px){.doc-title{padding:3px 5px;font-size:.86rem}.analysis-title{padding:2px 5px;font-size:.74rem}}
+    .guide-dialog{width:min(560px,calc(100% - 28px));padding:0;border:0;border-radius:18px;box-shadow:0 22px 70px rgba(16,35,27,.28);color:var(--ink)}.guide-dialog::backdrop{background:rgba(13,27,22,.55)}.guide-head{display:flex;align-items:center;justify-content:space-between;padding:18px 20px 14px;border-bottom:1px solid var(--line)}.guide-head h2{margin:0;font-size:1.08rem}.guide-close{width:38px;height:38px;border:0;border-radius:10px;background:#f1f5f3;color:#35443d;font-size:1.45rem;line-height:1}.guide-body{padding:18px 20px 22px}.guide-tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-bottom:18px}.guide-tab{border:1px solid var(--line);border-radius:10px;background:white;padding:10px 6px;font-weight:800;color:#46544e}.guide-tab.active{background:var(--green);border-color:var(--green);color:white}.guide-panel{display:none}.guide-panel.active{display:block}.guide-panel h3{margin:0 0 12px;font-size:1rem}.guide-panel ol{margin:0;padding-left:23px}.guide-panel li{margin:0 0 11px;padding-left:3px;line-height:1.55}.guide-panel li:last-child{margin-bottom:0}.guide-note{margin:15px 0 0;padding:11px 13px;border-radius:10px;background:#f3f7f5;color:#52605a;font-size:.88rem}.guide-note strong{color:var(--green)}
+    @media(max-width:620px){.guide-dialog{max-height:88vh}.guide-head{padding:15px 16px 12px}.guide-body{padding:15px 16px 18px}.guide-tab{font-size:.9rem}.guide-panel li{font-size:.95rem}}
+    .image-save-options{display:grid;gap:10px;padding:18px 20px 22px}.image-save-option{display:block;width:100%;padding:14px 16px;border:1px solid var(--line);border-radius:12px;background:#fff;text-align:left;color:var(--ink)}.image-save-option strong,.image-save-option small{display:block}.image-save-option strong{font-size:.96rem}.image-save-option small{margin-top:3px;color:var(--muted);font-size:.8rem}.image-save-option:hover{border-color:#d6ad38;background:#fffaf0}
+    @media print{.guide-dialog,.draft-dialog,.image-save-dialog{display:none!important}}
+    /* Yellow report theme — preview and printed/PDF result */
+    .print-page{border:0;border-radius:2px;box-shadow:0 6px 24px rgba(48,41,20,.08);padding:24px 28px 42px;color:#2d302d}
+    .report-header{position:relative;z-index:1}.report-heading{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;padding-bottom:10px;border-bottom:3px solid #e0ad24}.report-logo{font-size:.86rem;font-weight:900;color:#9a6b00;letter-spacing:-.02em}.report-heading h2{margin:0;font-size:1.28rem;line-height:1.15;color:#2f2b20;letter-spacing:-.04em}.report-meta{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:0;margin-top:12px;border:1px solid #eadfbf;border-radius:10px;overflow:hidden;background:rgba(255,250,234,.92)}.report-meta>div{display:flex;gap:8px;align-items:center;min-width:0;padding:7px 10px;border-right:1px solid #eee3c8;border-bottom:1px solid #eee3c8;font-size:.7rem}.report-meta>div:nth-child(3n){border-right:0}.report-meta>div:nth-last-child(-n+3){border-bottom:0}.report-meta b{flex:0 0 auto;color:#92701b;font-size:.62rem}.report-meta span{min-width:0;font-weight:750;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.report-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0 15px}.stat-card{position:relative;overflow:hidden;border:1px solid #eadfbf;border-radius:10px;padding:11px 10px 10px;text-align:center;background:rgba(255,255,255,.94)}.stat-card::before{content:"";position:absolute;inset:0 0 auto;height:4px;background:#e0ad24}.stat-card small{display:block;color:#756d59;font-size:.63rem;font-weight:700;margin-bottom:2px}.stat-card strong{display:block;color:#3b3320;font-size:1.25rem;line-height:1.25}.stat-card em{display:block;color:#a88a41;font-size:.6rem;font-style:normal;margin-top:1px}.report-section-title{display:flex;align-items:center;gap:7px;margin:12px 0 7px;font-size:.82rem;font-weight:900;color:#443a24}.report-section-title::before{content:"";width:4px;height:15px;border-radius:5px;background:#e0ad24}.analysis-page .analysis-table{width:100%;margin:0;border:0;border-collapse:separate;border-spacing:0;font-size:.68rem}.analysis-page .analysis-table th,.analysis-page .analysis-table td{padding:5px 6px;border:0;border-bottom:1px solid #ebe6d9}.analysis-page .analysis-table th{color:#6f6550;background:#fff6d8;font-weight:800}.analysis-page .analysis-table tbody tr:nth-child(even){background:rgba(250,247,237,.72)}.analysis-page .analysis-table td.result-cell{font-weight:900}.analysis-page .analysis-table tr.is-correct td.result-cell{color:#8b6500}.analysis-page .analysis-table tr.is-wrong td.result-cell{color:#bb4b3f}.feedback-page .feedback-sheet{margin:16px 0 0;border:0;display:grid;gap:12px}.feedback-page .feedback-block{position:relative;padding:18px 19px 19px;min-height:190px;border:1px solid #eadfbf!important;border-radius:12px;background:rgba(255,253,247,.94)}.feedback-page .feedback-block h3{display:flex;align-items:center;gap:8px;text-align:left;margin:0 0 12px;color:#443a24;font-size:.85rem}.feedback-page .feedback-block h3::before{content:"";width:4px;height:16px;border-radius:5px;background:#e0ad24}.feedback-page .feedback-block p{font-size:.86rem;line-height:1.72;text-align:justify;text-align-last:left;text-justify:inter-character;word-break:keep-all;overflow-wrap:break-word}.page-footer{bottom:14px;left:28px;right:28px;padding-top:7px;border-top:1px solid #eee4ca;display:flex;justify-content:space-between;text-align:left;color:#93876a}.watermark img{opacity:.09;filter:sepia(1) saturate(.75)}
+    @media(max-width:620px){.print-page{padding:18px 16px 36px}.report-heading h2{font-size:1rem}.report-meta{grid-template-columns:1fr 1fr}.report-meta>div{border-right:1px solid #eee3c8!important;border-bottom:1px solid #eee3c8!important}.report-meta>div:nth-child(2n){border-right:0!important}.report-meta>div:nth-last-child(-n+2){border-bottom:0!important}.stat-card{padding:10px 4px 8px}.stat-card strong{font-size:1.05rem}.analysis-page .analysis-table{font-size:.58rem}.analysis-page .analysis-table th,.analysis-page .analysis-table td{padding:4px 3px}.feedback-page .feedback-block{padding:15px;min-height:160px}.feedback-page .feedback-block p{font-size:.78rem}.page-footer{left:16px;right:16px}}
+    @media print{.print-page{padding:7mm 8mm 12mm;box-shadow:none}.report-heading h2{font-size:16pt}.report-meta>div{font-size:8.5pt}.report-meta b{font-size:7.5pt}.stat-card strong{font-size:16pt}.analysis-page .analysis-table{font-size:8.2pt}.analysis-page .analysis-table th,.analysis-page .analysis-table td{padding:4.2pt 5pt}.feedback-page .feedback-block{min-height:61mm;padding:6mm}.feedback-page .feedback-block p{font-size:10.5pt}.page-footer{left:8mm;right:8mm;bottom:4mm}.watermark img{opacity:.08!important}}
+    .image-capture-stage{position:fixed;left:-10000px;top:0;width:794px;background:#fff;z-index:-1}.image-capture-stage .print-page{width:794px;min-height:1123px;padding:26px 30px 48px;border-radius:0;box-shadow:none}.image-capture-stage .report-heading h2{font-size:1.28rem}.image-capture-stage .report-meta{grid-template-columns:1.4fr 1fr 1fr}.image-capture-stage .report-meta>div{padding:7px 10px;border-right:1px solid #eee3c8!important;border-bottom:1px solid #eee3c8!important;font-size:.7rem}.image-capture-stage .report-meta>div:nth-child(3n){border-right:0!important}.image-capture-stage .report-meta>div:nth-last-child(-n+3){border-bottom:0!important}.image-capture-stage .stat-card{padding:11px 10px 10px}.image-capture-stage .stat-card strong{font-size:1.25rem}.image-capture-stage .analysis-table{font-size:.68rem}.image-capture-stage .analysis-table th,.image-capture-stage .analysis-table td{padding:5px 6px}.image-capture-stage .feedback-block{padding:18px 19px 19px;min-height:190px}.image-capture-stage .feedback-block p{font-size:.86rem}.image-capture-stage .page-footer{left:30px;right:30px}
+  
+[hidden]{display:none!important}
+body:not(.member-ready) .shell,body:not(.member-ready) #accountBar{display:none!important}
+.account-gate{max-width:440px;margin:8vh auto;padding:26px;background:white;border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow)}
+.account-gate h1{font-size:1.35rem;margin:0 0 8px}.account-gate .field{margin:14px 0}.account-gate form button{margin:5px 5px 5px 0}.account-message{white-space:pre-wrap;color:#8e3b25;font-size:.9rem;overflow-wrap:anywhere}
+.account-bar{max-width:1432px;margin:16px auto 0;padding:12px 16px;background:#fff;border:1px solid var(--line);border-radius:12px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}.account-bar #cloudStatus{flex:1;font-size:.85rem}.account-bar button{padding:7px 10px}.account-bar small{color:var(--muted)}
+@media(max-width:620px){.account-gate{margin:24px 12px}.account-bar{margin:12px}.account-bar #cloudStatus{flex-basis:100%}}
+@media print{#accountGate,#accountBar{display:none!important}}
+
+.edit-status{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:12px;font-size:.85rem}.history-item{border:1px solid var(--line);border-radius:10px;padding:12px;margin:10px 0}.history-item small{display:block;color:var(--muted);margin:4px 0}.history-item li{white-space:pre-wrap;overflow-wrap:anywhere;margin:7px 0}#historyDialog{max-height:85vh;overflow:auto}.shell{position:relative;padding-left:264px;max-width:1720px}.top{grid-column:1/-1}.student-sidebar{position:absolute;left:24px;top:115px;width:220px;max-height:75vh;overflow:auto;background:white;padding:14px;border:1px solid var(--line);border-radius:14px}.student-sidebar h2{font-size:1rem;margin:0}.student-sidebar .draft-item{padding:8px;margin-top:8px;grid-template-columns:1fr}.student-open{border:0;background:transparent;text-align:left;padding:0;min-width:0;color:var(--ink)}.student-open strong,.student-open small{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.student-open small{color:var(--muted);font-size:.7rem}.draft-delete{font-size:.72rem;padding:4px;border-radius:6px}.local-tools{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:14px}.local-tools .hint{margin:0}.logo-label{cursor:pointer}.span4{grid-column:1/-1}.span4>label{font-weight:700;font-size:.8rem;display:block;margin-bottom:7px}.unit-chips{margin-top:10px}.unit-chips .chip{font-size:.76rem;padding:6px 9px}.protected-text{padding:9px;border:1px solid #ecd691;background:#fff9e8;border-radius:9px;margin-bottom:12px}.question-row,.q-labels{grid-template-columns:52px 1fr 54px 90px 1.35fr 36px}.qresult{height:38px;border:1px solid var(--line);border-radius:8px;background:white;font-size:1.15rem;font-weight:bold}.qresult[data-result="O"]{color:#245b47;background:#edf7f0}.qresult[data-result="X"]{color:#b54343;background:#fff0ef}.qresult[data-result="△"]{color:#99701a;background:#fff8df}.range-wrap{min-width:0;position:relative}.range-toggle{border:1px solid var(--line);border-radius:5px;background:white;color:var(--green);font-size:.68rem;margin-top:3px}.range-menu{position:absolute;z-index:10;left:0;top:100%;width:min(320px,80vw);max-height:220px;overflow:auto;padding:9px;background:white;border:1px solid var(--line);border-radius:8px;box-shadow:var(--shadow);display:flex;gap:6px;flex-wrap:wrap}.range-menu .chip{font-size:.72rem;white-space:normal;text-align:left}.score-stepper{display:flex;gap:3px;min-width:0}.score-stepper .qscore{width:65px;min-width:0;padding:8px 4px;appearance:textfield}.qscore::-webkit-inner-spin-button{appearance:none}.score-stepper>div{display:grid;gap:1px}.score-stepper button{padding:0 4px;border:1px solid var(--line);border-radius:3px;background:white;font-size:9px}.report-edit-only{margin-left:auto;font-size:.65rem;padding:4px 7px}.image-capture-stage .report-edit-only{display:none!important}.feedback-page .feedback-block p{white-space:pre-wrap;text-align:left}.print-page{overflow:visible}.analysis-table .is-partial .result-cell{color:#99701a}
+@media(max-width:1250px){.shell{padding-left:24px}.student-sidebar{position:static;width:auto;max-height:240px;margin-bottom:15px}.student-sidebar #studentIndex{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:7px}}
+@media(max-width:620px){.top{display:flex;flex-direction:column;align-items:flex-start}.brand{flex-shrink:0}.brand h1{white-space:nowrap;font-size:1.1rem}.mark{flex-shrink:0}.top-actions{width:100%;justify-content:flex-start}.shell{padding:12px}.question-row{grid-template-columns:42px 54px 90px 36px}.range-wrap{grid-area:range}.score-stepper{grid-area:score}.local-tools .ghost{font-size:.78rem}.feedback-page .feedback-block p{font-size:.8rem}}
+@media print{.student-sidebar,.local-tools,.report-edit-only,.edit-status,#historyDialog{display:none!important}.shell{padding:0}.print-page{overflow:visible}}
+</style>
+</head>
+<body>
+<script>if(location.search)history.replaceState(null,"",location.pathname);</script>
+<section id="accountGate" class="account-gate" aria-labelledby="accountTitle">
+<h1 id="accountTitle">KM 시험 피드백 작성기</h1>
+<p class="hint">초대받은 참여자만 로그인 후 공동 작성본을 이용할 수 있습니다.</p>
+<form id="accountForm" data-mode="login" onsubmit="return false">
+<div><button type="button" class="ghost" data-account-mode="login">로그인</button><button type="button" class="ghost" data-account-mode="signup">처음 오셨나요? 계정 만들기</button></div>
+<div class="field"><label>이메일<input name="email" type="email" autocomplete="email" required></label></div>
+<div class="field"><label>비밀번호<input name="password" type="password" autocomplete="current-password" minlength="8" required></label><p class="hint">비밀번호는 8자 이상 입력해 주세요.</p></div>
+<button id="accountSubmit" class="primary" type="submit">로그인</button>
+</form>
+<form id="joinForm" hidden onsubmit="return false">
+<div class="field"><label>참여자 이름<input name="member" maxlength="40" autocomplete="name" required></label></div>
+<div class="field"><label>초대 코드<input name="invite" autocomplete="off" required></label></div>
+<button class="primary" type="submit">초대받은 참여자로 가입</button>
+</form>
+<p id="accountMessage" class="account-message" role="status" aria-live="polite"></p>
+<button id="gateLogout" class="ghost" type="button" hidden>다른 계정으로 로그인</button>
+</section>
+<div id="accountBar" class="account-bar"><strong id="memberName"></strong><small>참여자 공동 저장소</small><span id="cloudStatus" role="status" aria-live="polite">연결 중…</span><button id="recoveryButton" class="ghost" hidden>미동기화 백업 다운로드</button><button id="backupButton" class="ghost" hidden>현재 내용 백업</button><button id="refreshButton" class="ghost">최신 목록 불러오기</button><button id="logoutButton" class="ghost">로그아웃</button></div>
+<main class="shell">
+  <header class="top"><div class="brand"><div class="mark">KM</div><div><h1>시험 피드백 작성기</h1><p>핵심만 입력하면 학부모용 문장으로 정리됩니다.</p></div></div><div class="top-actions"><button class="primary" id="saveStudentBtn">학생 저장</button><button class="ghost" id="copyStudentBtn">학생 복사</button><button class="ghost" id="newDraftBtn">＋ 학생 추가</button><button class="ghost" id="draftListBtn">저장 목록</button><button class="ghost" id="pdfGuideBtn">PDF 저장 방법</button><button class="ghost" id="resetBtn">현재 내용 초기화</button><button class="ghost" id="imageTop">이미지 저장</button><button class="secondary" id="printTop">인쇄 · PDF</button></div></header>
+  <aside class="student-sidebar"><h2>학생 목록</h2><p class="hint">저장한 학생을 눌러 이어서 편집하세요.</p><div id="studentIndex"></div></aside>
+<section class="local-tools"><button class="ghost" id="connectPcBtn">PC 자동 저장 위치 선택</button><button class="ghost" id="downloadBackupBtn">백업 다운로드</button><label class="ghost logo-label">로고 파일 선택<input id="logoFile" type="file" accept="image/png,image/jpeg,image/webp" hidden></label><span id="pcStatus" class="hint">PC 자동 저장 위치를 선택하세요.</span></section><div class="edit-status"><span id="lastEditor"></span><button id="historyButton" type="button" class="ghost">누가 수정했나요? · 기록 보기</button></div><div class="layout">
+    <section class="panel editor-panel"><div class="panel-head"><h2>피드백 내용 입력</h2><span class="hint">입력 즉시 오른쪽에 반영됩니다</span></div><div class="form">
+      <div class="section"><h3 class="section-title"><span class="num">1</span>기본 정보</h3><div class="grid">
+        <div class="field"><label for="date">작성일</label><input id="date" type="date"></div><div class="field"><label for="examDate">시험일</label><input id="examDate" type="date"></div><div class="field"><label for="teacher">작성자</label><input id="teacher" placeholder="작성자명"></div>
+        <div class="field span2"><label for="school">학교</label><input id="school" placeholder="예: 신관중학교"></div><div class="field span2"><label>학교급</label><input id="schoolLevel" type="hidden" value="고등"><div id="schoolLevelToggle" class="chips"><button type="button" class="chip" data-value="중등">중등</button><button type="button" class="chip" data-value="고등">고등</button></div></div><div class="field"><label for="grade">학년</label><select id="grade" hidden><option value="">선택</option><option>1학년</option><option>2학년</option><option>3학년</option></select><div id="gradeToggle" class="chips"><button type="button" class="chip" data-value="1학년">1학년</button><button type="button" class="chip" data-value="2학년">2학년</button><button type="button" class="chip" data-value="3학년">3학년</button></div></div>
+        <div class="field"><label for="term">시험</label><select id="term"><option>1학기 중간고사</option><option>1학기 기말고사</option><option>2학기 중간고사</option><option>2학기 기말고사</option></select></div><div class="field"><label for="student">학생명</label><input id="student" placeholder="예: 김시윤"></div><div class="field"><label for="subject">과목</label><input id="subject" value="국어" readonly></div>
+
+<div class="field span2"><label for="scoreOverride">실제 점수 · 직접 수정</label><input id="scoreOverride" type="number" min="0" step="0.1" placeholder="빈칸이면 문항 점수 자동 계산"></div>
+<div class="field span2"><label for="totalScoreOverride">총점 · 직접 수정</label><input id="totalScoreOverride" type="number" min="0" step="0.1" placeholder="빈칸이면 배점 합계 자동 계산"></div>
+<div class="span4"><p id="calculatedScore" class="hint"></p></div>
+
+<div id="semesterOptions" class="field span2"><label>학기</label><input id="semester" type="hidden" value="1학기"><div id="semesterToggle" class="chips"><button type="button" class="chip" data-value="1학기">1학기</button><button type="button" class="chip" data-value="2학기">2학기</button></div></div>
+<div id="commonOptions" class="span4" hidden><label>교과서 옵션 · 과목 표시는 국어로 유지됩니다</label><input id="textbook" type="hidden" value="공통국어 1"><div id="bookToggle" class="chips"><button type="button" class="chip" data-value="공통국어 1">공통국어 1 · 1학기</button><button type="button" class="chip" data-value="공통국어 2">공통국어 2 · 2학기</button></div></div>
+<div class="span4"><label>출판사</label><input id="publisher" type="hidden" value="동아"><div id="publisherToggle" class="chips"><button type="button" class="chip" data-value="동아">동아</button><button type="button" class="chip" data-value="미래엔">미래엔</button><button type="button" class="chip" data-value="비상">비상</button><button type="button" class="chip" data-value="지학사">지학사</button><button type="button" class="chip" data-value="창비">창비</button><button type="button" class="chip" data-value="천재">천재</button><button type="button" class="chip" data-value="해냄">해냄</button><button type="button" class="chip" data-value="기타">기타</button></div><div id="authorOptions" hidden><label>교과서 저자</label><input id="textbookAuthor" type="hidden"><div id="authorToggle" class="chips"></div></div><div id="unitChips" class="chips unit-chips"></div><p id="unitNote" class="hint"></p></div>
+<div class="field span4"><label for="examScope">이번 시험 범위 · 선택한 단원</label><input id="examScope" placeholder="단원을 선택하거나 직접 입력하세요"></div><datalist id="rangeChoices"></datalist>
+      </div></div>
+      <div class="section"><h3 class="section-title"><span class="num">2</span>시험문제 분석</h3><div class="question-tools"><div class="field"><label for="questionCount">문항 수</label><input id="questionCount" type="number" min="1" max="50" value="20"></div><button class="primary" id="makeQuestions" type="button">문항표 만들기</button></div><div class="q-labels"><span>번호</span><span>범위</span><span>결과</span><span>배점</span><span>평가 요소·유형</span><span></span></div><div id="questionList" class="question-list"></div><button class="add" id="addQuestion" type="button">＋ 문항 추가</button><p class="hint">X를 선택한 문항은 아래 오답 분석에도 자동으로 추가됩니다.</p></div>
+      <div class="section"><h3 class="section-title"><span class="num">3</span>향상된 점</h3><p id="protectedText" class="hint protected-text"></p><div class="chips" id="strengthChips"></div><div class="field direct-field" style="margin-top:12px"><label for="strengthMemo">향상된 점 직접 입력</label><textarea id="strengthMemo" placeholder="선택지에 없는 내용을 직접 입력하세요. 예: 반어와 역설의 차이를 정확하게 이해하고 작품에 적용함"></textarea></div><p class="hint">선택지와 직접 입력을 함께 사용할 수 있습니다.</p></div>
+      <div class="section"><h3 class="section-title"><span class="num">4</span>오답 분석</h3><div id="wrongList" class="wrong-list"></div><button class="add" id="addWrong">＋ 오답 추가</button></div>
+      <div class="section"><h3 class="section-title"><span class="num">5</span>향후 학습 방안</h3><div class="chips" id="planChips"></div><div class="field" style="margin-top:12px"><label for="nextScope">다음 시험 범위·집중 단원</label><input id="nextScope" placeholder="예: 음운 체계와 소설·향가"></div><div class="field direct-field" style="margin-top:12px"><label for="planMemo">향후 학습 방안 직접 입력</label><textarea id="planMemo" placeholder="선택지에 없는 지도 계획을 직접 입력하세요. 예: 작품의 핵심 내용을 먼저 정리한 뒤 다양한 문제에 적용하도록 지도"></textarea></div><p class="hint">선택지와 직접 입력을 함께 사용할 수 있습니다.</p></div>
+    </div></section>
+    <aside class="preview-wrap panel"><div class="panel-head"><h2>완성된 피드백 <span class="hint">문장을 눌러 직접 수정 가능</span></h2><div class="preview-tools"><button class="ghost" id="restoreBtn">자동 문장 복원</button><button class="ghost" id="copyBtn">문장 복사</button><button class="ghost" id="imageBtn">이미지 저장</button><button class="primary" id="printBtn">인쇄</button></div></div><div class="preview"><article class="doc" id="doc">
+      <section class="print-page analysis-page"><div class="watermark" aria-hidden="true"><img hidden alt=""></div><header class="report-header"><div class="report-heading"><span class="report-logo">KM올케어학원</span><h2>시험문제 분석 보고서</h2></div><div class="report-meta"><div><b>시험</b><span id="outTitle">학교 · 학년 · 시험</span></div><div><b>학생명</b><span id="outStudent">학생명</span></div><div><b>과목</b><span id="outSubject">국어</span></div><div><b>작성일</b><span id="outDate">작성일</span></div><div><b>시험일</b><span id="outExamDate">시험일</span></div><div><b>작성자</b><span id="outTeacher">작성자</span></div></div></header><div class="report-stats"><div class="stat-card"><small>총 문항</small><strong id="statTotal">20문항</strong><em>분석 대상</em></div><div class="stat-card"><small>정답 문항</small><strong id="statCorrect">-</strong><em id="statWrong">오답 -</em></div><div class="stat-card"><small>점수</small><strong id="statScore">-</strong><em id="statTotalScore">배점 입력 필요</em></div></div><div class="report-section-title">문항별 상세 분석</div><table class="analysis-table"><thead><tr><th style="width:10%">번호</th><th style="width:24%">범위</th><th style="width:11%">결과</th><th style="width:11%">배점</th><th>평가 요소·유형</th></tr></thead><tbody id="outQuestions"><tr><td colspan="5" class="analysis-empty">문항표를 작성해 주세요.</td></tr></tbody></table><footer class="page-footer"><span>KM올케어학원</span><span>학생별 시험 분석 보고서</span></footer></section>
+      <section class="print-page feedback-page"><div class="watermark" aria-hidden="true"><img hidden alt=""></div><header class="report-header"><div class="report-heading"><span class="report-logo">KM올케어학원</span><h2>시험 피드백 보고서</h2></div><div class="report-meta"><div><b>시험</b><span id="outTitle2">학교 · 학년 · 시험</span></div><div><b>학생명</b><span id="outStudent2">학생명</span></div><div><b>과목</b><span id="outSubject2">국어</span></div><div><b>작성일</b><span id="outDate2">작성일</span></div><div><b>시험일</b><span id="outExamDate2">시험일</span></div><div><b>작성자</b><span id="outTeacher2">작성자</span></div></div></header><div class="feedback-sheet"><section class="feedback-block"><h3>향상된 점<button type="button" class="report-edit-only ghost" data-polish="#outStrength">문단 다듬기</button></h3><p id="outStrength" class="placeholder" contenteditable="true" role="textbox" aria-label="향상된 점 직접 수정">향상된 점을 선택하거나 구체적인 내용을 입력해 주세요.</p></section><section class="feedback-block"><h3>오답 분석<button type="button" class="report-edit-only ghost" data-polish="#outWrong">문단 다듬기</button></h3><p id="outWrong" class="placeholder" contenteditable="true" role="textbox" aria-label="오답 분석 직접 수정">오답 번호와 원인을 입력해 주세요.</p></section><section class="feedback-block"><h3>향후 학습 방안<button type="button" class="report-edit-only ghost" data-polish="#outPlan">문단 다듬기</button></h3><p id="outPlan" class="placeholder" contenteditable="true" role="textbox" aria-label="향후 학습 방안 직접 수정">향후 학습 방안을 선택해 주세요.</p></section></div><footer class="page-footer"><span>KM올케어학원</span><span>학생별 시험 피드백 보고서</span></footer></section>
+    </article></div></aside>
+  </div>
+</main>
+<dialog class="guide-dialog" id="pdfGuide" aria-labelledby="pdfGuideTitle"><div class="guide-head"><h2 id="pdfGuideTitle">PDF 저장 방법</h2><button class="guide-close" id="pdfGuideClose" type="button" aria-label="닫기">×</button></div><div class="guide-body"><div class="guide-tabs" role="tablist" aria-label="기기 선택"><button class="guide-tab active" type="button" role="tab" aria-selected="true" data-guide="pc">PC</button><button class="guide-tab" type="button" role="tab" aria-selected="false" data-guide="iphone">아이폰</button><button class="guide-tab" type="button" role="tab" aria-selected="false" data-guide="galaxy">갤럭시</button></div><section class="guide-panel active" data-panel="pc"><h3>PC에서 저장하기</h3><ol><li>화면의 <strong>인쇄 · PDF</strong> 버튼을 누릅니다.</li><li>인쇄 창의 프린터 또는 대상을 <strong>PDF로 저장</strong>으로 선택합니다.<br>Windows는 <strong>Microsoft Print to PDF</strong>, Mac은 왼쪽 아래 <strong>PDF → PDF로 저장</strong>을 선택하면 됩니다.</li><li>페이지와 방향을 확인한 뒤 <strong>저장</strong>을 누르고 파일 이름과 위치를 정합니다.</li></ol></section><section class="guide-panel" data-panel="iphone"><h3>아이폰에서 저장하기</h3><ol><li>화면의 <strong>인쇄 · PDF</strong> 버튼을 누릅니다.</li><li>인쇄 미리보기가 나오면 미리보기 문서를 <strong>두 손가락으로 벌려</strong> PDF 화면으로 엽니다.</li><li>오른쪽 아래 또는 위의 <strong>공유 버튼(□↑)</strong>을 누릅니다.</li><li><strong>파일에 저장</strong> → 저장할 폴더 → <strong>저장</strong>을 누릅니다.</li></ol><p class="guide-note"><strong>PDF 미리보기 화면이 이미 열려 있다면</strong> 공유 버튼을 누른 뒤 ‘파일에 저장’을 선택하세요.</p></section><section class="guide-panel" data-panel="galaxy"><h3>갤럭시에서 저장하기</h3><ol><li>화면의 <strong>인쇄 · PDF</strong> 버튼을 누릅니다.</li><li>인쇄 화면 위쪽의 프린터 선택 메뉴를 눌러 <strong>PDF로 저장</strong>을 선택합니다.</li><li>페이지와 용지 크기를 확인한 뒤 <strong>PDF 저장 아이콘</strong>을 누릅니다.</li><li>파일 이름과 저장 위치를 정하고 <strong>저장</strong>을 누릅니다.</li></ol><p class="guide-note">기종에 따라 버튼 이름이 ‘PDF로 저장’ 또는 ‘파일로 저장’으로 표시될 수 있습니다.</p></section></div></dialog>
+<dialog class="guide-dialog image-save-dialog" id="imageSaveDialog" aria-labelledby="imageSaveTitle"><div class="guide-head"><h2 id="imageSaveTitle">이미지 저장 방식</h2><button class="guide-close" id="imageSaveClose" type="button" aria-label="닫기">×</button></div><div class="image-save-options"><button id="folderImageButton" class="image-save-option" type="button" data-image-mode="folder"><strong>폴더를 선택해 두 장 저장</strong><small>바탕화면 등 저장할 폴더를 선택합니다.</small></button><button class="image-save-option" type="button" data-image-mode="analysis"><strong>분석 이미지 저장</strong><small>저장 위치 선택 · 미지원 브라우저는 다운로드</small></button><button class="image-save-option" type="button" data-image-mode="feedback"><strong>피드백 이미지 저장</strong><small>저장 위치 선택 · 미지원 브라우저는 다운로드</small></button><button class="image-save-option" type="button" data-image-mode="combined"><strong>긴 이미지 한 장 저장</strong></button></div></dialog>
+<dialog class="draft-dialog" id="draftDialog"><div class="guide-head"><div><h2>저장된 작성본</h2><p class="hint" style="margin-top:3px">‘학생 추가’를 누를 때마다 작성본이 목록에 계속 추가됩니다.</p></div><button class="guide-close" id="draftClose" type="button" aria-label="닫기">×</button></div><div class="draft-list" id="draftList"></div></dialog>
+<dialog id="historyDialog" class="guide-dialog"><div class="guide-head"><h2>학생 수정 기록</h2><button id="historyClose" class="guide-close" type="button">×</button></div><div class="guide-body"><label>조회 범위 <select id="historyScope"><option value="current">현재 학생</option><option value="all">전체 학생 · 삭제 기록 포함</option></select></label><p id="historyMessage" role="status"></p><div id="historyList"></div><button id="historyMore" class="ghost" hidden>이전 기록 더 보기</button></div></dialog><div class="toast" id="toast">복사했습니다.</div>
+<template id="wrongTemplate"><div class="wrong-row"><div class="field"><label>번호</label><input class="qnum" placeholder="예: 9"></div><div class="field concept"><label>관련 개념·유형</label><input class="qconcept" placeholder="예: 글의 내용 이해"></div><div class="field"><label>오답 원인</label><select class="qreason"><option value="">선택</option><option>개념을 정확하게 구분하지 못해</option><option>문제의 요구 사항을 정확히 파악하지 못해</option><option>본문의 내용을 끝까지 확인하지 않아</option><option>학습한 개념을 문제에 적용하지 못해</option><option>선지의 표현을 세밀하게 비교하지 못해</option><option>시간 부족으로 충분히 검토하지 못해</option><option>단순 실수로 답을 잘못 표시해</option><option value="__custom__">직접 입력</option></select></div><button class="icon-btn remove" aria-label="오답 삭제">×</button><div class="field custom-reason" hidden><label>오답 원인 직접 입력</label><input class="qcustom" placeholder="예: 작품 속 인물의 관계를 정확히 파악하지 못해"></div></div></template>
+<template id="questionTemplate"><div class="question-row"><input class="item-num" aria-label="문항 번호"><div class="range-wrap"><input list="rangeChoices" class="qrange" aria-label="시험 범위" placeholder="선택 단원 또는 직접 입력"><button type="button" class="range-toggle">범위 선택</button><div class="range-menu" hidden></div></div><button type="button" class="qresult" value="O">○</button><div class="score-stepper"><input class="qscore" type="number" min="0" step="0.1" aria-label="배점" value="3.5"><div><button type="button" data-score-step="0.1" aria-label="배점 0.1점 올리기">▲</button><button type="button" data-score-step="-0.1" aria-label="배점 0.1점 내리기">▼</button></div></div><div class="qtype-wrap"><select class="qtype-select" aria-label="평가 요소 또는 유형"><option value="">평가 요소·유형 선택</option><option>글의 내용 이해</option><option>핵심 내용·주제 파악</option><option>세부 내용 파악</option><option>글의 구조·전개 방식 이해</option><option>문맥에 따른 어휘 의미 파악</option><option>표현 방법·효과 이해</option><option>자료·사례 적용</option><option>추론·비판적 이해</option><option>문법 개념 이해 및 적용</option><option>작품의 내용·인물 이해</option><option>서술자의 특징</option><option>화자·서술자·작가의 의도 파악</option><option>서술형 조건 반영</option><option value="__custom__">직접 입력</option></select><input class="qtype-custom" aria-label="평가 요소 또는 유형 직접 입력" placeholder="평가 요소·유형 직접 입력" hidden></div><button class="icon-btn remove-q" aria-label="문항 삭제">×</button></div></template>
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.99.3/dist/umd/supabase.js"></script>
 <script>
-(async()=>{try{
-const payload=`
-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
-boA7SWNl5dzZ00BF586ehrDrc/8DkToJwEmLAQA=
-`;
-if(!window.DecompressionStream)throw new Error("최신 Chrome 또는 Edge 브라우저로 열어 주세요.");
-const bytes=Uint8Array.from(atob(payload.replace(/\s/g,"")),c=>c.charCodeAt(0));
-const content=await new Response(new Blob([bytes]).stream().pipeThrough(new DecompressionStream("gzip"))).text();
-document.open();document.write(content);document.close();
-}catch(error){document.getElementById("loading").textContent="사이트를 열지 못했습니다. "+error.message;}})();
+
+window.bootEditor = function(){
+const strengths=['핵심 개념 이해','문제 해결력 향상','작품 분석 능력 향상','읽기 과정·전략 향상','서술형 답안 작성 향상','실수 감소','시간 관리 향상','적극적인 학습 태도'];
+  const plans=['핵심 개념 반복 학습','다양한 문제에 적용','발문 꼼꼼히 읽기','본문·선지 끝까지 확인','시간 안배와 검토','문학 작품 분석','문법 개념 적용','서술형 조건 확인'];
+  const strengthPhrase={
+    '핵심 개념 이해':'핵심 개념을 정확하게 이해하고 문제에 적용하는 힘',
+    '문제 해결력 향상':'다양한 유형의 문제를 안정적으로 해결하는 능력',
+    '작품 분석 능력 향상':'작품의 내용과 표현을 근거로 의미를 종합적으로 파악하는 능력',
+    '읽기 과정·전략 향상':'글의 핵심 내용을 파악하고 적절한 읽기 전략을 활용하는 능력',
+    '서술형 답안 작성 향상':'문제의 조건을 반영하여 서술형 답안을 구성하는 힘',
+    '실수 감소':'중요한 부분을 확인하고 답을 다시 검토하는 습관',
+    '시간 관리 향상':'제한된 시간 안에 문제를 해결하고 검토하는 능력',
+    '적극적인 학습 태도':'배운 내용을 스스로 점검하고 부족한 부분을 보완하려는 태도'};
+  const planSent={
+    '핵심 개념 반복 학습':'핵심 개념과 주요 특징을 체계적으로 정리하고 반복하여 학습하겠습니다.',
+    '다양한 문제에 적용':'학습한 내용을 다양한 자료와 문제에 적용하는 연습을 진행하겠습니다.',
+    '발문 꼼꼼히 읽기':'문제의 발문을 꼼꼼히 읽고 무엇을 묻고 있는지 정확하게 파악하도록 지도하겠습니다.',
+    '본문·선지 끝까지 확인':'본문과 선지의 내용을 끝까지 확인한 후 답을 판단하는 습관을 기르도록 하겠습니다.',
+    '시간 안배와 검토':'제한 시간 안에 문제를 풀고 중요한 부분을 다시 검토하는 연습을 진행하겠습니다.',
+    '문학 작품 분석':'작품의 내용뿐 아니라 인물의 심리, 표현의 의미와 주제까지 종합적으로 분석하도록 지도하겠습니다.',
+    '문법 개념 적용':'문법 개념을 정확하게 이해하고 실제 문장과 문제에 적용하는 연습을 강화하겠습니다.',
+    '서술형 조건 확인':'서술 조건과 답안에 포함해야 할 핵심 내용을 먼저 확인한 후 답을 작성하도록 지도하겠습니다.'};
+  const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+  const DRAFTS_KEY='kmFeedbackDraftsV1',CURRENT_KEY='kmFeedbackCurrentDraftId:'+window.kmCloud.userId,TAB_TOKEN=`tab_${Date.now()}_${Math.random().toString(36).slice(2,8)}`;
+  let selectedStrengths=[],selectedPlans=[],manualEdits={},isRestoring=false,currentDraftId=localStorage.getItem(CURRENT_KEY)||sessionStorage.getItem('kmFeedbackCurrentDraftId')||'',draftChannel=null;
+  function newDraftId(){return `draft_${Date.now()}_${Math.random().toString(36).slice(2,8)}`}
+  function readDrafts(){return window.kmCloud.read()}
+  function writeDrafts(drafts){window.kmCloud.write(drafts)}
+  function ensureDraftId(){if(!currentDraftId){currentDraftId=newDraftId();rememberStudent()}return currentDraftId}
+  function makeChips(id,items,selected){const box=$(id);items.forEach(v=>{const b=document.createElement('button');b.className='chip';b.type='button';b.textContent=v;b.onclick=()=>{const i=selected.indexOf(v);i<0?selected.push(v):selected.splice(i,1);b.classList.toggle('active');update()};box.appendChild(b)})}
+  function addWrong(data={}){const row=$('#wrongTemplate').content.cloneNode(true);$('#wrongList').appendChild(row);const el=$('#wrongList').lastElementChild,reason=el.querySelector('.qreason'),customBox=el.querySelector('.custom-reason'),custom=el.querySelector('.qcustom');el.dataset.auto=data.auto?'1':'';el.querySelector('.qnum').value=data.n||'';el.querySelector('.qconcept').value=data.c||'';reason.value=data.r||'';custom.value=data.custom||'';const toggleCustom=()=>{customBox.hidden=reason.value!=='__custom__';if(!customBox.hidden&&!custom.value)setTimeout(()=>custom.focus(),0)};reason.addEventListener('change',()=>{toggleCustom();update()});el.querySelectorAll('input,select').forEach(x=>x.addEventListener('input',update));el.querySelector('.remove').onclick=()=>{el.remove();update()};toggleCustom();update();return el}
+  function getQuestionType(row){const selected=row.querySelector('.qtype-select').value;return selected==='__custom__'?row.querySelector('.qtype-custom').value.trim():selected.trim()}
+
+  function renumberQuestions(){$$('.question-row').forEach((r,i)=>{if(!r.querySelector('.item-num').value.trim())r.querySelector('.item-num').value=i+1})}
+  function makeQuestionRows(){const target=Math.max(1,Math.min(50,Number($('#questionCount').value)||20));const rows=$$('.question-row');if(target<rows.length&&!confirm(`${rows.length-target}개 문항을 삭제할까요?`))return;while($$('.question-row').length<target)addQuestion();while($$('.question-row').length>target)$$('.question-row').at(-1).remove();renumberQuestions();syncWrongFromQuestions();update()}
+  function syncWrongFromQuestions(){const xRows=$$('.question-row').filter(r=>r.querySelector('.qresult').value==='X');const nums=new Set(xRows.map(r=>r.querySelector('.item-num').value.trim()).filter(Boolean));$$('.wrong-row[data-auto="1"]').forEach(r=>{if(!nums.has(r.querySelector('.qnum').value.trim()))r.remove()});xRows.forEach(r=>{const n=r.querySelector('.item-num').value.trim(),type=getQuestionType(r);let found=$$('.wrong-row').find(w=>w.querySelector('.qnum').value.trim()===n);if(!found)found=addWrong({n,c:type,auto:true});else if(found.dataset.auto==='1')found.querySelector('.qconcept').value=type})}
+
+  function fmtDate(v){if(!v)return '작성일';const [y,m,d]=v.split('-');return `${y}. ${Number(m)}. ${Number(d)}`}
+  function normalMemo(v){v=v.trim();if(!v)return '';return /[.!?다요]$/.test(v)?v:(v.endsWith('함')?v.replace(/함$/,'하는 모습을 보였습니다.'):`${v}는 모습을 보였습니다.`)}
+  function andWord(word){const code=word.charCodeAt(word.length-1)-44032,batchim=code>=0&&code<=11171&&code%28!==0;return `${word}${batchim?'과':'와'}`}
+  function joinNatural(items){if(items.length<2)return items[0]||'';if(items.length===2)return `${andWord(items[0])} ${items[1]}`;return `${items.slice(0,-2).join(', ')}${items.length>2?', ':''}${andWord(items.at(-2))} ${items.at(-1)}`}
+
+
+  function circled(n){return ['①','②','③','④','⑤','⑥','⑦','⑧'][n-1]||`${n}.`}
+  function setText(sel,text,ph){const el=$(sel),manual=Object.prototype.hasOwnProperty.call(manualEdits,sel);el.textContent=manual?manualEdits[sel]:(text||ph);el.classList.toggle('placeholder',!manual&&!text)}
+  function collectData(){const data={schemaVersion:5,savedAt:Date.now(),selectedUnits:[...selectedUnits],logoData:activeLogo};$$('.shell input,.shell select,.shell textarea').forEach(x=>{if(x.id&&x.type!=='file')data[x.id]=x.value});data.selectedStrengths=selectedStrengths;data.selectedPlans=selectedPlans;data.manualEdits=manualEdits;data.questions=$$('.question-row').map(r=>({n:r.querySelector('.item-num').value,range:r.querySelector('.qrange').value,result:r.querySelector('.qresult').value,score:r.querySelector('.qscore').value,type:getQuestionType(r)}));data.wrongs=$$('.wrong-row').map(r=>({n:r.querySelector('.qnum').value,c:r.querySelector('.qconcept').value,r:r.querySelector('.qreason').value,custom:r.querySelector('.qcustom').value,auto:r.dataset.auto==='1'}));return data}
+
+  function copyText(){const text=`[향상된 점]\n${$('#outStrength').textContent}\n\n[오답 분석]\n${$('#outWrong').textContent}\n\n[향후 학습 방안]\n${$('#outPlan').textContent}`;navigator.clipboard.writeText(text).then(()=>toast('피드백 문장을 복사했습니다.'))}
+
+  function toast(t){$('#toast').textContent=t;$('#toast').classList.add('show');setTimeout(()=>$('#toast').classList.remove('show'),1800)}
+  function draftTitle(data){return [data.student?.trim()||'이름 미입력',data.school?.trim(),data.grade,data.term].filter(Boolean).join(' · ')}
+  function draftTime(ms){if(!ms)return '';return new Intl.DateTimeFormat('ko-KR',{month:'numeric',day:'numeric',hour:'2-digit',minute:'2-digit'}).format(new Date(ms))}
+
+  function separateDuplicateTabs(){if(!('BroadcastChannel' in window))return;draftChannel=new BroadcastChannel('kmFeedbackDraftTabsV1');draftChannel.onmessage=e=>{const msg=e.data||{};if(msg.type==='probe'&&msg.id===currentDraftId&&msg.token!==TAB_TOKEN)draftChannel.postMessage({type:'occupied',target:msg.token,id:msg.id});if(msg.type==='occupied'&&msg.target===TAB_TOKEN&&msg.id===currentDraftId){currentDraftId=newDraftId();rememberStudent();save();toast('이 탭을 별도의 작성본으로 분리했습니다.')}};setTimeout(()=>draftChannel.postMessage({type:'probe',id:currentDraftId,token:TAB_TOKEN}),50)}
+
+  function rememberStudent(){try{localStorage.setItem(CURRENT_KEY,currentDraftId)}catch{}}
+  function today(){const d=new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`}
+  function restoreStudent(id, data){
+    isRestoring=true;currentDraftId=id;rememberStudent();
+    const baseline={date:today(),examDate:'',teacher:'',school:'',grade:'',schoolLevel:'고등',semester:'1학기',term:'1학기 중간고사',student:'',subject:'국어',questionCount:'20',strengthMemo:'',nextScope:'',planMemo:'',scoreOverride:'',totalScoreOverride:'',textbook:'공통국어 1',publisher:'동아',textbookAuthor:'',examScope:''};
+    for(const [key,value] of Object.entries({...baseline,...data})){const el=document.getElementById(key);if(el&&typeof value==='string'&&el.matches('input,select,textarea')&&el.type!=='file')el.value=value}
+    if(!data.schoolLevel&&data.school?.includes('중학교'))$('#schoolLevel').value='중등';
+    if(!data.semester)$('#semester').value=data.textbook==='공통국어 2'||data.term?.startsWith('2학기')?'2학기':'1학기';
+    $('#textbook').value=$('#semester').value==='2학기'?'공통국어 2':'공통국어 1';
+    $('#term').value=$('#semester').value+($('#term').value.includes('기말고사')?' 기말고사':' 중간고사');
+    $('#subject').value='국어';selectedStrengths.splice(0,selectedStrengths.length,...(data.selectedStrengths||[]));selectedPlans.splice(0,selectedPlans.length,...(data.selectedPlans||[]));manualEdits=JSON.parse(JSON.stringify(data.manualEdits||{}));
+    $$('#strengthChips .chip').forEach(b=>b.classList.toggle('active',selectedStrengths.includes(b.textContent)));$$('#planChips .chip').forEach(b=>b.classList.toggle('active',selectedPlans.includes(b.textContent)));
+    $('#questionList').replaceChildren();$('#wrongList').replaceChildren();
+    (Array.isArray(data.questions)?data.questions:Array.from({length:20},(_,i)=>({n:String(i+1)}))).map(row=>({...row,result:row.result==null||row.result===''?'O':row.result,score:row.score==null||row.score===''||((data.schemaVersion||0)<5&&Number(row.score)===3)?'3.5':row.score})).forEach(addQuestion);
+    (data.wrongs||[]).forEach(addWrong);$('#questionCount').value=$$('.question-row').length;
+    selectedUnits=[...(data.selectedUnits||[])];refreshCurriculum();applyLogo(data.logoData||getLogo());
+    isRestoring=false;update();renderDraftList();renderEditor();
+  }
+  function switchStudent(id){save();const data=readDrafts()[id];if(data)restoreStudent(id,data);$('#draftDialog').open&&$('#draftDialog').close()}
+  function startNewDraft(){save();restoreStudent(newDraftId(),{});$('#student').focus();toast('기존 학생을 저장하고 새 학생으로 전환했습니다.')}
+  function duplicateStudent(){save();const data=JSON.parse(JSON.stringify(readDrafts()[currentDraftId]));data.student=(data.student?.trim()||'학생')+' (복사본)';restoreStudent(newDraftId(),data);$('#student').focus();toast('원본을 유지한 채 학생을 복사했습니다.')}
+  function reset(){if(!confirm('현재 학생 내용을 초기화할까요? 다른 학생은 유지됩니다.'))return;restoreStudent(currentDraftId,{})}
+  function renderDraftList(){
+    const drafts=readDrafts(),entries=Object.entries(drafts).sort((a,b)=>(b[1].savedAt||0)-(a[1].savedAt||0));
+    for(const list of [$('#draftList'),$('#studentIndex')]){
+      list.replaceChildren();if(!entries.length){const empty=document.createElement('p');empty.className='draft-empty';empty.textContent='저장된 학생이 없습니다.';list.append(empty);continue}
+      for(const [id,data] of entries){const item=document.createElement('div');item.className='draft-item'+(id===currentDraftId?' current':'');
+        const info=document.createElement('button');info.type='button';info.className='student-open';info.onclick=()=>switchStudent(id);
+        const title=document.createElement('strong');title.textContent=draftTitle(data);const small=document.createElement('small');small.textContent=(id===currentDraftId?'편집 중 · ':'')+draftTime(data.savedAt);const editor=document.createElement('small');editor.textContent=editorLabel(id);info.append(title,small,editor);
+        const del=document.createElement('button');del.type='button';del.className='draft-delete';del.textContent='삭제';del.onclick=()=>{if(!confirm(draftTitle(data)+' 학생 작성본을 삭제할까요?'))return;save();const next=readDrafts();delete next[id];writeDrafts(next);if(id===currentDraftId){const first=Object.keys(next)[0];restoreStudent(first||newDraftId(),first?next[first]:{})}else renderDraftList()};
+        item.append(info,del);list.append(item);
+      }
+    }
+  }
+  function save(showToast=false){
+    if(isRestoring)return;const data=collectData(),drafts=readDrafts();ensureDraftId();rememberStudent();
+    const compare=x=>{const v={...x};delete v.savedAt;return JSON.stringify(v)};
+    if(compare(data)!==compare(drafts[currentDraftId]||{})){drafts[currentDraftId]=data;writeDrafts(drafts);renderDraftList()}
+    if(showToast)window.kmCloud.flush().then(()=>toast('학생 작성본을 저장했습니다.')).catch(()=>toast('공동 저장 오류: 위쪽 안내를 확인하세요.'));
+  }
+  function addQuestion(data={}){
+    const frag=$('#questionTemplate').content.cloneNode(true);$('#questionList').appendChild(frag);const el=$('#questionList').lastElementChild;
+    el.querySelector('.item-num').value=data.n??String($$('.question-row').length);el.querySelector('.qrange').value=data.range||'';
+    const result=el.querySelector('.qresult');result.value=data.result==null||data.result===''?'O':data.result;const paint=()=>{result.textContent=result.value==='O'?'○':result.value==='X'?'×':result.value;result.dataset.result=result.value;result.setAttribute('aria-label','결과 '+result.value+' · 클릭하면 변경')};paint();
+    result.onclick=()=>{const order=['O','X','△','-'];result.value=order[(order.indexOf(result.value)+1)%order.length];paint();syncWrongFromQuestions();update()};
+    const score=el.querySelector('.qscore');score.value=data.score==null||data.score===''?'3.5':data.score;
+    el.querySelectorAll('[data-score-step]').forEach(b=>b.onclick=()=>{score.value=Math.max(0,Math.round(((Number(score.value)||0)+Number(b.dataset.scoreStep))*10)/10).toFixed(1);update()});
+    el.querySelector('.range-toggle').onclick=()=>{refreshRangeOptions();const menu=el.querySelector('.range-menu');menu.hidden=!menu.hidden};refreshRangeOptions();
+    const typeSelect=el.querySelector('.qtype-select'),typeCustom=el.querySelector('.qtype-custom');
+    if(data.type){if([...typeSelect.options].some(o=>o.value===data.type&&o.value!=='__custom__'))typeSelect.value=data.type;else{typeSelect.value='__custom__';typeCustom.value=data.type}}
+    const toggle=()=>typeCustom.hidden=typeSelect.value!=='__custom__';toggle();
+    typeSelect.addEventListener('change',()=>{toggle();syncWrongFromQuestions();update();if(!typeCustom.hidden)typeCustom.focus()});
+    el.querySelectorAll('input,select').forEach(x=>x.addEventListener('input',()=>{syncWrongFromQuestions();update()}));
+    el.querySelector('.remove-q').onclick=()=>{el.remove();$('#questionCount').value=$$('.question-row').length;syncWrongFromQuestions();update()};
+    el.querySelectorAll('input,select,button.qresult').forEach(input=>input.addEventListener('keydown',event=>{
+      if(event.key!=='Enter')return;event.preventDefault();const rows=$$('.question-row'),index=rows.indexOf(el);let next=rows[index+1];
+      if(!next&&input.classList.contains('item-num')){next=addQuestion();$('#questionCount').value=$$('.question-row').length}
+      if(!next)return;
+      const selector=input.classList.contains('item-num')?'.item-num':input.classList.contains('qrange')?'.qrange':input.classList.contains('qscore')?'.qscore':input.classList.contains('qresult')?'.qresult':input.classList.contains('qtype-custom')?'.qtype-custom':'.qtype-select';
+      if(selector==='.item-num'){const n=Number(input.value);if(Number.isInteger(n))next.querySelector('.item-num').value=String(n+1);syncWrongFromQuestions();update()}
+      const target=next.querySelector(selector);if(target.hidden)return;target.focus();target.select?.();
+    }));return el;
+  }
+  function renderQuestions(){
+    const rows=$$('.question-row'),body=$('#outQuestions');body.replaceChildren();const count=value=>rows.filter(r=>r.querySelector('.qresult').value===value).length;
+    const total=rows.reduce((s,r)=>s+(Number(r.querySelector('.qscore').value)||0),0),earned=rows.reduce((s,r)=>s+(r.querySelector('.qresult').value==='O'?(Number(r.querySelector('.qscore').value)||0):0),0),fmt=v=>String(Math.round(v*10)/10);
+    $('#statTotal').textContent=rows.length+'문항';$('#statCorrect').textContent=count('O')+'문항';$('#statWrong').textContent=`오답 ${count('X')} · 확인 △ ${count('△')}`;
+    $('#statScore').textContent=fmt($('#scoreOverride').value!==''?Number($('#scoreOverride').value):earned)+'점';$('#statTotalScore').textContent='총점 '+fmt($('#totalScoreOverride').value!==''?Number($('#totalScoreOverride').value):total)+'점';
+    $('#calculatedScore').textContent=`문항 계산: ${fmt(earned)} / ${fmt(total)}점 · △는 자동 계산에서 0점, 실제 부분점수는 점수 칸에서 수정`;
+    for(const row of rows){const result=row.querySelector('.qresult').value,tr=document.createElement('tr');tr.className=result==='O'?'is-correct':result==='X'?'is-wrong':'is-partial';
+      const values=[row.querySelector('.item-num').value,row.querySelector('.qrange').value,result==='O'?'○':result==='X'?'×':result,row.querySelector('.qscore').value,getQuestionType(row)];
+      values.forEach((value,i)=>{const td=document.createElement('td');td.textContent=i===3&&value?Number(value).toFixed(1)+'점':(value||'-');if(i===2)td.className='result-cell';tr.append(td)});body.append(tr);
+    }
+  }
+  function polishMemo(value){let text=value.trim().replace(/[.!。]+$/,'');if(!text)return '';text=text.replace(/했음$/,'했습니다').replace(/함$/,'했습니다').replace(/보임$/,'보였습니다').replace(/좋음$/,'좋았습니다');return text+'.'}
+  function buildStrengthText(){
+    const name=$('#student').value.trim()||'학생',phrases=selectedStrengths.map(x=>strengthPhrase[x]).filter(Boolean),memo=$('#strengthMemo').value.trim();if(!phrases.length&&!memo)return '';
+    const opening=phrases.length?`${name} 학생은 이번 학습에서 ${joinNatural(phrases)}을 중심으로 긍정적인 변화를 보여 주었습니다.`:`${name} 학생의 학습 과정에서 눈여겨본 모습과 앞으로의 지도 방향을 함께 전해 드립니다.`;
+    const detail=memo?polishMemo(memo):'이러한 강점이 꾸준한 학습 습관으로 이어질 수 있도록, 학생이 잘해 낸 과정과 스스로 이해한 부분을 함께 짚어 보겠습니다.';
+    const focus=selectedStrengths.includes('서술형 답안 작성 향상')?'특히 서술형에서는 생각의 근거를 분명히 밝히고, 문제에서 요구하는 내용을 빠짐없이 표현하는 연습을 이어 가겠습니다.':selectedStrengths.includes('시간 관리 향상')||selectedStrengths.includes('실수 감소')?'문제를 푸는 속도뿐 아니라 조건을 읽고 답을 점검하는 순서까지 살피며, 안정적으로 실력을 발휘할 수 있도록 돕겠습니다.':'배운 내용을 자신의 말로 설명하고 새로운 문제에 연결해 보는 연습을 통해, 이해가 더 단단해지도록 돕겠습니다.';
+    return [opening+' '+detail+' '+focus,'좋았던 학습 방법은 다음 수업에서도 이어 가되, 아직 익숙하지 않은 부분은 학생의 속도에 맞춰 차근차근 보완하겠습니다. 가정에서도 점수만 확인하기보다 어떤 과정에서 노력했고 무엇을 새롭게 이해했는지 함께 이야기해 주시면 좋겠습니다. 작은 성취를 구체적으로 격려해 주시는 말이 학생의 자신감으로 이어질 수 있도록, 수업에서도 성장 과정을 세심하게 살피겠습니다.'].join('\n\n');
+  }
+  function buildWrongText(){
+    const groups=new Map(),unexplained=[];for(const row of $$('.wrong-row')){const n=row.querySelector('.qnum').value.trim(),concept=row.querySelector('.qconcept').value.trim(),selected=row.querySelector('.qreason').value,reason=selected==='__custom__'?row.querySelector('.qcustom').value.trim():selected;if(!n&&!concept&&!reason)continue;const label=(n?n+'번':'해당 문항')+(concept?'('+concept+')':'');if(!reason)unexplained.push(label);else{if(!groups.has(reason))groups.set(reason,[]);groups.get(reason).push(label)}}
+    const descriptions=[];for(const [reason,labels] of groups)descriptions.push(`${labels.join(', ')}에서는 ${reason} 풀이와 정답의 근거를 다시 확인할 필요가 있었습니다.`);
+    if(unexplained.length)descriptions.push(`${unexplained.join(', ')}은 아직 오답 원인을 단정하기보다, 학생이 생각한 풀이 순서를 들어 보며 함께 점검하겠습니다.`);
+    const partial=$$('.question-row').filter(row=>row.querySelector('.qresult').value==='△').map(row=>row.querySelector('.item-num').value);if(partial.length)descriptions.push(`△로 표시한 ${partial.join(', ')}번은 채점 기준과 풀이를 살펴, 이해한 부분과 추가 연습이 필요한 부분을 구분하겠습니다.`);if(!descriptions.length)return '';
+    const attention=[...groups.keys()].some(reason=>/조건|요구|발문|끝까지|실수/.test(reason));
+    const next=attention?'이때 발문의 조건을 먼저 표시하고, 선택지의 근거를 찾은 뒤 답을 점검하는 순서를 반복해 보겠습니다.':'이때 필요한 개념을 짧게 복습하고, 비슷한 문제에서 그 개념이 어떻게 쓰이는지 비교하는 연습을 이어 가겠습니다.';
+    return ['이번 오답은 점수의 아쉬움에만 머무르기보다, 다음 학습의 방향을 찾는 자료로 살펴보았습니다. '+descriptions.join(' ')+' 한 번의 실수로 학생의 이해 수준을 단정하지 않고, 실제로 어디에서 생각이 달라졌는지 확인하겠습니다.','수업에서는 학생이 자신의 풀이를 설명한 뒤 정답의 근거와 비교하고, 다시 해결하는 과정까지 연결하겠습니다. '+next+' 가정에서도 틀린 개수보다 다시 생각하고 고친 과정을 격려해 주시면, 학생이 부담을 줄이고 보완 학습에 참여하는 데 도움이 됩니다.'].join('\n\n');
+  }
+  function buildPlanText(){
+    const name=$('#student').value.trim()||'학생',scope=$('#nextScope').value.trim(),memo=$('#planMemo').value.trim();if(!selectedPlans.length&&!scope&&!memo)return '';
+    const strategies=selectedPlans.map(item=>planSent[item]).filter(Boolean).map(text=>text.replace(/하겠습니다\.$/,'하는 데 중점을 두겠습니다.'));
+    const opening=`앞으로 ${name} 학생이 배운 내용을 자신 있게 활용할 수 있도록, 현재 이해한 부분을 바탕으로 보완이 필요한 내용을 차근차근 연결하겠습니다.`;
+    const detail=scope?`집중해서 살펴볼 범위는 ${scope}이며, 핵심 개념을 정리한 뒤 문제의 근거와 연결해 보겠습니다.`:'새로운 내용을 많이 늘리기보다, 이미 배운 핵심을 정확하게 설명하고 적용할 수 있는지 먼저 확인하겠습니다.';
+    return [opening+' '+detail+' '+strategies.join(' ')+(memo?' '+polishMemo(memo):''),'짧은 복습과 확인 문제를 꾸준히 이어 가면서, 어려운 부분은 예시와 설명을 바꾸어 다시 안내하겠습니다. 이후에는 학생이 스스로 풀이 순서를 정리하고 점검하도록 도와, 수업에서의 이해가 실제 문제 해결로 이어지게 하겠습니다. 가정에서는 무리하게 과제를 늘리기보다 오늘 배운 핵심을 한두 가지 설명해 보는 시간을 마련해 주시면 좋겠습니다. 학생의 작은 성취와 변화에 맞춰 지도 방향을 조정하며, 학부모님께도 그 과정을 꾸준히 전해 드리겠습니다.'].join('\n\n');
+  }
+  function update(){
+    const written=fmtDate($('#date').value),teacher=$('#teacher').value||'작성자',exam=$('#examDate').value?fmtDate($('#examDate').value):'-';
+    for(const suffix of ['','2']){$('#outDate'+suffix).textContent=written;$('#outTeacher'+suffix).textContent=teacher;$('#outExamDate'+suffix).textContent=exam;$('#outTitle'+suffix).textContent=[$('#school').value,$('#grade').value,$('#term').value].filter(Boolean).join(' ')||'학교 · 학년 · 시험';$('#outStudent'+suffix).textContent=$('#student').value||'학생명';$('#outSubject'+suffix).textContent='국어'}
+    renderQuestions();setText('#outStrength',buildStrengthText(),'향상된 점을 선택하거나 관찰한 내용을 입력해 주세요.');setText('#outWrong',buildWrongText(),'오답과 △ 문항을 확인해 주세요.');setText('#outPlan',buildPlanText(),'학습 방안을 선택하면 학부모님께 전달할 문장이 작성됩니다.');
+    $('#protectedText').textContent=Object.keys(manualEdits).length?'직접 수정한 문장 보호 중 · 선택을 바꿔도 유지됩니다. 선택으로 새 문단 작성으로 해제할 수 있습니다.':'선택에 맞춰 문장을 자동 작성합니다. 결과를 직접 고치면 그 문장을 보호합니다.';save();
+  }
+
+  let selectedUnits=[];
+  const catalog={
+    '공통국어 1':['1-(1) 문학과 소통','1-(2) 매체와 소통','1-(3) 진로와 소통','2-(1) 서정 갈래의 이해','2-(2) 서사 갈래의 이해','2-(3) 극 갈래의 이해','2-(4) 교술 갈래의 이해','3-(1) 쟁점과 토론','3-(2) 논증과 글쓰기','4-(1) 올바른 발음과 표기','4-(2) 올바른 문법과 표현','4-(3) 올바른 대화와 소통'],
+    '공통국어 2':['1-(1) 이별의 정한','1-(2) 자연과의 조화','1-(3) 해학과 풍자','2-(1) 협상하기','2-(2) 공동 보고서 쓰기','3-(1) 국어의 변화','3-(2) 한글 맞춤법의 이해','3-(3) 매체의 변천과 수용','4-(1) 주제 통합적 읽기','4-(2) 사회적 독서와 발표']
+  };
+  const editionCatalog={
+  "미래엔": {
+    "공통국어 1": [
+      "1-(1) 산수유나무의 농사(문태준)",
+      "1-(2) 카메라와 워커(박완서)",
+      "1-(3) 동주(신연식)",
+      "1-(4) 풀 비린내에 대하여(나희덕)",
+      "2-(1) 공감하며 소통하기",
+      "2-(2) 함께하는 국어생활",
+      "3-(1) 음운의 변동",
+      "3-(2) 상황에 맞게 표현하기",
+      "4-(1) 논증 파악하며 읽기",
+      "4-(2) 논증하고 토론하기",
+      "5-(1) 사회적 쟁점에 관한 글쓰기"
+    ],
+    "공통국어 2": [
+      "1-(1) 옛 노래 감상하기",
+      "1-(2) 고전 소설 감상하기",
+      "1-(3) 현대 시 감상하기",
+      "1-(4) 현대 소설 감상하기",
+      "2-(1) 논증하는 글 쓰기",
+      "2-(2) 지혜롭게 협상하기",
+      "3-(1) 변화하는 국어의 모습",
+      "3-(2) 한글 맞춤법과 오늘날의 국어생활",
+      "4-(1) 비판적으로 매체 읽기",
+      "4-(2) 주제 통합적 읽기",
+      "5-(1) 매체 소통 문화와 공동 보고서 쓰기",
+      "5-(2) 사회적 독서 활동 발표하기"
+    ]
+  },
+  "비상:강호영": {
+    "공통국어 1": [
+      "01-(1) 방문객(정현종)",
+      "01-(2) 함께 읽고 매체로 소통하기",
+      "02-(1) 수라(백석)",
+      "02-(2) 엇박자D(김중혁)",
+      "02-(3) 파수꾼(이강백)",
+      "02-(4) 선의를 믿는 것의 어려움(김금희)",
+      "03-(1) 투표를 안 해도 될까(손혜정)",
+      "03-(2) 매체가 비추는 세계",
+      "04-(1) 음운의 변동",
+      "04-(2) 문법 요소와 어휘의 활용",
+      "04-(3) 마음을 잇는 대화",
+      "05-(1) 학교 급식에 ‘채식의 날’을 도입해야 한다",
+      "05-(2) 공동체를 위한 글쓰기"
+    ],
+    "공통국어 2": [
+      "01-(1) 인공 지능을 보는 다양한 관점",
+      "01-(2) 생각을 나누는 독서와 발표",
+      "02-(1) 청산별곡, 십년을 경영하여",
+      "02-(2) 속미인곡, 진달래꽃",
+      "02-(3) 춘향전",
+      "03-(1) 영화 <업(UP)> 비평문(이동진)",
+      "03-(2) 복합양식으로 짜인 글과 자료",
+      "03-(3) 함께 쓰는 보고서",
+      "04-(1) 변화하는 국어와 매체",
+      "04-(2) 한글 맞춤법과 국어생활",
+      "05-(1) 함께하는 협상과 소통",
+      "05-(2) 논증하는 글 쓰기"
+    ]
+  },
+  "비상:강영민": {
+    "공통국어 1": [
+      "01-(1) 산속에서(나희덕)",
+      "01-(2) 관내 분실(김초엽)",
+      "01-(3) 결혼(이강백)",
+      "01-(4) 화단(이태준)",
+      "02-(1) 음운의 변동",
+      "02-(2) 공동체와 의사소통",
+      "03-(1) 길(윤동주)",
+      "03-(2) 독서 삶의 길 찾기",
+      "04-(1) 동물도 권리가 있을까",
+      "04-(2) 토론으로 해결 방안 탐색하기",
+      "05-(1) 언어 실천 양상과 문법 요소",
+      "05-(2) 사회적 쟁점에 대한 글 쓰기"
+    ],
+    "공통국어 2": [
+      "01-(1) 문학의 해석과 생활화",
+      "01-(2) 사회적 대화로써의 글 읽기",
+      "02-(1) 국어와 매체의 변화",
+      "02-(2) 한글 맞춤법과 국어 생활",
+      "03-(1) 매체를 보는 다양한 시선",
+      "03-(2) 보고하는 글 함께 쓰기",
+      "04-(1) 사랑, 그 속에 담긴 아픔",
+      "04-(2) 자연, 그 속의 여유로움",
+      "04-(3) 웃음, 그 속에 담긴 현실",
+      "05-(1) 주제 통합적 읽기",
+      "05-(2) 협상을 통한 문제 해결",
+      "05-(3) 논증하는 글 쓰기"
+    ]
+  },
+  "지학사": {
+    "공통국어 1": [
+      "01-(1) 배를 매며(장석남)",
+      "01-(2) 봄봄(김유정)",
+      "01-(3) 기적(손주연, 이장훈)",
+      "01-(4) 풀 비린내에 대하여(나희덕)",
+      "02-(1) 진로 탐색을 위한 독서",
+      "02-(2) 다양한 색깔을 존중하는 사회",
+      "03-(1) 올바른 발음과 표기",
+      "03-(2) 대화의 원리",
+      "04-(1) 초연결성은 지역성을 강화하는가",
+      "04-(2) 전염병 백신의 지식 재산권을 면제해야 한다",
+      "05-(1) 문법 요소와 어휘의 표현 효과",
+      "05-(2) 매체를 활용한 세상 보기"
+    ],
+    "공통국어 2": [
+      "01-(1) 별점 제도, 집단 지성의 힘(김성태)",
+      "01-(2) 주제 통합적 읽기와 논증하는 글 쓰기",
+      "02-(1) 옛 노래의 향기",
+      "02-(2) 옛 이야기의 즐거움",
+      "02-(3) 현대 시의 시선",
+      "02-(4) 현대 소설의 빛깔",
+      "03-(1) 함께 만족하는 협상",
+      "03-(2) 작문 관습을 고려한 글 쓰기",
+      "04-(1) 국어가 걸어온 길",
+      "04-(2) 바르고 정확한 국어생활",
+      "04-(3) 매체와 함께하는 생활",
+      "5-(1) 주체적이고 비판적인 매체 비평",
+      "5-(2) 복합양식의 글 읽기와 쓰기"
+    ]
+  },
+  "창비": {
+    "공통국어 1": [
+      "01-(1) 나는 오늘(오은)",
+      "01-(2) 브로콜리 펀치(이유리)",
+      "01-(3) 소곤소곤",
+      "02-(1) 음운 변동",
+      "02-(2) 문법 요소와 어휘",
+      "02-(3) 대화 예절과 책임감 있는 국어생활",
+      "03-(1) 인간은 동물의 동반자가 될 수 있을까(고봉준)",
+      "03-(2) 교실에 CCTV 설치를 의무화해야 한다",
+      "04-(1) 뿌리에게(나희덕)",
+      "04-(2) 아홉 켤레의 구두로 남은 사내(윤흥길)",
+      "04-(3) 불편한 편의점(김호연 원작, 홍연우 각색)",
+      "04-(4) 수오재기(정약용)",
+      "05-(1) 나만의 지도를 그리는 방법(정재승)",
+      "05-(2) 세상을 바꾸는 한 걸음"
+    ],
+    "공통국어 2": [
+      "01-(1) 제망매가ㆍ시조 두 수",
+      "01-(2) 최척전(조위한)",
+      "01-(3) 남신의주 유동 방시봉 방(백석)",
+      "01-(4) 노찬성과 에반(김애란)",
+      "02-(1) #지구 #소통(얄개)",
+      "02-(2) 슬기로운 엠비티아이(MBTI) 사용법",
+      "03-(1) 국어의 변화와 발전",
+      "03-(2) 함께 지키는 한글 맞춤법",
+      "04-(3) 어느 시대에든 인문학은 필요하다"
+    ]
+  },
+  "천재:김수학": {
+    "공통국어 1": [
+      "1-(1) 내가 사랑하는 사람(정호승)",
+      "1-(2) 존중하고 배려하며 소통하기",
+      "2-(1) 올바른 발음과 표기",
+      "2-(2) 다원화 사회에서의 바람직한 국어생활",
+      "2-(3) 견해를 표현하는 글 쓰기",
+      "3-(1) 땅끝(나희덕)",
+      "3-(2) 미스터 방(채만식)",
+      "3-(3) 나빌레라(이은미)",
+      "3-(4) 이와 개에 관한 명상(이규보)",
+      "4-(1) 문법 요소와 어휘의 표현 효과",
+      "4-(2) 야생 동물은 반려동물이 아니다(이형주)",
+      "4-(3) 로봇세를 부과해야 하는가"
+    ],
+    "공통국어 2": [
+      "01-(1) 뉴욕제과점(김연수)",
+      "01-(2) 매체 자료 평가하며 읽기",
+      "02-(1) 우리말 바로 쓰기",
+      "02-(2) 우리말과 매체의 변천",
+      "02-(3) 효과적으로 의견 전달하기",
+      "03-(1) 제망매가(월명사)ㆍ십 년을 경영하여(송순)ㆍ나무도 바윗돌도 없는(작자미상)",
+      "03-(2) 춘향전(작자미상)",
+      "03-(3) 흰 바람벽이 있어(백석)",
+      "03-(4) 겨울 나들이(박완서)",
+      "04-(1) 주제 통합적으로 읽기",
+      "04-(2) 공동 보고서 쓰기",
+      "04-(3) 대안을 탐색하며 협상하기"
+    ]
+  },
+  "천재:김종철": {
+    "공통국어 1": [
+      "01-(1) 공동체와 언어",
+      "01-(2) 선우사(백석)",
+      "02-(1) 올바른 발음",
+      "02-(2) 존중하고 배려하는 대화",
+      "03-(1) 나무의 꿈(손택수)",
+      "03-(2) 배반의 여름(박완서)",
+      "03-(3) 이상한 변호사 우영우(문지원)",
+      "03-(4) 왜려설(조귀명)",
+      "04-(1) 논리적으로 읽고 쓰기",
+      "04-(2) 논증을 구성하여 토론하기",
+      "04-(3) 진로 탐색하기"
+    ],
+    "공통국어 2": [
+      "01-(1) 가시리 외 두 편",
+      "01-(2) 춘향전(작자 미상)",
+      "01-(3) 폭포(김수영)",
+      "02-(1) 청중을 고려하여 발표하기",
+      "02-(2) 협상으로 문제 해결하기",
+      "02-(3) 매체 비평에 참여하기",
+      "03-(1) 주제 통합적 읽기와 사회적 독서",
+      "03-(2) 논증하는 글 쓰기",
+      "04-(1) 국어의 변화와 발전",
+      "04-(2) 올바른 표기",
+      "04-(3) 바로 읽고, 함께 쓰기"
+    ]
+  },
+  "해냄": {
+    "공통국어 1": [
+      "01-(1) 방문객(정현종)",
+      "01-(2) 대화, 공감과 소통",
+      "01-(3) 꿈을 찾는 책 읽기",
+      "02-(1) 별 헤는 밤(윤동주)",
+      "02-(2) 눈길(이청준)",
+      "02-(3) 영웅(한아름)",
+      "02-(4) 죽은 새를 위하여(박완서)",
+      "03-(1) 로봇이 우리의 일자리를 빼앗을까(장하준)",
+      "03-(2) 서로의 관점을 이해하며 토론하기",
+      "03-(3) 나의 의견을 글로 표현하기",
+      "04-(1) 우리말 소리의 변화",
+      "04-(2) 우리말의 문법 요소와 어휘 표현",
+      "04-(3) 함께하는 국어 생활",
+      "05-(1) 매체로 세상 보기",
+      "05-(2) 매체 자료 제작하기"
+    ],
+    "공통국어 2": [
+      "01-(1) 말의 힘",
+      "01-(2) 힘 있는 글",
+      "01-(3) 책이 중심이 되는 사회(장강명)",
+      "02-(1) 노래 문학이 걸어온 길",
+      "02-(2) 이야기 문학이 걸어온 길",
+      "02-(3) 문학의 주체적 감상과 생활화",
+      "03-(1) 다양한 관점으로 세상 읽기",
+      "03-(2) 서로가 만족하는 협상",
+      "03-(3) 청중과 소통하며 발표하기",
+      "04-(1) 우리 말의 글과 역사",
+      "04-(2) 한글 맞춤법의 원리",
+      "04-(3) 작문 관습과 글쓰기",
+      "05-(1) 매체 환경 이해하기",
+      "05-(2) 매체 비평하기",
+      "05-(3) 복합양식의 공동 보고서 읽고 쓰기"
+    ]
+  }
+};
+  function refreshCurriculum(){
+    $$('#gradeToggle button').forEach(b=>b.classList.toggle('active',b.dataset.value===$('#grade').value));
+    const isHighFirst=$('#schoolLevel').value==='고등'&&$('#grade').value==='1학년';
+    $('#commonOptions').hidden=!isHighFirst;$('#semesterOptions').hidden=isHighFirst;
+    $$('#schoolLevelToggle button').forEach(b=>b.classList.toggle('active',b.dataset.value===$('#schoolLevel').value));
+    $$('#semesterToggle button').forEach(b=>b.classList.toggle('active',b.dataset.value===$('#semester').value));
+    $$('#bookToggle button').forEach(b=>b.classList.toggle('active',b.dataset.value===$('#textbook').value));
+    $$('#publisherToggle button').forEach(b=>b.classList.toggle('active',b.dataset.value===$('#publisher').value));
+    const list=$('#unitChips');list.replaceChildren();$('#rangeChoices').replaceChildren();
+    const publisher=$('#publisher').value,authors=publisher==='비상'?['강호영','강영민']:publisher==='천재'?['김수학','김종철']:[];
+    if(authors.length&&!authors.includes($('#textbookAuthor').value))$('#textbookAuthor').value=authors[0];
+    $('#authorOptions').hidden=!authors.length||!isHighFirst;$('#authorToggle').replaceChildren();
+    for(const author of authors){const b=document.createElement('button');b.type='button';b.className='chip'+(author===$('#textbookAuthor').value?' active':'');b.textContent=author;b.dataset.value=author;b.onclick=()=>chooseOption('#textbookAuthor',author);$('#authorToggle').append(b)}
+    const edition=authors.length?publisher+':'+$('#textbookAuthor').value:publisher;
+    const highFirstCatalog=publisher==='동아'?catalog:editionCatalog[edition];
+    const curriculumByGrade={'고등':{'1학년':{'1학기':highFirstCatalog?.['공통국어 1'],'2학기':highFirstCatalog?.['공통국어 2']}},'중등':{}};
+    const source=curriculumByGrade[$('#schoolLevel').value]?.[$('#grade').value];
+    const available=source?.[$('#semester').value]||[];
+    $('#unitNote').textContent=available.length?'제공해 주신 '+publisher+(authors.length?' '+$('#textbookAuthor').value:'')+' 목차 기준입니다. 단원을 선택하거나 문항별 범위 칸에서 직접 입력하세요.':[$('#schoolLevel').value,$('#grade').value||'학년 선택',publisher,$('#semester').value].join(' · ')+' 목차 자료는 아직 없습니다. 시험 범위와 문항별 범위를 직접 입력할 수 있습니다.';
+    for(const unit of available){const b=document.createElement('button');b.type='button';b.className='chip'+(selectedUnits.includes(unit)?' active':'');b.textContent=unit;b.onclick=()=>{const i=selectedUnits.indexOf(unit);i<0?selectedUnits.push(unit):selectedUnits.splice(i,1);$('#examScope').value=selectedUnits.join(' · ');refreshCurriculum();update()};list.append(b);}
+    refreshRangeOptions();
+  }
+  function refreshRangeOptions(){
+    const units=[...new Set(selectedUnits.length?selectedUnits:$('#examScope').value.split(/ · |[,，]/).map(x=>x.trim()).filter(Boolean))];
+    $('#rangeChoices').replaceChildren();for(const unit of units){const opt=document.createElement('option');opt.value=unit;$('#rangeChoices').append(opt)}
+    for(const row of $$('.question-row')){const menu=row.querySelector('.range-menu');if(!menu)continue;menu.replaceChildren();for(const unit of units){const button=document.createElement('button');button.type='button';button.className='chip';button.textContent=unit;button.onclick=()=>{row.querySelector('.qrange').value=unit;menu.hidden=true;update()};menu.append(button)}if(!units.length){const hint=document.createElement('small');hint.textContent='기본 정보에서 시험 단원을 먼저 선택하거나 범위 칸에 직접 입력하세요.';menu.append(hint)}}
+  }
+  function chooseOption(id,value){
+    const previous=$(id).value;$(id).value=value;
+    if(id==='#textbook')$('#semester').value=value==='공통국어 2'?'2학기':'1학기';
+    if(id==='#semester')$('#textbook').value=value==='2학기'?'공통국어 2':'공통국어 1';
+    if(id==='#semester'||id==='#textbook')$('#term').value=$('#semester').value+($('#term').value.includes('기말고사')?' 기말고사':' 중간고사');
+    if(previous!==value&&['#schoolLevel','#grade','#semester','#textbook','#publisher','#textbookAuthor'].includes(id)){selectedUnits=[];$('#examScope').value=''}
+    refreshCurriculum();update();
+  }
+  function getLogo(){try{return localStorage.getItem('kmLogo:'+window.kmCloud.userId)||''}catch{return ''}}
+  let activeLogo='';
+  function applyLogo(data){activeLogo=data;$$('.watermark img').forEach(img=>{if(data){img.src=data;img.hidden=false}else{img.removeAttribute('src');img.hidden=true}})}
+  function downloadBlob(blob,name){const a=document.createElement('a'),url=URL.createObjectURL(blob);a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),30000)}
+  const pc={dir:null,timer:null,queue:Promise.resolve(),key:'folder:'+window.kmCloud.userId};
+  function handleStore(mode,handle){return new Promise((resolve,reject)=>{
+    const request=indexedDB.open('km-file-handles',1);
+    request.onupgradeneeded=()=>request.result.createObjectStore('handles');
+    request.onerror=()=>reject(request.error);
+    request.onsuccess=()=>{const db=request.result;try{
+      const tx=db.transaction('handles',mode),store=tx.objectStore('handles');
+      const op=mode==='readonly'?store.get(pc.key):store.put(handle,pc.key);let result;
+      op.onsuccess=()=>result=op.result;
+      tx.oncomplete=()=>{db.close();resolve(result)};
+      tx.onerror=tx.onabort=()=>{db.close();reject(tx.error||new Error('저장 위치 기록 실패'))};
+    }catch(error){db.close();reject(error)}};
+  })}
+  function backupBlob(){return new Blob([JSON.stringify({format:'km-feedback-backup',version:1,exportedAt:new Date().toISOString(),drafts:readDrafts()},null,2)],{type:'application/json'})}
+  function schedulePc(){if(!pc.dir)return;clearTimeout(pc.timer);pc.timer=setTimeout(()=>writePc(),800)}
+  function writePc(){
+    if(!pc.dir)return Promise.resolve();const blob=backupBlob(),dir=pc.dir;
+    pc.queue=pc.queue.catch(()=>{}).then(async()=>{const file=await dir.getFileHandle('KM-학생작성본-'+window.kmCloud.userId.slice(0,8)+'.json',{create:true});const writable=await file.createWritable();await writable.write(blob);await writable.close();$('#pcStatus').textContent='PC 파일 자동 저장 완료 · '+dir.name}).catch(error=>{$('#pcStatus').textContent='PC 파일 저장 실패 · 위치를 다시 연결하거나 백업 다운로드를 이용하세요.';pc.dir=null;});return pc.queue;
+  }
+  async function connectPc(){
+    if(!window.showDirectoryPicker){downloadBlob(backupBlob(),'KM-학생작성본-백업.json');$('#pcStatus').textContent='이 브라우저는 폴더 자동 저장을 지원하지 않아 백업 파일을 다운로드했습니다.';return}
+    try{const dir=await window.showDirectoryPicker({mode:'readwrite',startIn:'desktop',id:'km-backup'});pc.dir=dir;await handleStore('readwrite',dir).catch(()=>{});await writePc()}catch(error){if(error.name!=='AbortError')$('#pcStatus').textContent='저장 위치 연결 실패 · 백업 다운로드를 이용하세요.'}
+  }
+  async function restorePc(){
+    if(!window.showDirectoryPicker){$('#pcStatus').textContent='이 브라우저에서는 PC 자동 저장 대신 백업 다운로드를 이용하세요.';return}
+    try{const dir=await handleStore('readonly');if(dir&&await dir.queryPermission({mode:'readwrite'})==='granted'){pc.dir=dir;$('#pcStatus').textContent='PC 자동 저장 연결됨 · '+dir.name;schedulePc()}else $('#pcStatus').textContent='PC 자동 저장 위치를 선택하세요. 재접속 시 권한에 따라 다시 선택해야 합니다.'}catch{$('#pcStatus').textContent='PC 자동 저장 위치를 선택하세요.'}
+  }
+  async function saveImage(mode){
+    if(typeof html2canvas!=='function'){toast('이미지 저장 기능을 불러오지 못했습니다. 인터넷 연결을 확인하세요.');return}
+    const base=([$('#student').value.trim(),$('#term').value.trim(),'시험피드백'].filter(Boolean).join('_')||'KM_시험피드백').replace(/[\\/:*?"<>|]/g,'_');
+    let dir=null,fileHandle=null;
+    try{
+      if(mode==='folder'){if(!window.showDirectoryPicker){$('#imageSaveDialog').showModal();return}dir=await window.showDirectoryPicker({mode:'readwrite',startIn:'desktop',id:'km-images'})}
+      else if(window.showSaveFilePicker){const suffix=mode==='analysis'?'_시험문제분석':mode==='feedback'?'_피드백':'';fileHandle=await window.showSaveFilePicker({suggestedName:base+suffix+'.png',startIn:'desktop',types:[{description:'PNG 이미지',accept:{'image/png':['.png']}}]})}
+    }catch(error){if(error.name==='AbortError')return;toast('저장 위치를 선택하지 못했습니다. 다운로드 버튼을 이용하세요.');return}
+    const buttons=$$('[data-image-mode],#imageTop,#imageBtn');buttons.forEach(b=>b.disabled=true);
+    const stage=document.createElement('div');stage.className='image-capture-stage';
+    let pages=$$('#doc .print-page');if(mode==='analysis')pages=[pages[0]];if(mode==='feedback')pages=[pages[1]];
+    for(const page of pages){const clone=page.cloneNode(true);clone.querySelectorAll('[contenteditable]').forEach(el=>el.removeAttribute('contenteditable'));stage.append(clone)}document.body.append(stage);
+    try{
+      if(document.fonts?.ready)await document.fonts.ready;
+      await Promise.all([...stage.querySelectorAll('img:not([hidden])')].map(img=>img.complete?Promise.resolve():new Promise(resolve=>{img.onload=img.onerror=resolve})));
+      const canvases=[];for(const page of stage.children)canvases.push(await html2canvas(page,{scale:2,backgroundColor:'#ffffff',useCORS:true,logging:false}));
+      let outputs=[];
+      if(mode==='combined'){
+        const gap=36,canvas=document.createElement('canvas');canvas.width=Math.max(...canvases.map(c=>c.width));canvas.height=canvases.reduce((n,c)=>n+c.height,0)+gap*(canvases.length-1);const ctx=canvas.getContext('2d');ctx.fillStyle='#fff';ctx.fillRect(0,0,canvas.width,canvas.height);let y=0;for(const c of canvases){ctx.drawImage(c,0,y);y+=c.height+gap}outputs=[{canvas,name:base+'.png'}];
+      }else outputs=canvases.map((canvas,i)=>({canvas,name:base+(mode==='feedback'||(mode==='folder'&&i===1)?'_피드백':'_시험문제분석')+'.png'}));
+      for(const output of outputs){const blob=await new Promise(resolve=>output.canvas.toBlob(resolve,'image/png'));if(!blob)throw new Error('이미지 생성 실패');const handle=dir?await dir.getFileHandle(output.name,{create:true}):fileHandle;if(handle){const writer=await handle.createWritable();await writer.write(blob);await writer.close()}else downloadBlob(blob,output.name)}
+      toast(outputs.length+'장의 이미지를 저장했습니다.');
+    }catch(error){toast('이미지 저장 중 문제가 발생했습니다. 다시 시도하세요.');console.error(error)}finally{stage.remove();buttons.forEach(b=>b.disabled=false)}
+  }
+
+  makeChips('#strengthChips',strengths,selectedStrengths);makeChips('#planChips',plans,selectedPlans);
+  $$('#schoolLevelToggle button').forEach(b=>b.onclick=()=>chooseOption('#schoolLevel',b.dataset.value));
+  $$('#semesterToggle button').forEach(b=>b.onclick=()=>chooseOption('#semester',b.dataset.value));
+  $$('#gradeToggle button').forEach(b=>b.onclick=()=>chooseOption('#grade',b.dataset.value));
+  $$('#bookToggle button').forEach(b=>b.onclick=()=>chooseOption('#textbook',b.dataset.value));
+  $$('#publisherToggle button').forEach(b=>b.onclick=()=>chooseOption('#publisher',b.dataset.value));
+  $('#examScope').addEventListener('input',()=>{selectedUnits=[];refreshCurriculum()});
+  $('#term').addEventListener('input',()=>{const semester=$('#term').value.startsWith('2학기')?'2학기':'1학기';if($('#semester').value!==semester){$('#semester').value=semester;$('#textbook').value=semester==='2학기'?'공통국어 2':'공통국어 1';selectedUnits=[];$('#examScope').value=''}refreshCurriculum()});
+  $$('.shell input,.shell select,.shell textarea').forEach(x=>{if(x.type!=='file')x.addEventListener('input',update)});
+  ['#outStrength','#outWrong','#outPlan'].forEach(sel=>{$(sel).addEventListener('input',()=>{manualEdits[sel]=$(sel).innerText;$(sel).classList.remove('placeholder');$('#protectedText').textContent='직접 수정한 문장 보호 중 · 선택을 바꿔도 유지됩니다.';save()});$(sel).addEventListener('paste',e=>{e.preventDefault();document.execCommand('insertText',false,e.clipboardData.getData('text/plain'))})});
+  $('#restoreBtn').textContent='선택으로 새 문단 작성';$('#restoreBtn').onclick=()=>{if(Object.keys(manualEdits).length&&!confirm('직접 수정한 문장을 현재 선택에 맞춘 자동 문장으로 바꿀까요?'))return;manualEdits={};update();toast('현재 선택으로 문장을 다시 작성했습니다.')};
+  $$('[data-polish]').forEach(button=>button.onclick=()=>{
+    const key=button.dataset.polish;
+    if(Object.prototype.hasOwnProperty.call(manualEdits,key)){
+      const lines=manualEdits[key].split(/\n+/).map(line=>line.trim().replace(/^[①②③④⑤⑥⑦⑧]\s*/, '')).filter(Boolean).map(polishMemo);
+      const middle=Math.ceil(lines.length/2);manualEdits[key]=lines.length>3?lines.slice(0,middle).join(' ')+'\n\n'+lines.slice(middle).join(' '):lines.join(' ');
+    }
+    update();toast('이 항목의 문단을 정리했습니다.');
+  });
+  $('#makeQuestions').onclick=makeQuestionRows;$('#addQuestion').onclick=()=>{addQuestion();$('#questionCount').value=$$('.question-row').length;update()};$('#addWrong').onclick=()=>addWrong();$('#copyBtn').onclick=()=>copyText();
+  const imageSaveDialog=$('#imageSaveDialog');$('#imageBtn').onclick=$('#imageTop').onclick=()=>imageSaveDialog.showModal();$('#imageSaveClose').onclick=()=>imageSaveDialog.close();imageSaveDialog.addEventListener('click',e=>{if(e.target===imageSaveDialog)imageSaveDialog.close()});
+  $$('[data-image-mode]').forEach(b=>b.onclick=()=>{imageSaveDialog.close();saveImage(b.dataset.imageMode)});$('#folderImageButton').hidden=!window.showDirectoryPicker;
+  $('#printBtn').onclick=$('#printTop').onclick=()=>window.print();$('#resetBtn').onclick=reset;$('#newDraftBtn').onclick=startNewDraft;$('#copyStudentBtn').onclick=duplicateStudent;$('#saveStudentBtn').onclick=()=>save(true);
+  const dialog=$('#draftDialog');$('#draftListBtn').onclick=()=>{renderDraftList();dialog.showModal()};$('#draftClose').onclick=()=>dialog.close();dialog.addEventListener('click',e=>{if(e.target===dialog)dialog.close()});
+  const pdfGuide=$('#pdfGuide');$('#pdfGuideBtn').onclick=()=>pdfGuide.showModal();$('#pdfGuideClose').onclick=()=>pdfGuide.close();pdfGuide.addEventListener('click',e=>{if(e.target===pdfGuide)pdfGuide.close()});
+  $$('.guide-tab').forEach(tab=>tab.onclick=()=>{$$('.guide-tab').forEach(x=>{const on=x===tab;x.classList.toggle('active',on);x.setAttribute('aria-selected',String(on))});$$('.guide-panel').forEach(x=>x.classList.toggle('active',x.dataset.panel===tab.dataset.guide))});
+  $('#connectPcBtn').onclick=connectPc;$('#downloadBackupBtn').onclick=()=>{save();downloadBlob(backupBlob(),'KM-학생작성본-백업.json')};
+  $('#logoFile').onchange=async()=>{const file=$('#logoFile').files[0];if(!file)return;if(!['image/png','image/jpeg','image/webp'].includes(file.type)||file.size>1500000){toast('1.5MB 이하 PNG·JPEG·WebP 로고를 선택하세요.');return}const data=await new Promise((resolve,reject)=>{const r=new FileReader();r.onload=()=>resolve(r.result);r.onerror=reject;r.readAsDataURL(file)});try{localStorage.setItem('kmLogo:'+window.kmCloud.userId,data)}catch{}applyLogo(data);save();toast('로고를 보고서에 반영했습니다.')};
+  window.addEventListener('km-drafts-changed',schedulePc);
+  const drafts=readDrafts();if(!currentDraftId||!drafts[currentDraftId])currentDraftId=Object.entries(drafts).sort((a,b)=>(b[1].savedAt||0)-(a[1].savedAt||0))[0]?.[0]||newDraftId();
+  restoreStudent(currentDraftId,drafts[currentDraftId]||{});restorePc();
+
+  function editorTime(value){if(!value)return '';const date=new Date(value);return Number.isNaN(date.getTime())?'':date.toLocaleString('ko-KR',{year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',second:'2-digit'})}
+  function editorLabel(id){const info=window.kmCloud.meta(id);return info?.edited_name?`마지막 저장: ${info.edited_name} · ${editorTime(info.updated_at)}`:'마지막 저장 수정자 정보가 없습니다.'}
+  function renderEditor(){const current=$('#lastEditor');if(current)current.textContent=editorLabel(currentDraftId)}
+  const historyState={token:0,cursor:null};
+  function changeDescriptions(row){
+    if(row.action==='INSERT')return ['학생 작성본을 새로 저장했습니다.'];if(row.action==='DELETE')return ['학생 작성본을 삭제했습니다.'];
+    const old=row.old_data||{},next=row.new_data||{},names={student:'학생명',school:'학교',schoolLevel:'학교급',grade:'학년',semester:'학기',term:'시험',examDate:'시험일',date:'작성일',teacher:'보고서 작성자',scoreOverride:'실제 점수',totalScoreOverride:'총점',examScope:'시험 범위',publisher:'출판사',textbook:'교과서 옵션',textbookAuthor:'교과서 저자',strengthMemo:'향상된 점 메모',planMemo:'학습 방안 메모',nextScope:'다음 학습 범위',questions:'문항 분석',wrongs:'오답 분석',selectedStrengths:'향상된 점 선택',selectedPlans:'학습 방안 선택',manualEdits:'직접 수정한 피드백',selectedUnits:'선택 단원',questionCount:'문항 수',logoData:'로고'};
+    const descriptions=[];const plain=value=>value===undefined||value===null||value===''?'(없음)':typeof value==='string'?value:Array.isArray(value)?JSON.stringify(value):JSON.stringify(value);
+    for(const key of new Set([...Object.keys(old),...Object.keys(next)])){
+      if(['savedAt','schemaVersion'].includes(key)||JSON.stringify(old[key])===JSON.stringify(next[key]))continue;
+      if(key==='questions'){
+        const before=old[key]||[],after=next[key]||[];if(before.length!==after.length)descriptions.push(`문항 수: ${before.length} → ${after.length}`);
+        const fields={n:'번호',range:'범위',result:'결과',score:'배점',type:'유형'};
+        for(let i=0;i<Math.max(before.length,after.length);i++){
+          if(!before[i]){descriptions.push(`${after[i].n||i+1}번 문항 추가`);continue}if(!after[i]){descriptions.push(`${before[i].n||i+1}번 문항 삭제`);continue}
+          for(const [field,label] of Object.entries(fields))if(before[i][field]!==after[i][field])descriptions.push(`${after[i].n||i+1}번 ${label}: ${plain(before[i][field])} → ${plain(after[i][field])}`);
+        }
+      }else if(key==='logoData')descriptions.push('보고서 로고를 변경했습니다.');
+      else descriptions.push(`${names[key]||key}: ${plain(old[key])} → ${plain(next[key])}`);
+    }
+    return descriptions.length?descriptions:['작성본 설정을 변경했습니다.'];
+  }
+  async function loadHistory(append=false){
+    const token=++historyState.token,id=$('#historyScope').value==='all'?null:currentDraftId,list=$('#historyList');
+    $('#historyMore').disabled=true;$('#historyMessage').textContent='수정 기록을 불러오는 중…';if(!append){historyState.cursor=null;list.replaceChildren()}
+    try{
+      const rows=await window.kmCloud.history(id,historyState.cursor);if(token!==historyState.token)return;
+      for(const row of rows){const item=document.createElement('article');item.className='history-item';
+        const title=document.createElement('strong');title.textContent=`${row.actor_name} · ${{INSERT:'새 작성본',UPDATE:'수정',DELETE:'삭제'}[row.action]||row.action}`;
+        const meta=document.createElement('small');meta.textContent=`${editorTime(row.changed_at)} · ${row.new_data?.student||row.old_data?.student||'학생명 없음'} · 참여자 ID ${String(row.actor).slice(0,8)}`;meta.title='참여자 ID: '+row.actor;
+        const details=document.createElement('details');const summary=document.createElement('summary');const changes=changeDescriptions(row);summary.textContent='변경 내용 '+changes.length+'개 보기';const ul=document.createElement('ul');for(const text of changes){const li=document.createElement('li');li.textContent=text;ul.append(li)}details.append(summary,ul);item.append(title,meta,details);list.append(item);
+      }
+      if(rows.length)historyState.cursor=rows.at(-1).id;$('#historyMore').hidden=rows.length<10;$('#historyMessage').textContent=list.children.length?'서버에 저장된 기록입니다. 자동 저장도 각각 기록됩니다.':'아직 수정 기록이 없습니다.';
+    }catch(error){if(token===historyState.token)$('#historyMessage').textContent='수정 기록을 불러오지 못했습니다: '+error.message}
+    finally{if(token===historyState.token)$('#historyMore').disabled=false}
+  }
+  $('#historyButton').onclick=async()=>{$('#historyDialog').showModal();await window.kmCloud.flush().catch(()=>{});loadHistory()};
+  $('#historyClose').onclick=()=>{$('#historyDialog').close();historyState.token++};$('#historyScope').onchange=()=>loadHistory();$('#historyMore').onclick=()=>loadHistory(true);
+  window.addEventListener('km-cloud-saved',()=>{renderEditor();renderDraftList()});
+
+};
+
 </script>
-<!-- KM-FEEDBACK-V5-COMPLETE -->
+<script>
+/* The publishable key is public. Authorization is enforced by Supabase RLS. */
+(() => {
+  'use strict';
+  if (!window.supabase) {document.querySelector('#accountMessage').textContent='로그인 라이브러리를 불러오지 못했습니다. 새로고침해 주세요.';return;}
+  const client = supabase.createClient('https://rzvmvlicindkczbamdqq.supabase.co', 'sb_publishable_wyDMEFl7PgVDAw3u3Fby8Q_U1Xr1HKd');
+  const gate = document.querySelector('#accountGate');
+  const authForm = document.querySelector('#accountForm');
+  const joinForm = document.querySelector('#joinForm');
+  const message = document.querySelector('#accountMessage');
+  const status = document.querySelector('#cloudStatus');
+  let cache = {}, versions = {}, committed = {}, timer, running, blocked = false, started = false;
+  const editMeta={};
+  const clone = value => JSON.parse(JSON.stringify(value));
+  const fingerprint = value => { if (!value) return ''; const data = {...value}; delete data.savedAt; return JSON.stringify(data); };
+  const inform = text => { status.textContent = text; };
+  const fail = error => {
+    blocked = true;
+    inform('공동 저장 실패: ' + (error.message || String(error)) + ' · 백업을 다운로드하고 다시 불러오세요.');
+    document.querySelector('#backupButton').hidden = false;
+  };
+  function persistLocal(){if(!window.kmCloud?.userId)return;try{localStorage.setItem('kmDraftBackup:'+window.kmCloud.userId,JSON.stringify({cache,versions,committed}));}catch{inform('브라우저 백업 공간이 부족합니다. PC 백업 파일을 저장하세요.');}}
+  async function sync() {
+    if (blocked) throw new Error('저장 오류를 먼저 해결해 주세요. 백업 다운로드 후 다시 불러오세요.');
+    for (const id of new Set([...Object.keys(cache), ...Object.keys(committed)])) {
+      const data = cache[id] ? clone(cache[id]) : null;
+      if (fingerprint(data) === fingerprint(committed[id])) continue;
+      inform('공동 저장 중…');
+      let query;
+      if (!data) query = client.from('student_drafts').delete().eq('draft_id', id).eq('version', versions[id]);
+      else if (versions[id]) query = client.from('student_drafts').update({data}).eq('draft_id', id).eq('version', versions[id]);
+      else query = client.from('student_drafts').insert({draft_id: id, data});
+      const {data: rows, error} = await query.select('draft_id,version,edited_name,edited_by,updated_at');
+      if (error) throw error;
+      if (!rows?.length) throw new Error('다른 참여자가 수정하거나 삭제했습니다. 현재 내용을 백업한 뒤 최신 작성본을 불러오세요.');
+      if (data) { versions[id] = rows[0].version; committed[id] = data; editMeta[id]=rows[0]; }
+      else { delete versions[id]; delete committed[id];delete editMeta[id]; }
+      window.dispatchEvent(new Event("km-cloud-saved"));
+    }
+    persistLocal();inform('공동 저장 완료');
+  }
+  async function flush() {
+    clearTimeout(timer);
+    if (running) { await running; return flush(); }
+    running = sync();
+    try { await running; } catch (error) { fail(error); throw error; } finally { running = null; }
+  }
+  window.kmCloud = {
+    userId: null,
+    meta:id=>editMeta[id]?{edited_name:editMeta[id].edited_name,edited_by:editMeta[id].edited_by,updated_at:editMeta[id].updated_at}:null,
+    history:async(id,before)=>{let query=client.from('km_edit_history').select('id,draft_id,action,actor,actor_name,changed_at,old_data,new_data').order('id',{ascending:false}).limit(10);if(id)query=query.eq('draft_id',id);if(before)query=query.lt('id',before);const {data,error}=await query;if(error)throw error;return data||[];},
+    read: () => clone(cache),
+    write: drafts => {
+      cache = clone(drafts);persistLocal();window.dispatchEvent(new Event('km-drafts-changed'));
+      clearTimeout(timer);
+      const changed = [...new Set([...Object.keys(cache), ...Object.keys(committed)])].some(id => fingerprint(cache[id]) !== fingerprint(committed[id]));
+      if (changed && !blocked) { inform('공동 저장 대기 중…'); timer = setTimeout(() => flush().catch(() => {}), 900); }
+    },
+    flush,
+    reload: async () => { try { await flush(); location.reload(); } catch {} },
+  };
+  document.querySelector('#recoveryButton').onclick=()=>{const a=document.createElement('a'),url=URL.createObjectURL(new Blob([JSON.stringify(window.kmRecovery,null,2)],{type:'application/json'}));a.href=url;a.download='KM-미동기화-복원용.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);};
+  document.querySelector('#backupButton').onclick = () => {
+    const a = document.createElement('a'); const url = URL.createObjectURL(new Blob([JSON.stringify(cache, null, 2)], {type:'application/json'}));
+    a.href = url; a.download = 'KM-작성본-백업.json'; a.click(); setTimeout(() => URL.revokeObjectURL(url), 1000);
+  };
+  document.querySelector('#refreshButton').onclick = async () => {
+    if (blocked) { if (confirm('백업을 다운로드하셨나요? 저장되지 않은 화면 내용을 버리고 최신 작성본을 불러옵니다.')) {localStorage.removeItem('kmDraftBackup:'+window.kmCloud.userId);location.reload();} }
+    else { try { await flush(); location.reload(); } catch {} }
+  };
+  document.querySelectorAll('[data-account-mode]').forEach(button => button.onclick = () => {
+    authForm.dataset.mode = button.dataset.accountMode;
+    document.querySelector('#accountSubmit').textContent = button.dataset.accountMode === 'signup' ? '계정 만들기' : '로그인';
+    message.textContent = '';
+  });
+  async function openWorkspace(session) {
+    if (!session) return;
+    if (started) { location.reload(); return; }
+    const {data: member, error} = await client.from('km_members').select('display_name').eq('user_id', session.user.id).maybeSingle();
+    if (error) throw error;
+    authForm.hidden = true;
+    document.querySelector('#gateLogout').hidden = false;
+    if (!member) { joinForm.hidden = false; message.textContent = '로그인되었습니다. 초대 코드와 참여자 이름을 입력하세요.'; return; }
+    const all = [];
+    for (let offset = 0; ; offset += 500) {
+      const {data, error: loadError} = await client.from('student_drafts').select('draft_id,data,version,edited_name,edited_by,updated_at').order('draft_id').range(offset, offset + 499);
+      if (loadError) throw loadError;
+      all.push(...data); if (data.length < 500) break;
+    }
+    window.kmCloud.userId=session.user.id;
+    cache = {}; versions = {}; committed = {};
+    for (const row of all) { cache[row.draft_id] = row.data; committed[row.draft_id] = clone(row.data); versions[row.draft_id] = row.version;editMeta[row.draft_id]=row; }
+    let local=null;try{local=JSON.parse(localStorage.getItem('kmDraftBackup:'+session.user.id)||'null')}catch{}
+    if(local?.cache&&local?.committed){
+      for(const id of new Set([...Object.keys(local.cache),...Object.keys(local.committed)])){
+        if(fingerprint(local.cache[id])===fingerprint(local.committed[id]))continue;
+        if(local.versions[id]!==versions[id]){window.kmRecovery=local;document.querySelector('#recoveryButton').hidden=false;continue;}
+        if(local.cache[id])cache[id]=clone(local.cache[id]);else delete cache[id];
+      }
+    }
+    document.querySelector('#memberName').textContent = member.display_name;
+    gate.hidden = true; document.body.classList.add('member-ready');
+    if (!started) { started = true; window.bootEditor(); }
+    window.kmCloud.write(cache);
+    if(!blocked)inform(window.kmRecovery?'다른 참여자 수정으로 복원하지 못한 내용이 있습니다. 미동기화 백업을 다운로드하세요.':'공동 작성본을 불러왔습니다.');
+  }
+  const busy = (form, value) => form.querySelectorAll('button').forEach(button => button.disabled = value);
+  authForm.onsubmit = async event => {
+    event.preventDefault(); busy(authForm, true); message.textContent = '처리 중…';
+    const email = authForm.elements.email.value.trim(), password = authForm.elements.password.value;
+    try {
+      const result = authForm.dataset.mode === 'signup'
+        ? await client.auth.signUp({email, password, options:{emailRedirectTo:location.origin + location.pathname}})
+        : await client.auth.signInWithPassword({email, password});
+      if (result.error) throw result.error;
+      if (result.data.session) await openWorkspace(result.data.session);
+      else message.textContent = '이메일 확인이 필요한 경우 받은 메일의 링크를 누른 뒤 로그인하세요. 기존 계정이면 로그인 탭을 이용하세요.';
+    } catch (error) { message.textContent = '처리하지 못했습니다: ' + error.message; }
+    finally { busy(authForm, false); }
+  };
+  joinForm.onsubmit = async event => {
+    event.preventDefault(); busy(joinForm, true);
+    try {
+      const {error} = await client.rpc('km_join', {invite_code:joinForm.elements.invite.value.trim(), member_name:joinForm.elements.member.value.trim()});
+      if (error) throw error;
+      joinForm.elements.invite.value = '';
+      const {data, error: sessionError} = await client.auth.getSession();
+      if (sessionError) throw sessionError;
+      await openWorkspace(data.session);
+    } catch (error) { message.textContent = error.message; }
+    finally { busy(joinForm, false); }
+  };
+  async function logout() {
+    try { if (started) await flush(); const {error} = await client.auth.signOut(); if (error) throw error; location.reload(); }
+    catch (error) { message.textContent = error.message; if (started) fail(error); }
+  }
+  document.querySelector('#logoutButton').onclick = logout;
+  document.querySelector('#gateLogout').onclick = logout;
+  client.auth.onAuthStateChange((event, session) => {
+    if (started && (event === 'SIGNED_OUT' || !session)) { document.body.classList.remove('member-ready'); gate.hidden = false; joinForm.hidden = true; authForm.hidden = false; message.textContent = '로그인이 종료되었습니다. 다시 로그인하려면 페이지를 새로고침하세요.'; }
+  });
+  window.addEventListener('beforeunload', event => {
+    if (blocked || running || [...new Set([...Object.keys(cache), ...Object.keys(committed)])].some(id => fingerprint(cache[id]) !== fingerprint(committed[id]))) { event.preventDefault(); event.returnValue = ''; }
+  });
+  (async () => { try { const {data, error} = await client.auth.getSession(); if (error) throw error; await openWorkspace(data.session); } catch (error) { message.textContent = '연결을 확인해 주세요: ' + error.message; } })();
+})();
+
+</script>
+<!-- KM-FEEDBACK-V5-SOURCE-COMPLETE -->
 </body></html>
