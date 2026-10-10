@@ -72,22 +72,16 @@ body:not(.member-ready) .shell,body:not(.member-ready) #accountBar{display:none!
 <script>if(location.search)history.replaceState(null,"",location.pathname);</script>
 <section id="accountGate" class="account-gate" aria-labelledby="accountTitle">
 <h1 id="accountTitle">KM 시험 피드백 작성기</h1>
-<p class="hint">초대받은 참여자만 로그인 후 공동 작성본을 이용할 수 있습니다.</p>
-<form id="accountForm" data-mode="login" onsubmit="return false">
-<div><button type="button" class="ghost" data-account-mode="login">로그인</button><button type="button" class="ghost" data-account-mode="signup">처음 오셨나요? 계정 만들기</button></div>
-<div class="field"><label>이메일<input name="email" type="email" autocomplete="email" required></label></div>
-<div class="field"><label>비밀번호<input name="password" type="password" autocomplete="current-password" minlength="8" required></label><p class="hint">비밀번호는 8자 이상 입력해 주세요.</p></div>
-<button id="accountSubmit" class="primary" type="submit">로그인</button>
-</form>
-<form id="joinForm" hidden onsubmit="return false">
-<div class="field"><label>참여자 이름<input name="member" maxlength="40" autocomplete="name" required></label></div>
-<div class="field"><label>초대 코드<input name="invite" autocomplete="off" required></label></div>
-<button class="primary" type="submit">초대받은 참여자로 가입</button>
+<p class="hint">이름을 입력하면 공동 작성본을 열 수 있습니다.</p>
+<form id="accountForm" onsubmit="return false">
+<div class="field"><label for="entryName">이름<input id="entryName" name="member" maxlength="40" autocomplete="name" placeholder="예: 박민솔 선생님" required></label></div>
+<p class="hint">입력한 이름이 수정 기록에 표시됩니다. 본인 인증은 하지 않으며, 주소를 아는 누구나 학생 자료를 읽고 수정할 수 있습니다.</p>
+<button id="accountSubmit" class="primary" type="submit">입장하기</button>
 </form>
 <p id="accountMessage" class="account-message" role="status" aria-live="polite"></p>
-<button id="gateLogout" class="ghost" type="button" hidden>다른 계정으로 로그인</button>
+
 </section>
-<div id="accountBar" class="account-bar"><strong id="memberName"></strong><small>참여자 공동 저장소</small><span id="cloudStatus" role="status" aria-live="polite">연결 중…</span><button id="recoveryButton" class="ghost" hidden>미동기화 백업 다운로드</button><button id="backupButton" class="ghost" hidden>현재 내용 백업</button><button id="refreshButton" class="ghost">최신 목록 불러오기</button><button id="logoutButton" class="ghost">로그아웃</button></div>
+<div id="accountBar" class="account-bar"><strong id="memberName"></strong><small>공동 저장소 · 이름 입력 기준, 본인 인증 없음</small><span id="cloudStatus" role="status" aria-live="polite">연결 중…</span><button id="recoveryButton" class="ghost" hidden>미동기화 백업 다운로드</button><button id="backupButton" class="ghost" hidden>현재 내용 백업</button><button id="refreshButton" class="ghost">최신 목록 불러오기</button><button id="logoutButton" class="ghost">이름 변경</button></div>
 <main class="shell">
   <header class="top"><div class="brand"><div class="mark">KM</div><div><h1>시험 피드백 작성기</h1><p>핵심만 입력하면 학부모용 문장으로 정리됩니다.</p></div></div><div class="top-actions"><button class="primary" id="saveStudentBtn">학생 저장</button><button class="ghost" id="copyStudentBtn">학생 복사</button><button class="ghost" id="newDraftBtn">＋ 학생 추가</button><button class="ghost" id="draftListBtn">저장 목록</button><button class="ghost" id="pdfGuideBtn">PDF 저장 방법</button><button class="ghost" id="resetBtn">현재 내용 초기화</button><button class="ghost" id="imageTop">이미지 저장</button><button class="secondary" id="printTop">인쇄 · PDF</button></div></header>
   <aside class="student-sidebar"><h2>학생 목록</h2><p class="hint">저장한 학생을 눌러 이어서 편집하세요.</p><div id="studentIndex"></div></aside>
@@ -174,7 +168,7 @@ const strengths=['핵심 개념 이해','문제 해결력 향상','작품 분석
   function today(){const d=new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`}
   function restoreStudent(id, data){
     isRestoring=true;currentDraftId=id;rememberStudent();
-    const baseline={date:today(),examDate:'',teacher:'',school:'',grade:'',schoolLevel:'고등',semester:'1학기',term:'1학기 중간고사',student:'',subject:'국어',questionCount:'20',strengthMemo:'',nextScope:'',planMemo:'',scoreOverride:'',totalScoreOverride:'',textbook:'공통국어 1',publisher:'동아',textbookAuthor:'',examScope:''};
+    const baseline={date:today(),examDate:'',teacher:window.kmCloud.displayName||'',school:'',grade:'',schoolLevel:'고등',semester:'1학기',term:'1학기 중간고사',student:'',subject:'국어',questionCount:'20',strengthMemo:'',nextScope:'',planMemo:'',scoreOverride:'',totalScoreOverride:'',textbook:'공통국어 1',publisher:'동아',textbookAuthor:'',examScope:''};
     for(const [key,value] of Object.entries({...baseline,...data})){const el=document.getElementById(key);if(el&&typeof value==='string'&&el.matches('input,select,textarea')&&el.type!=='file')el.value=value}
     if(!data.schoolLevel&&data.school?.includes('중학교'))$('#schoolLevel').value='중등';
     if(!data.semester)$('#semester').value=data.textbook==='공통국어 2'||data.term?.startsWith('2학기')?'2학기':'1학기';
@@ -676,7 +670,7 @@ const strengths=['핵심 개념 이해','문제 해결력 향상','작품 분석
       const rows=await window.kmCloud.history(id,historyState.cursor);if(token!==historyState.token)return;
       for(const row of rows){const item=document.createElement('article');item.className='history-item';
         const title=document.createElement('strong');title.textContent=`${row.actor_name} · ${{INSERT:'새 작성본',UPDATE:'수정',DELETE:'삭제'}[row.action]||row.action}`;
-        const meta=document.createElement('small');meta.textContent=`${editorTime(row.changed_at)} · ${row.new_data?.student||row.old_data?.student||'학생명 없음'} · 참여자 ID ${String(row.actor).slice(0,8)}`;meta.title='참여자 ID: '+row.actor;
+        const meta=document.createElement('small');meta.textContent=`${editorTime(row.changed_at)} · ${row.new_data?.student||row.old_data?.student||'학생명 없음'} · 기록 작성자 ID ${String(row.actor).slice(0,8)}`;meta.title='기록 작성자 ID (이름 입장은 본인 인증 없음): '+row.actor;
         const details=document.createElement('details');const summary=document.createElement('summary');const changes=changeDescriptions(row);summary.textContent='변경 내용 '+changes.length+'개 보기';const ul=document.createElement('ul');for(const text of changes){const li=document.createElement('li');li.textContent=text;ul.append(li)}details.append(summary,ul);item.append(title,meta,details);list.append(item);
       }
       if(rows.length)historyState.cursor=rows.at(-1).id;$('#historyMore').hidden=rows.length<10;$('#historyMessage').textContent=list.children.length?'서버에 저장된 기록입니다. 자동 저장도 각각 기록됩니다.':'아직 수정 기록이 없습니다.';
@@ -738,14 +732,15 @@ ocrButton.onclick=()=>ocrDialog.showModal();$('#ocrClose').onclick=()=>{if(ocrBu
 
 </script>
 <script>
-/* The publishable key is public. Authorization is enforced by Supabase RLS. */
+/* Name-only public workspace. The RPCs explicitly allow anonymous access; names are self-declared. */
 (() => {
   'use strict';
-  if (!window.supabase) {document.querySelector('#accountMessage').textContent='로그인 라이브러리를 불러오지 못했습니다. 새로고침해 주세요.';return;}
-  const client = supabase.createClient('https://rzvmvlicindkczbamdqq.supabase.co', 'sb_publishable_wyDMEFl7PgVDAw3u3Fby8Q_U1Xr1HKd');
+  if (!window.supabase) {document.querySelector('#accountMessage').textContent='연결 도구를 불러오지 못했습니다. 새로고침해 주세요.';return;}
+  const client = supabase.createClient('https://rzvmvlicindkczbamdqq.supabase.co', 'sb_publishable_wyDMEFl7PgVDAw3u3Fby8Q_U1Xr1HKd', {auth:{persistSession:false,autoRefreshToken:false,detectSessionInUrl:false}});
   const gate = document.querySelector('#accountGate');
   const authForm = document.querySelector('#accountForm');
-  const joinForm = document.querySelector('#joinForm');
+  let visitor = null;
+  const identity = () => ({visitor_name:visitor.name,visitor_id:visitor.id});
   const message = document.querySelector('#accountMessage');
   const status = document.querySelector('#cloudStatus');
   let cache = {}, versions = {}, committed = {}, timer, running, blocked = false, started = false;
@@ -765,11 +760,7 @@ ocrButton.onclick=()=>ocrDialog.showModal();$('#ocrClose').onclick=()=>{if(ocrBu
       const data = cache[id] ? clone(cache[id]) : null;
       if (fingerprint(data) === fingerprint(committed[id])) continue;
       inform('공동 저장 중…');
-      let query;
-      if (!data) query = client.from('student_drafts').delete().eq('draft_id', id).eq('version', versions[id]);
-      else if (versions[id]) query = client.from('student_drafts').update({data}).eq('draft_id', id).eq('version', versions[id]);
-      else query = client.from('student_drafts').insert({draft_id: id, data});
-      const {data: rows, error} = await query.select('draft_id,version,edited_name,edited_by,updated_at');
+      const {data: rows, error} = await client.rpc('km_public_write', {...identity(), target_id:id, draft_data:data, expected_version:versions[id]||null, delete_draft:!data});
       if (error) throw error;
       if (!rows?.length) throw new Error('다른 참여자가 수정하거나 삭제했습니다. 현재 내용을 백업한 뒤 최신 작성본을 불러오세요.');
       if (data) { versions[id] = rows[0].version; committed[id] = data; editMeta[id]=rows[0]; }
@@ -787,7 +778,7 @@ ocrButton.onclick=()=>ocrDialog.showModal();$('#ocrClose').onclick=()=>{if(ocrBu
   window.kmCloud = {
     userId: null,
     meta:id=>editMeta[id]?{edited_name:editMeta[id].edited_name,edited_by:editMeta[id].edited_by,updated_at:editMeta[id].updated_at}:null,
-    history:async(id,before)=>{let query=client.from('km_edit_history').select('id,draft_id,action,actor,actor_name,changed_at,old_data,new_data').order('id',{ascending:false}).limit(10);if(id)query=query.eq('draft_id',id);if(before)query=query.lt('id',before);const {data,error}=await query;if(error)throw error;return data||[];},
+    history:async(id,before)=>{const {data,error}=await client.rpc('km_public_history',{...identity(),target_id:id||null,before_id:before||null});if(error)throw error;return data||[];},
     read: () => clone(cache),
     write: drafts => {
       cache = clone(drafts);persistLocal();window.dispatchEvent(new Event('km-drafts-changed'));
@@ -807,29 +798,18 @@ ocrButton.onclick=()=>ocrDialog.showModal();$('#ocrClose').onclick=()=>{if(ocrBu
     if (blocked) { if (confirm('백업을 다운로드하셨나요? 저장되지 않은 화면 내용을 버리고 최신 작성본을 불러옵니다.')) {localStorage.removeItem('kmDraftBackup:'+window.kmCloud.userId);location.reload();} }
     else { try { await flush(); location.reload(); } catch {} }
   };
-  document.querySelectorAll('[data-account-mode]').forEach(button => button.onclick = () => {
-    authForm.dataset.mode = button.dataset.accountMode;
-    document.querySelector('#accountSubmit').textContent = button.dataset.accountMode === 'signup' ? '계정 만들기' : '로그인';
-    message.textContent = '';
-  });
-  async function openWorkspace(session) {
-    if (!session) return;
-    if (started) { location.reload(); return; }
-    const {data: member, error} = await client.from('km_members').select('display_name').eq('user_id', session.user.id).maybeSingle();
-    if (error) throw error;
-    authForm.hidden = true;
-    document.querySelector('#gateLogout').hidden = false;
-    if (!member) { joinForm.hidden = false; message.textContent = '로그인되었습니다. 초대 코드와 참여자 이름을 입력하세요.'; return; }
+  async function openWorkspace() {
+    if (!visitor) return;
     const all = [];
     for (let offset = 0; ; offset += 500) {
-      const {data, error: loadError} = await client.from('student_drafts').select('draft_id,data,version,edited_name,edited_by,updated_at').order('draft_id').range(offset, offset + 499);
+      const {data, error: loadError} = await client.rpc('km_public_list',{...identity(),page_offset:offset,page_size:500});
       if (loadError) throw loadError;
       all.push(...data); if (data.length < 500) break;
     }
-    window.kmCloud.userId=session.user.id;
+    window.kmCloud.userId=visitor.id;window.kmCloud.displayName=visitor.name;
     cache = {}; versions = {}; committed = {};
     for (const row of all) { cache[row.draft_id] = row.data; committed[row.draft_id] = clone(row.data); versions[row.draft_id] = row.version;editMeta[row.draft_id]=row; }
-    let local=null;try{local=JSON.parse(localStorage.getItem('kmDraftBackup:'+session.user.id)||'null')}catch{}
+    let local=null;try{local=JSON.parse(localStorage.getItem('kmDraftBackup:'+visitor.id)||'null')}catch{}
     if(local?.cache&&local?.committed){
       for(const id of new Set([...Object.keys(local.cache),...Object.keys(local.committed)])){
         if(fingerprint(local.cache[id])===fingerprint(local.committed[id]))continue;
@@ -837,51 +817,36 @@ ocrButton.onclick=()=>ocrDialog.showModal();$('#ocrClose').onclick=()=>{if(ocrBu
         if(local.cache[id])cache[id]=clone(local.cache[id]);else delete cache[id];
       }
     }
-    document.querySelector('#memberName').textContent = member.display_name;
+    document.querySelector('#memberName').textContent = visitor.name;
     gate.hidden = true; document.body.classList.add('member-ready');
     if (!started) { started = true; window.bootEditor(); }
     window.kmCloud.write(cache);
     if(!blocked)inform(window.kmRecovery?'다른 참여자 수정으로 복원하지 못한 내용이 있습니다. 미동기화 백업을 다운로드하세요.':'공동 작성본을 불러왔습니다.');
   }
   const busy = (form, value) => form.querySelectorAll('button').forEach(button => button.disabled = value);
-  authForm.onsubmit = async event => {
-    event.preventDefault(); busy(authForm, true); message.textContent = '처리 중…';
-    const email = authForm.elements.email.value.trim(), password = authForm.elements.password.value;
-    try {
-      const result = authForm.dataset.mode === 'signup'
-        ? await client.auth.signUp({email, password, options:{emailRedirectTo:location.origin + location.pathname}})
-        : await client.auth.signInWithPassword({email, password});
-      if (result.error) throw result.error;
-      if (result.data.session) await openWorkspace(result.data.session);
-      else message.textContent = '이메일 확인이 필요한 경우 받은 메일의 링크를 누른 뒤 로그인하세요. 기존 계정이면 로그인 탭을 이용하세요.';
-    } catch (error) { message.textContent = '처리하지 못했습니다: ' + error.message; }
-    finally { busy(authForm, false); }
-  };
-  joinForm.onsubmit = async event => {
-    event.preventDefault(); busy(joinForm, true);
-    try {
-      const {error} = await client.rpc('km_join', {invite_code:joinForm.elements.invite.value.trim(), member_name:joinForm.elements.member.value.trim()});
-      if (error) throw error;
-      joinForm.elements.invite.value = '';
-      const {data, error: sessionError} = await client.auth.getSession();
-      if (sessionError) throw sessionError;
-      await openWorkspace(data.session);
-    } catch (error) { message.textContent = error.message; }
-    finally { busy(joinForm, false); }
-  };
-  async function logout() {
-    try { if (started) await flush(); const {error} = await client.auth.signOut(); if (error) throw error; location.reload(); }
-    catch (error) { message.textContent = error.message; if (started) fail(error); }
+  function visitorForName(name){
+    const key='kmPublicVisitor:'+name;let id;try{id=localStorage.getItem(key)}catch{}
+    if(!/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id||''))id=crypto.randomUUID();
+    try{localStorage.setItem(key,id);localStorage.setItem('kmEntryName',name)}catch{}
+    return {name,id};
   }
-  document.querySelector('#logoutButton').onclick = logout;
-  document.querySelector('#gateLogout').onclick = logout;
-  client.auth.onAuthStateChange((event, session) => {
-    if (started && (event === 'SIGNED_OUT' || !session)) { document.body.classList.remove('member-ready'); gate.hidden = false; joinForm.hidden = true; authForm.hidden = false; message.textContent = '로그인이 종료되었습니다. 다시 로그인하려면 페이지를 새로고침하세요.'; }
-  });
+  authForm.onsubmit = async event => {
+    event.preventDefault();if(document.querySelector('#accountSubmit').disabled)return;const name=authForm.elements.member.value.trim();
+    if(!name||name.length>40){message.textContent='이름을 1~40자로 입력해 주세요.';return}
+    busy(authForm,true);message.textContent='공동 작성본을 불러오는 중…';visitor=visitorForName(name);
+    try {await openWorkspace();}
+    catch(error){message.textContent=error.code==='PGRST202'?'이름 입장용 Supabase 설정이 아직 적용되지 않았습니다. 관리자가 SQL 설정을 실행한 뒤 다시 입장해 주세요.':'연결하지 못했습니다: '+error.message;}
+    finally{busy(authForm,false)}
+  };
+  document.querySelector('#logoutButton').onclick=async()=>{
+    try{if(started)await flush();try{localStorage.removeItem('kmEntryName')}catch{}location.reload()}
+    catch(error){if(started)fail(error);else message.textContent=error.message}
+  };
   window.addEventListener('beforeunload', event => {
     if (blocked || running || [...new Set([...Object.keys(cache), ...Object.keys(committed)])].some(id => fingerprint(cache[id]) !== fingerprint(committed[id]))) { event.preventDefault(); event.returnValue = ''; }
   });
-  (async () => { try { const {data, error} = await client.auth.getSession(); if (error) throw error; await openWorkspace(data.session); } catch (error) { message.textContent = '연결을 확인해 주세요: ' + error.message; } })();
+  try{authForm.elements.member.value=localStorage.getItem('kmEntryName')||''}catch{}
+
 })();
 
 </script>
