@@ -66,6 +66,8 @@ body:not(.member-ready) .shell,body:not(.member-ready) #accountBar{display:none!
 @media(max-width:620px){.watermark img{width:78%;opacity:.25}}
 @media print{.watermark img{transform:none!important;opacity:.25!important;filter:none!important}}
 .ocr-dialog{width:min(1000px,95vw);max-height:90vh;overflow:auto}.ocr-dialog .ocr-picker{display:grid;gap:8px;margin:16px 0;padding:14px;background:#f2f7f4;border-radius:12px}.ocr-fields{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.ocr-dialog label{display:block;font-size:.8rem;font-weight:700}.ocr-dialog input:not([type=file]),.ocr-dialog select,.ocr-dialog textarea{display:block;width:100%;min-width:0;border:1px solid #cfdad5;border-radius:8px;padding:9px;background:white;color:var(--ink);font:inherit}.ocr-dialog textarea{min-height:160px;margin:8px 0 18px;resize:vertical}.ocr-table-scroll{overflow:auto}.ocr-table{width:100%;min-width:670px;border-collapse:collapse;font-size:.78rem}.ocr-table th,.ocr-table td{padding:5px;border-bottom:1px solid var(--line)}.ocr-table th:nth-child(1){width:75px}.ocr-table th:nth-child(3){width:100px}.ocr-table th:nth-child(4){width:80px}#ocrPhotos{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin:12px 0}#ocrPhotos img{max-width:100%;max-height:450px;object-fit:contain;border:1px solid var(--line)}.ocr-dialog pre{white-space:pre-wrap;max-height:250px;overflow:auto;background:#f7f9f8;padding:12px}.ocr-apply{display:flex;align-items:end;justify-content:space-between;gap:14px;margin-top:20px}.ocr-dialog h3{font-size:.95rem;margin:20px 0 10px}#ocrStatus{font-size:.85rem;color:#315440}#ocrConflicts{color:#a14c27}@media(max-width:620px){.ocr-fields{grid-template-columns:repeat(2,minmax(0,1fr))}.ocr-apply{display:grid}.ocr-dialog{padding:16px}}@media print{#ocrDialog{display:none!important}}
+
+.feedback-block[hidden]{display:none!important}
 </style>
 </head>
 <body>
@@ -156,7 +158,7 @@ const strengths=['핵심 개념 이해','문제 해결력 향상','작품 분석
   function setText(sel,text,ph){const el=$(sel),manual=Object.prototype.hasOwnProperty.call(manualEdits,sel);el.textContent=manual?manualEdits[sel]:(text||ph);el.classList.toggle('placeholder',!manual&&!text)}
   function collectData(){const data={schemaVersion:5,savedAt:Date.now(),selectedUnits:[...selectedUnits],logoData:''};$$('.shell input,.shell select,.shell textarea').forEach(x=>{if(x.id&&x.type!=='file')data[x.id]=x.value});data.selectedStrengths=selectedStrengths;data.selectedPlans=selectedPlans;data.manualEdits=manualEdits;data.questions=$$('.question-row').map(r=>({n:r.querySelector('.item-num').value,range:r.querySelector('.qrange').value,result:r.querySelector('.qresult').value,score:r.querySelector('.qscore').value,type:getQuestionType(r)}));data.wrongs=$$('.wrong-row').map(r=>({n:r.querySelector('.qnum').value,c:r.querySelector('.qconcept').value,r:r.querySelector('.qreason').value,custom:r.querySelector('.qcustom').value,auto:r.dataset.auto==='1'}));return data}
 
-  function copyText(){const text=`[향상된 점]\n${$('#outStrength').textContent}\n\n[오답 분석]\n${$('#outWrong').textContent}\n\n[향후 학습 방안]\n${$('#outPlan').textContent}`;navigator.clipboard.writeText(text).then(()=>toast('피드백 문장을 복사했습니다.'))}
+  function copyText(){const text=[['향상된 점','#outStrength'],['오답 분석','#outWrong'],['향후 학습 방안','#outPlan']].filter(([,sel])=>!$(sel).closest('.feedback-block').hidden).map(([title,sel])=>`[${title}]\n${$(sel).textContent}`).join('\n\n');navigator.clipboard.writeText(text).then(()=>toast('피드백 문장을 복사했습니다.'))}
 
   function toast(t){$('#toast').textContent=t;$('#toast').classList.add('show');setTimeout(()=>$('#toast').classList.remove('show'),1800)}
   function draftTitle(data){return [data.student?.trim()||'이름 미입력',data.school?.trim(),data.grade,data.term].filter(Boolean).join(' · ')}
@@ -266,6 +268,10 @@ const strengths=['핵심 개념 이해','문제 해결력 향상','작품 분석
     const written=fmtDate($('#date').value),teacher=$('#teacher').value||'작성자',exam=$('#examDate').value?fmtDate($('#examDate').value):'-';
     for(const suffix of ['','2']){$('#outDate'+suffix).textContent=written;$('#outTeacher'+suffix).textContent=teacher;$('#outExamDate'+suffix).textContent=exam;$('#outTitle'+suffix).textContent=[$('#school').value,$('#grade').value,$('#term').value].filter(Boolean).join(' ')||'학교 · 학년 · 시험';$('#outStudent'+suffix).textContent=$('#student').value||'학생명';$('#outSubject'+suffix).textContent='국어'}
     renderQuestions();setText('#outStrength',buildStrengthText(),'향상된 점을 선택하거나 관찰한 내용을 입력해 주세요.');setText('#outWrong',buildWrongText(),'오답과 △ 문항을 확인해 주세요.');setText('#outPlan',buildPlanText(),'학습 방안을 선택하면 학부모님께 전달할 문장이 작성됩니다.');
+    // Derive visibility without deleting protected text or changing saved student data.
+    const hasWrongQuestions=$$('.question-row .qresult').some(input=>['X','△'].includes(input.value));
+    const hasWrongNotes=$$('.wrong-row').some(row=>[...row.querySelectorAll('input,select')].some(input=>input.value.trim()));
+    $('#outWrong').closest('.feedback-block').hidden=!(hasWrongQuestions||hasWrongNotes);
     $('#protectedText').textContent=Object.keys(manualEdits).length?'직접 수정한 문장 보호 중 · 선택을 바꿔도 유지됩니다. 선택으로 새 문단 작성으로 해제할 수 있습니다.':'선택에 맞춰 문장을 자동 작성합니다. 결과를 직접 고치면 그 문장을 보호합니다.';save();
   }
 
