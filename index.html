@@ -89,6 +89,12 @@ body:not(.member-ready) .shell,body:not(.member-ready) #accountBar{display:none!
 .image-capture-stage .feedback-page .feedback-block p{font-size:14px;white-space:pre-line}
 @media print{.feedback-page .feedback-block p,.feedback-page .feedback-block p:focus{font-size:10.5pt;line-height:1.85;white-space:pre-line}}
 
+
+/* Explicit bold faces plus a small shadow keep the cover bold in PNG exports too. */
+.cover-page .cover-title-card h2,.cover-page .cover-student,.cover-page .cover-exam,.cover-page .cover-ending{font-family:"Noto Sans KR","Malgun Gothic","Apple SD Gothic Neo",sans-serif;font-weight:900;text-shadow:.4px 0 currentColor,-.4px 0 currentColor,0 .4px currentColor,0 -.4px currentColor}
+.cover-page .cover-school{font-weight:900;text-shadow:.2px 0 currentColor,-.2px 0 currentColor}
+.cover-page .cover-brand-copy small,.cover-page .cover-brand-copy strong,.cover-page .cover-brand-copy em{font-weight:900}
+
 </style>
 </head>
 <body>
