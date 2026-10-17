@@ -99,7 +99,7 @@ body:not(.member-ready) .shell,body:not(.member-ready) #accountBar{display:none!
 .cover-page .cover-brand>img{display:block;width:100%;height:100%;object-fit:contain}
 
 /* Transparent logo presentation, with slightly smaller cover lettering. */
-.cover-page .cover-brand{left:27.5%;width:45%;top:5%;height:11%;background:transparent;padding:1.8cqw 0}
+.cover-page .cover-brand{left:30%;width:40%;top:5.5%;height:10%;background:transparent;padding:1.8cqw 0}
 .cover-page .cover-brand>img{mix-blend-mode:multiply}
 .cover-page .cover-student{font-size:7.2cqw}
 .cover-page .cover-exam{font-size:5.6cqw}
@@ -312,7 +312,13 @@ const strengths=['핵심 개념 이해','문제 해결력 향상','작품 분석
     const written=fmtDate($('#date').value),teacher=$('#teacher').value||'작성자',exam=$('#examDate').value?fmtDate($('#examDate').value):'-';
     for(const suffix of ['','2']){$('#outDate'+suffix).textContent=written;$('#outTeacher'+suffix).textContent=teacher;$('#outExamDate'+suffix).textContent=exam;$('#outTitle'+suffix).textContent=[$('#school').value,$('#grade').value,$('#term').value].filter(Boolean).join(' ')||'학교 · 학년 · 시험';$('#outStudent'+suffix).textContent=$('#student').value||'학생명';$('#outSubject'+suffix).textContent='국어'}
     $('#coverSchool').textContent=[$('#school').value.trim(),$('#grade').value].filter(Boolean).join(' · ')||'학교 · 학년';
-    const coverName=$('#student').value.trim()||'학생',lastCode=coverName.charCodeAt(coverName.length-1)-44032;
+    const enteredName=$('#student').value.trim(),koreanName=enteredName.replace(/\s+/g,'');
+    let coverName=enteredName||'학생';
+    if(/^[가-힣]{3,5}$/.test(koreanName)){
+      const compoundSurname=['남궁','황보','제갈','선우','독고','서문','사공','동방'].some(surname=>koreanName.startsWith(surname));
+      coverName=koreanName.slice(compoundSurname?2:1);
+    }
+    const lastCode=coverName.charCodeAt(coverName.length-1)-44032;
     $('#coverStudent').textContent=coverName+(lastCode>=0&&lastCode<=11171&&lastCode%28!==0?'이의':'의');
     $('#coverExam').textContent='국어 '+($('#term').value.includes('기말')?'기말고사':'중간고사')+' 시험지';
     renderQuestions();setText('#outStrength',buildStrengthText(),'향상된 점을 선택하거나 관찰한 내용을 입력해 주세요.');setText('#outWrong',buildWrongText(),'오답과 △ 문항을 확인해 주세요.');setText('#outPlan',buildPlanText(),'학습 방안을 선택하면 학부모님께 전달할 문장이 작성됩니다.');
