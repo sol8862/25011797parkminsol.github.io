@@ -106,6 +106,8 @@ body:not(.member-ready) .shell,body:not(.member-ready) #accountBar{display:none!
 .cover-page .cover-ending{font-size:6.7cqw}
 .cover-page .cover-school{font-size:2.3cqw}
 
+
+.auto-plan-control{display:flex;align-items:center;gap:8px;font-size:.82rem;font-weight:700;color:var(--green);margin:0 0 5px}.auto-plan-control input{width:17px;height:17px;accent-color:var(--green)}.feedback-block h3{flex-wrap:wrap}
 </style>
 </head>
 <body>
@@ -130,14 +132,14 @@ body:not(.member-ready) .shell,body:not(.member-ready) #accountBar{display:none!
       <div class="section"><h3 class="section-title"><span class="num">1</span>기본 정보</h3><div class="basic-info"><section class="basic-group writing-group"><h4>작성 정보</h4><div class="basic-fields"><div class="field"><label for="date">작성일</label><input id="date" type="date"></div><div class="field"><label for="examDate">시험일</label><input id="examDate" type="date"></div><div class="field"><label for="teacher">작성자</label><input id="teacher" placeholder="작성자명"></div></div></section><section class="basic-group school-group"><h4>학교 · 학년</h4><div class="basic-fields"><div class="field span2"><label for="school">학교</label><input id="school" placeholder="예: 신관중학교"></div><div class="field span2"><label>학교급</label><input id="schoolLevel" type="hidden" value="고등"><div id="schoolLevelToggle" class="chips"><button type="button" class="chip" data-value="중등">중등</button><button type="button" class="chip" data-value="고등">고등</button></div></div><div class="field"><label for="grade">학년</label><select id="grade" hidden><option value="">선택</option><option>1학년</option><option>2학년</option><option>3학년</option></select><div id="gradeToggle" class="chips"><button type="button" class="chip" data-value="1학년">1학년</button><button type="button" class="chip" data-value="2학년">2학년</button><button type="button" class="chip" data-value="3학년">3학년</button></div></div></div></section><section class="basic-group student-group"><h4>학생 · 시험</h4><div class="basic-fields"><div class="field"><label for="student">학생명</label><input id="student" placeholder="예: 김시윤"></div><div class="field"><label for="term">시험</label><select id="term"><option>1학기 중간고사</option><option>1학기 기말고사</option><option>2학기 중간고사</option><option>2학기 기말고사</option></select></div><div class="field"><label for="subject">과목</label><input id="subject" value="국어" readonly></div></div></section><section class="basic-group curriculum-group"><h4>교과서 · 시험 범위</h4><div class="basic-fields"><div id="semesterOptions" class="field span2"><label>학기</label><input id="semester" type="hidden" value="1학기"><div id="semesterToggle" class="chips"><button type="button" class="chip" data-value="1학기">1학기</button><button type="button" class="chip" data-value="2학기">2학기</button></div></div><input id="textbook" type="hidden" value="공통국어 1"><div class="span4"><label>출판사</label><input id="publisher" type="hidden" value="동아"><div id="publisherToggle" class="chips"><button type="button" class="chip" data-value="동아">동아</button><button type="button" class="chip" data-value="미래엔">미래엔</button><button type="button" class="chip" data-value="비상">비상</button><button type="button" class="chip" data-value="지학사">지학사</button><button type="button" class="chip" data-value="창비">창비</button><button type="button" class="chip" data-value="천재">천재</button><button type="button" class="chip" data-value="해냄">해냄</button><button type="button" class="chip" data-value="기타">기타</button></div><div id="authorOptions" hidden><label>교과서 저자</label><input id="textbookAuthor" type="hidden"><div id="authorToggle" class="chips"></div></div><div id="unitChips" class="chips unit-chips"></div><p id="unitNote" class="hint"></p></div><div class="field span4"><label for="examScope">이번 시험 범위 · 선택한 단원</label><input id="examScope" placeholder="단원을 선택하거나 직접 입력하세요"></div></div></section><section class="basic-group score-group"><h4>점수</h4><div class="basic-fields"><div class="field span2"><label for="scoreOverride">실제 점수 · 직접 수정</label><input id="scoreOverride" type="number" min="0" step="0.1" placeholder="빈칸이면 문항 점수 자동 계산"></div><div class="field span2"><label for="totalScoreOverride">총점 · 직접 수정</label><input id="totalScoreOverride" type="number" min="0" step="0.1" placeholder="빈칸이면 배점 합계 자동 계산"></div><div class="span4"><p id="calculatedScore" class="hint"></p></div></div></section><datalist id="rangeChoices"></datalist>
       </div></div>
       <div class="section"><h3 class="section-title"><span class="num">2</span>시험문제 분석</h3><div class="question-tools"><div class="field"><label for="questionCount">문항 수</label><input id="questionCount" type="number" min="1" max="50" value="20"></div><button class="primary" id="makeQuestions" type="button">문항표 만들기</button></div><div class="q-labels"><span>번호</span><span>범위</span><span>결과</span><span>배점</span><span>평가 요소·유형</span><span></span></div><div id="questionList" class="question-list"></div><button class="add" id="addQuestion" type="button">＋ 문항 추가</button><p class="hint">X를 선택한 문항은 아래 오답 분석에도 자동으로 추가됩니다.</p></div>
-      <div class="section"><h3 class="section-title"><span class="num">3</span>향상된 점</h3><p id="protectedText" class="hint protected-text"></p><div class="chips" id="strengthChips"></div><div class="field direct-field" style="margin-top:12px"><label for="strengthMemo">향상된 점 직접 입력</label><textarea id="strengthMemo" placeholder="선택지에 없는 내용을 직접 입력하세요. 예: 반어와 역설의 차이를 정확하게 이해하고 작품에 적용함"></textarea></div><p class="hint">선택지와 직접 입력을 함께 사용할 수 있습니다.</p></div>
+      <div class="section"><h3 class="section-title"><span class="num">3</span>향상된 점</h3><p id="protectedText" class="hint protected-text"></p><div class="chips" id="strengthChips"></div><div class="field direct-field" style="margin-top:12px"><label for="strengthMemo">이번 시험에서 달라진 점 · 관찰 메모</label><textarea id="strengthMemo" placeholder="예: 뉴욕제과점은 준비 초반에 자주 틀렸지만, 반복 연습 후 이번 시험에서는 관련 문항을 모두 맞혔음"></textarea></div><p class="hint">실제 관찰한 준비 과정과 성과를 적어 주세요. 향후 지도 계획은 아래 학습 방안에 입력하세요.</p></div>
       <div class="section"><h3 class="section-title"><span class="num">4</span>오답 분석</h3><div id="wrongList" class="wrong-list"></div><button class="add" id="addWrong">＋ 오답 추가</button></div>
-      <div class="section"><h3 class="section-title"><span class="num">5</span>향후 학습 방안</h3><div class="chips" id="planChips"></div><div class="field" style="margin-top:12px"><label for="nextScope">다음 시험 범위·집중 단원</label><input id="nextScope" placeholder="예: 음운 체계와 소설·향가"></div><div class="field direct-field" style="margin-top:12px"><label for="planMemo">향후 학습 방안 직접 입력</label><textarea id="planMemo" placeholder="선택지에 없는 지도 계획을 직접 입력하세요. 예: 작품의 핵심 내용을 먼저 정리한 뒤 다양한 문제에 적용하도록 지도"></textarea></div><p class="hint">선택지와 직접 입력을 함께 사용할 수 있습니다.</p></div>
+      <div class="section"><h3 class="section-title"><span class="num">5</span>향후 학습 방안</h3><label class="auto-plan-control"><input id="autoPlanFromErrors" type="checkbox" checked>오답에 맞춘 지도 계획 자동 반영</label><p id="autoPlanSummary" class="hint"></p><div class="chips" id="planChips" style="margin-top:12px"></div><div class="field" style="margin-top:12px"><label for="nextScope">다음 시험 범위·집중 단원</label><input id="nextScope" placeholder="예: 음운 체계와 소설·향가"></div><div class="field direct-field" style="margin-top:12px"><label for="planMemo">향후 학습 방안 직접 입력</label><textarea id="planMemo" placeholder="선택지에 없는 지도 계획을 직접 입력하세요. 예: 작품의 핵심 내용을 먼저 정리한 뒤 다양한 문제에 적용하도록 지도"></textarea></div><p class="hint">선택지와 직접 입력을 함께 사용할 수 있습니다.</p></div>
     </div></section>
     <aside class="preview-wrap panel"><div class="panel-head"><h2>완성된 피드백 <span class="hint">문장을 눌러 직접 수정 가능</span></h2><div class="preview-tools"><button class="ghost" id="restoreBtn">자동 문장 복원</button><button class="ghost" id="copyBtn">문장 복사</button><button class="ghost" id="imageBtn">이미지 저장</button><button class="primary" id="printBtn">인쇄</button></div></div><div class="preview"><article class="doc" id="doc">
       <section class="print-page cover-page" aria-label="학생별 시험 피드백 표지"><div class="cover-inner" aria-hidden="true"></div><div class="cover-orbit" aria-hidden="true"></div><div class="cover-frame" aria-hidden="true"></div><header class="cover-brand"><img alt="초·중·고 종합학원 KM올케어학원 KNOWLEDGE MANAGEMENT"></header><div class="cover-title-card"><div id="coverSchool" class="cover-school">학교 · 학년</div><h2><span id="coverStudent" class="cover-student">학생의</span><span id="coverExam" class="cover-exam">국어 중간고사 시험지</span><span class="cover-ending">분석 피드백입니다</span></h2></div></section>
 <section class="print-page analysis-page"><div class="watermark" aria-hidden="true"><img hidden alt=""></div><header class="report-header"><div class="report-heading"><span class="report-logo">KM올케어학원</span><h2>시험문제 분석 보고서</h2></div><div class="report-meta"><div><b>시험</b><span id="outTitle">학교 · 학년 · 시험</span></div><div><b>학생명</b><span id="outStudent">학생명</span></div><div><b>과목</b><span id="outSubject">국어</span></div><div><b>작성일</b><span id="outDate">작성일</span></div><div><b>시험일</b><span id="outExamDate">시험일</span></div><div><b>작성자</b><span id="outTeacher">작성자</span></div></div></header><div class="report-stats"><div class="stat-card"><small>총 문항</small><strong id="statTotal">20문항</strong><em>분석 대상</em></div><div class="stat-card"><small>정답 문항</small><strong id="statCorrect">-</strong><em id="statWrong">오답 -</em></div><div class="stat-card"><small>점수</small><strong id="statScore">-</strong><em id="statTotalScore">배점 입력 필요</em></div></div><div class="report-section-title">문항별 상세 분석</div><table class="analysis-table"><thead><tr><th style="width:10%">번호</th><th style="width:24%">범위</th><th style="width:11%">결과</th><th style="width:11%">배점</th><th>평가 요소·유형</th></tr></thead><tbody id="outQuestions"><tr><td colspan="5" class="analysis-empty">문항표를 작성해 주세요.</td></tr></tbody></table><footer class="page-footer"><span>KM올케어학원</span><span>학생별 시험 분석 보고서</span></footer></section>
-      <section class="print-page feedback-page"><div class="watermark" aria-hidden="true"><img hidden alt=""></div><header class="report-header"><div class="report-heading"><span class="report-logo">KM올케어학원</span><h2>시험 피드백 보고서</h2></div><div class="report-meta"><div><b>시험</b><span id="outTitle2">학교 · 학년 · 시험</span></div><div><b>학생명</b><span id="outStudent2">학생명</span></div><div><b>과목</b><span id="outSubject2">국어</span></div><div><b>작성일</b><span id="outDate2">작성일</span></div><div><b>시험일</b><span id="outExamDate2">시험일</span></div><div><b>작성자</b><span id="outTeacher2">작성자</span></div></div></header><div class="feedback-sheet"><section class="feedback-block"><h3>향상된 점<button type="button" class="report-edit-only ghost" data-polish="#outStrength">문단 다듬기</button></h3><p id="outStrength" class="placeholder" contenteditable="true" role="textbox" aria-label="향상된 점 직접 수정">향상된 점을 선택하거나 구체적인 내용을 입력해 주세요.</p></section><section class="feedback-block"><h3>오답 분석<button type="button" class="report-edit-only ghost" data-polish="#outWrong">문단 다듬기</button></h3><p id="outWrong" class="placeholder" contenteditable="true" role="textbox" aria-label="오답 분석 직접 수정">오답 번호와 원인을 입력해 주세요.</p></section><section class="feedback-block"><h3>향후 학습 방안<button type="button" class="report-edit-only ghost" data-polish="#outPlan">문단 다듬기</button></h3><p id="outPlan" class="placeholder" contenteditable="true" role="textbox" aria-label="향후 학습 방안 직접 수정">향후 학습 방안을 선택해 주세요.</p></section></div><footer class="page-footer"><span>KM올케어학원</span><span>학생별 시험 피드백 보고서</span></footer></section>
+      <section class="print-page feedback-page"><div class="watermark" aria-hidden="true"><img hidden alt=""></div><header class="report-header"><div class="report-heading"><span class="report-logo">KM올케어학원</span><h2>시험 피드백 보고서</h2></div><div class="report-meta"><div><b>시험</b><span id="outTitle2">학교 · 학년 · 시험</span></div><div><b>학생명</b><span id="outStudent2">학생명</span></div><div><b>과목</b><span id="outSubject2">국어</span></div><div><b>작성일</b><span id="outDate2">작성일</span></div><div><b>시험일</b><span id="outExamDate2">시험일</span></div><div><b>작성자</b><span id="outTeacher2">작성자</span></div></div></header><div class="feedback-sheet"><section class="feedback-block"><h3>향상된 점<button type="button" class="report-edit-only ghost" data-polish="#outStrength">문단 다듬기</button><button type="button" class="report-edit-only ghost" data-regenerate="#outStrength">새로 작성</button></h3><p id="outStrength" class="placeholder" contenteditable="true" role="textbox" aria-label="향상된 점 직접 수정">향상된 점을 선택하거나 구체적인 내용을 입력해 주세요.</p></section><section class="feedback-block"><h3>오답 분석<button type="button" class="report-edit-only ghost" data-polish="#outWrong">문단 다듬기</button><button type="button" class="report-edit-only ghost" data-regenerate="#outWrong">새로 작성</button></h3><p id="outWrong" class="placeholder" contenteditable="true" role="textbox" aria-label="오답 분석 직접 수정">오답 번호와 원인을 입력해 주세요.</p></section><section class="feedback-block"><h3>향후 학습 방안<button type="button" class="report-edit-only ghost" data-polish="#outPlan">문단 다듬기</button><button type="button" class="report-edit-only ghost" data-regenerate="#outPlan">새로 작성</button></h3><p id="outPlan" class="placeholder" contenteditable="true" role="textbox" aria-label="향후 학습 방안 직접 수정">향후 학습 방안을 선택해 주세요.</p></section></div><footer class="page-footer"><span>KM올케어학원</span><span>학생별 시험 피드백 보고서</span></footer></section>
     </article></div></aside>
   </div>
 </main>
@@ -154,24 +156,6 @@ body:not(.member-ready) .shell,body:not(.member-ready) #accountBar{display:none!
 window.bootEditor = function(){
 const strengths=['핵심 개념 이해','문제 해결력 향상','작품 분석 능력 향상','읽기 과정·전략 향상','서술형 답안 작성 향상','실수 감소','시간 관리 향상','적극적인 학습 태도'];
   const plans=['핵심 개념 반복 학습','다양한 문제에 적용','발문 꼼꼼히 읽기','본문·선지 끝까지 확인','시간 안배와 검토','문학 작품 분석','문법 개념 적용','서술형 조건 확인'];
-  const strengthPhrase={
-    '핵심 개념 이해':'핵심 개념을 정확하게 이해하고 문제에 적용하는 힘',
-    '문제 해결력 향상':'다양한 유형의 문제를 안정적으로 해결하는 능력',
-    '작품 분석 능력 향상':'작품의 내용과 표현을 근거로 의미를 종합적으로 파악하는 능력',
-    '읽기 과정·전략 향상':'글의 핵심 내용을 파악하고 적절한 읽기 전략을 활용하는 능력',
-    '서술형 답안 작성 향상':'문제의 조건을 반영하여 서술형 답안을 구성하는 힘',
-    '실수 감소':'중요한 부분을 확인하고 답을 다시 검토하는 습관',
-    '시간 관리 향상':'제한된 시간 안에 문제를 해결하고 검토하는 능력',
-    '적극적인 학습 태도':'배운 내용을 스스로 점검하고 부족한 부분을 보완하려는 태도'};
-  const planSent={
-    '핵심 개념 반복 학습':'핵심 개념과 주요 특징을 체계적으로 정리하고 반복하여 학습하겠습니다.',
-    '다양한 문제에 적용':'학습한 내용을 다양한 자료와 문제에 적용하는 연습을 진행하겠습니다.',
-    '발문 꼼꼼히 읽기':'문제의 발문을 꼼꼼히 읽고 무엇을 묻고 있는지 정확하게 파악하도록 지도하겠습니다.',
-    '본문·선지 끝까지 확인':'본문과 선지의 내용을 끝까지 확인한 후 답을 판단하는 습관을 기르도록 하겠습니다.',
-    '시간 안배와 검토':'제한 시간 안에 문제를 풀고 중요한 부분을 다시 검토하는 연습을 진행하겠습니다.',
-    '문학 작품 분석':'작품의 내용뿐 아니라 인물의 심리, 표현의 의미와 주제까지 종합적으로 분석하도록 지도하겠습니다.',
-    '문법 개념 적용':'문법 개념을 정확하게 이해하고 실제 문장과 문제에 적용하는 연습을 강화하겠습니다.',
-    '서술형 조건 확인':'서술 조건과 답안에 포함해야 할 핵심 내용을 먼저 확인한 후 답을 작성하도록 지도하겠습니다.'};
   const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
   const DRAFTS_KEY='kmFeedbackDraftsV1',CURRENT_KEY='kmFeedbackCurrentDraftId:'+window.kmCloud.userId,TAB_TOKEN=`tab_${Date.now()}_${Math.random().toString(36).slice(2,8)}`;
   let selectedStrengths=[],selectedPlans=[],manualEdits={},isRestoring=false,currentDraftId=localStorage.getItem(CURRENT_KEY)||sessionStorage.getItem('kmFeedbackCurrentDraftId')||'',draftChannel=null;
@@ -195,7 +179,7 @@ const strengths=['핵심 개념 이해','문제 해결력 향상','작품 분석
 
   function circled(n){return ['①','②','③','④','⑤','⑥','⑦','⑧'][n-1]||`${n}.`}
   function setText(sel,text,ph){const el=$(sel),manual=Object.prototype.hasOwnProperty.call(manualEdits,sel);el.textContent=manual?manualEdits[sel]:(text||ph);el.classList.toggle('placeholder',!manual&&!text)}
-  function collectData(){const data={schemaVersion:5,savedAt:Date.now(),selectedUnits:[...selectedUnits],logoData:''};$$('.shell input,.shell select,.shell textarea').forEach(x=>{if(x.id&&x.type!=='file')data[x.id]=x.value});data.selectedStrengths=selectedStrengths;data.selectedPlans=selectedPlans;data.manualEdits=manualEdits;data.questions=$$('.question-row').map(r=>({n:r.querySelector('.item-num').value,range:r.querySelector('.qrange').value,result:r.querySelector('.qresult').value,score:r.querySelector('.qscore').value,type:getQuestionType(r)}));data.wrongs=$$('.wrong-row').map(r=>({n:r.querySelector('.qnum').value,c:r.querySelector('.qconcept').value,r:r.querySelector('.qreason').value,custom:r.querySelector('.qcustom').value,auto:r.dataset.auto==='1'}));return data}
+  function collectData(){const data={schemaVersion:5,savedAt:Date.now(),selectedUnits:[...selectedUnits],autoPlanFromErrors:$('#autoPlanFromErrors').checked,logoData:''};$$('.shell input,.shell select,.shell textarea').forEach(x=>{if(x.id&&x.type!=='file'&&x.type!=='checkbox')data[x.id]=x.value});data.selectedStrengths=selectedStrengths;data.selectedPlans=selectedPlans;data.manualEdits=manualEdits;data.questions=$$('.question-row').map(r=>({n:r.querySelector('.item-num').value,range:r.querySelector('.qrange').value,result:r.querySelector('.qresult').value,score:r.querySelector('.qscore').value,type:getQuestionType(r)}));data.wrongs=$$('.wrong-row').map(r=>({n:r.querySelector('.qnum').value,c:r.querySelector('.qconcept').value,r:r.querySelector('.qreason').value,custom:r.querySelector('.qcustom').value,auto:r.dataset.auto==='1'}));return data}
 
   function copyText(){const text=[['향상된 점','#outStrength'],['오답 분석','#outWrong'],['향후 학습 방안','#outPlan']].filter(([,sel])=>!$(sel).closest('.feedback-block').hidden).map(([title,sel])=>`[${title}]\n${$(sel).textContent}`).join('\n\n');navigator.clipboard.writeText(text).then(()=>toast('피드백 문장을 복사했습니다.'))}
 
@@ -220,6 +204,7 @@ const strengths=['핵심 개념 이해','문제 해결력 향상','작품 분석
     $('#questionList').replaceChildren();$('#wrongList').replaceChildren();
     (Array.isArray(data.questions)?data.questions:Array.from({length:20},(_,i)=>({n:String(i+1)}))).map(row=>({...row,result:row.result==null||row.result===''?'O':row.result,score:row.score==null||row.score===''||((data.schemaVersion||0)<5&&Number(row.score)===3)?'3.5':row.score})).forEach(addQuestion);
     (data.wrongs||[]).forEach(addWrong);$('#questionCount').value=$$('.question-row').length;
+    $('#autoPlanFromErrors').checked=data.autoPlanFromErrors!==false;
     selectedUnits=[...(data.selectedUnits||[])];refreshCurriculum();applyLogo(data.logoData||getLogo());
     isRestoring=false;update();renderDraftList();renderEditor();
   }
@@ -284,29 +269,98 @@ const strengths=['핵심 개념 이해','문제 해결력 향상','작품 분석
     return String(value||'').replace(/\r\n?/g,'\n').replace(/[\u00a0\u2000-\u200a\u202f\u3000]/g,' ').replace(/[\u200b\ufeff]/g,'')
       .split('\n').map(line=>line.replace(/[ \t]+/g,' ').trim().replace(/([가-힣A-Za-z])[ ]+([.,!?;:])/g,'$1$2').replace(/([가-힣A-Za-z])\.{2}(?!\.)/g,'$1.').replace(/([가-힣])([.!?])(?=[가-힣])/g,'$1$2 ')).join('\n').replace(/\n{3,}/g,'\n\n').trim();
   }
-  function polishMemo(value){let text=value.trim().replace(/[.!。]+$/,'');if(!text)return '';text=text.replace(/했음$/,'했습니다').replace(/함$/,'했습니다').replace(/보임$/,'보였습니다').replace(/좋음$/,'좋았습니다');return text+'.'}
+  function memoParagraph(value,kind){
+    const normalized=formatFeedbackText(value);if(!normalized)return '';
+    return normalized.split('\n').map(line=>line.split(/(?<=[.!?])\s+/).map(part=>{
+      let text=part.trim();if(!text)return '';if(/[.!?]$/.test(text)&&!/(함|음|보임)[.!?]$/.test(text))return text;
+      text=text.replace(/[.!?]+$/,'').replace(/좋음$/,'좋았습니다').replace(/보임$/,'보였습니다').replace(/다 맞음$/,'모두 맞혔습니다').replace(/함$/,'했습니다').replace(/음$/,'습니다').replace(/았다$/,'았습니다').replace(/었다$/,'었습니다').replace(/였다$/,'였습니다');
+      if(/(습니다|입니다|했습니다|됩니다|겠습니다|해요|했어요|있어요|없어요)$/.test(text))return text+'.';
+      if(kind==='plan'&&/(지도|연습|복습|확인|점검|보완|학습)$/.test(text))return text+'하겠습니다.';
+      return (kind==='strength'?'관찰한 변화는':'추가로 살펴볼 내용은')+' 「'+text+'」입니다.';
+    }).join(' ')).join('\n');
+  }
+  function feedbackParagraphs(sentences){const items=sentences.filter(Boolean),size=items.length>=6?3:2,paragraphs=[];for(let i=0;i<items.length;i+=size)paragraphs.push(items.slice(i,i+size).join(' '));return paragraphs.join('\n\n')}
+  function feedbackEvidence(){
+    const entries=$$('.wrong-row').map(row=>({n:row.querySelector('.qnum').value.trim(),concept:row.querySelector('.qconcept').value.trim(),reason:row.querySelector('.qreason').value==='__custom__'?row.querySelector('.qcustom').value.trim():row.querySelector('.qreason').value})).filter(item=>item.n||item.concept||item.reason);
+    const partial=[];for(const row of $$('.question-row')){const n=row.querySelector('.item-num').value.trim(),result=row.querySelector('.qresult').value,concept=getQuestionType(row);if(result==='X'&&!entries.some(item=>item.n===n))entries.push({n,concept,reason:''});if(result==='△')partial.push(n)}
+    return {entries,partial};
+  }
+  function questionLabels(numbers){const names=numbers.filter(Boolean).map(n=>/^서답형\s*\d+$/.test(n)?n.replace(/^서답형\s*/,'서답형 '):n);if(!names.length)return '';if(names.every(n=>/^\d+$/.test(n)))return names.join('·')+'번';return names.map(n=>n+'번').join(', ')}
   function buildStrengthText(){
-    const name=$('#student').value.trim()||'학생',phrases=selectedStrengths.map(x=>strengthPhrase[x]).filter(Boolean),memo=$('#strengthMemo').value.trim();if(!phrases.length&&!memo)return '';
-    const opening=phrases.length?`${name} 학생은 이번 학습에서 ${joinNatural(phrases)}을 중심으로 긍정적인 변화를 보여 주었습니다.`:`${name} 학생의 학습 과정에서 눈여겨본 모습과 앞으로의 지도 방향을 함께 전해 드립니다.`;
-    const detail=memo?polishMemo(memo):'이러한 강점이 꾸준한 학습 습관으로 이어질 수 있도록, 학생이 잘해 낸 과정과 스스로 이해한 부분을 함께 짚어 보겠습니다.';
-    const focus=selectedStrengths.includes('서술형 답안 작성 향상')?'특히 서술형에서는 생각의 근거를 분명히 밝히고, 문제에서 요구하는 내용을 빠짐없이 표현하는 연습을 이어 가겠습니다.':selectedStrengths.includes('시간 관리 향상')||selectedStrengths.includes('실수 감소')?'문제를 푸는 속도뿐 아니라 조건을 읽고 답을 점검하는 순서까지 살피며, 안정적으로 실력을 발휘할 수 있도록 돕겠습니다.':'배운 내용을 자신의 말로 설명하고 새로운 문제에 연결해 보는 연습을 통해, 이해가 더 단단해지도록 돕겠습니다.';
-    return [opening+' '+detail+' '+focus,'좋았던 학습 방법은 다음 수업에서도 이어 가되, 아직 익숙하지 않은 부분은 학생의 속도에 맞춰 차근차근 보완하겠습니다. 가정에서도 점수만 확인하기보다 어떤 과정에서 노력했고 무엇을 새롭게 이해했는지 함께 이야기해 주시면 좋겠습니다. 작은 성취를 구체적으로 격려해 주시는 말이 학생의 자신감으로 이어질 수 있도록, 수업에서도 성장 과정을 세심하게 살피겠습니다.'].join('\n\n');
+    const name=$('#student').value.trim()||'학생',memo=memoParagraph($('#strengthMemo').value,'strength'),has=key=>selectedStrengths.includes(key),sentences=[];
+    if(!selectedStrengths.length&&!memo)return '';
+    if(has('핵심 개념 이해')&&has('읽기 과정·전략 향상'))sentences.push('핵심 개념과 글의 중심 내용을 정확히 이해하고, 문제에서 필요한 정보를 찾아 활용하는 힘이 성장했습니다.');
+    else{if(has('핵심 개념 이해'))sentences.push('배운 핵심 개념을 정확하게 이해하고 문제에 연결하여 활용하는 힘이 성장했습니다.');if(has('읽기 과정·전략 향상'))sentences.push('글의 흐름과 핵심 내용을 파악하고, 필요한 정보를 찾아 읽는 능력이 향상되었습니다.')}
+    if(has('작품 분석 능력 향상'))sentences.push('작품의 내용과 표현을 근거로 인물의 상황과 작품의 의미를 깊이 있게 이해하는 모습을 보여 주었습니다.');
+    if(has('문제 해결력 향상')&&has('실수 감소'))sentences.push('다양한 유형의 문제를 안정적으로 해결하고, 중요한 조건과 자신의 답을 다시 확인하며 실수를 줄이는 모습을 보여 주었습니다.');
+    else{if(has('문제 해결력 향상'))sentences.push('다양한 유형의 문제에서 배운 내용을 활용하며 안정적으로 풀이하는 모습을 보여 주었습니다.');if(has('실수 감소'))sentences.push('문제의 조건과 자신의 답을 꼼꼼하게 확인하며 작은 실수를 줄이는 습관이 향상되었습니다.')}
+    if(has('서술형 답안 작성 향상'))sentences.push('서술형에서는 문제의 조건을 살피고, 답안에 필요한 핵심 내용과 근거를 정리하여 표현하는 힘이 향상되었습니다.');
+    if(has('시간 관리 향상'))sentences.push('정해진 시간 안에 문제를 해결할 수 있도록 풀이 시간을 조절하는 능력이 향상되었습니다.');
+    if(has('적극적인 학습 태도'))sentences.push('배운 내용을 스스로 점검하고 어려운 부분도 성실하게 익히려는 태도가 돋보였습니다.');
+    const opening=`${name} 학생은 이번 시험을 준비하는 과정에서 배운 내용을 자신의 실력으로 쌓아 가는 모습을 보여 주었습니다.`;
+    // The teacher's observation leads; no future plans or invented scores are added here.
+    return memo?[opening+' '+memo,feedbackParagraphs(sentences)].filter(Boolean).join('\n\n'):feedbackParagraphs([opening,...sentences]);
   }
   function buildWrongText(){
-    const groups=new Map(),unexplained=[];for(const row of $$('.wrong-row')){const n=row.querySelector('.qnum').value.trim(),concept=row.querySelector('.qconcept').value.trim(),selected=row.querySelector('.qreason').value,reason=selected==='__custom__'?row.querySelector('.qcustom').value.trim():selected;if(!n&&!concept&&!reason)continue;const label=(n?n+'번':'해당 문항')+(concept?'('+concept+')':'');if(!reason)unexplained.push(label);else{if(!groups.has(reason))groups.set(reason,[]);groups.get(reason).push(label)}}
-    const descriptions=[];for(const [reason,labels] of groups)descriptions.push(`${labels.join(', ')}에서는 ${reason} 풀이와 정답의 근거를 다시 확인할 필요가 있었습니다.`);
-    if(unexplained.length)descriptions.push(`${unexplained.join(', ')}은 아직 오답 원인을 단정하기보다, 학생이 생각한 풀이 순서를 들어 보며 함께 점검하겠습니다.`);
-    const partial=$$('.question-row').filter(row=>row.querySelector('.qresult').value==='△').map(row=>row.querySelector('.item-num').value);if(partial.length)descriptions.push(`△로 표시한 ${partial.join(', ')}번은 채점 기준과 풀이를 살펴, 이해한 부분과 추가 연습이 필요한 부분을 구분하겠습니다.`);if(!descriptions.length)return '';
-    const attention=[...groups.keys()].some(reason=>/조건|요구|발문|끝까지|실수/.test(reason));
-    const next=attention?'이때 발문의 조건을 먼저 표시하고, 선택지의 근거를 찾은 뒤 답을 점검하는 순서를 반복해 보겠습니다.':'이때 필요한 개념을 짧게 복습하고, 비슷한 문제에서 그 개념이 어떻게 쓰이는지 비교하는 연습을 이어 가겠습니다.';
-    return ['이번 오답은 점수의 아쉬움에만 머무르기보다, 다음 학습의 방향을 찾는 자료로 살펴보았습니다. '+descriptions.join(' ')+' 한 번의 실수로 학생의 이해 수준을 단정하지 않고, 실제로 어디에서 생각이 달라졌는지 확인하겠습니다.','수업에서는 학생이 자신의 풀이를 설명한 뒤 정답의 근거와 비교하고, 다시 해결하는 과정까지 연결하겠습니다. '+next+' 가정에서도 틀린 개수보다 다시 생각하고 고친 과정을 격려해 주시면, 학생이 부담을 줄이고 보완 학습에 참여하는 데 도움이 됩니다.'].join('\n\n');
+    const {entries,partial}=feedbackEvidence(),groups=new Map();
+    for(const item of entries){const key=JSON.stringify([item.concept,item.reason]);if(!groups.has(key))groups.set(key,{concept:item.concept,reason:item.reason,numbers:[]});groups.get(key).numbers.push(item.n)}
+    const causes={
+      '개념을 정확하게 구분하지 못해':'배운 개념 사이의 차이를 정확하게 구분하는 데 어려움이 있었습니다.',
+      '문제의 요구 사항을 정확히 파악하지 못해':'발문이 요구하는 조건을 정확하게 파악하지 못한 점이 오답으로 이어졌습니다.',
+      '본문의 내용을 끝까지 확인하지 않아':'본문의 내용을 끝까지 확인하지 않아 답을 판단하는 데 필요한 근거를 놓쳤습니다.',
+      '학습한 개념을 문제에 적용하지 못해':'학습한 개념을 주어진 문제나 사례에 연결하는 데 어려움이 있었습니다.',
+      '선지의 표현을 세밀하게 비교하지 못해':'선택지의 표현과 차이를 세밀하게 비교하지 못한 점이 오답으로 이어졌습니다.',
+      '시간 부족으로 충분히 검토하지 못해':'답의 근거를 다시 확인하고 검토할 시간이 부족했던 점이 아쉬웠습니다.',
+      '단순 실수로 답을 잘못 표시해':'답을 표시하는 과정에서 실수가 있었습니다.'};
+    const sentences=[];
+    for(const group of groups.values()){
+      const subject=[questionLabels(group.numbers),group.concept].filter(Boolean).join(' '),label=subject?subject+' 문항':'해당 문항';
+      if(!group.reason){sentences.push(`${label}은 아직 오답 원인이 입력되지 않아, 개념 이해와 풀이 과정 중 어느 부분에서 어려움이 있었는지 확인이 필요합니다.`);continue}
+      let cause=causes[group.reason];
+      if(!cause){const text=formatFeedbackText(group.reason).replace(/[.!?]+$/,'');if(/못해$/.test(text))cause=text.replace(/못해$/,'못한 점이 오답으로 이어졌습니다.');else if(/않아$/.test(text))cause=text.replace(/않아$/,'않은 점이 오답으로 이어졌습니다.');else if(/부족해$/.test(text))cause=text.replace(/부족해$/,'부족했던 점이 아쉬웠습니다.');else cause=`기록된 오답 원인은 「${text}」입니다.`}
+      sentences.push(`${label}에서는 ${cause}`);
+    }
+    if(partial.length)sentences.push(`${questionLabels(partial)}은 부분 정답으로 표시되어 있습니다. 채점 기준과 실제 답안을 대조해 인정된 내용과 보완이 필요한 내용을 구분할 필요가 있습니다.`);
+    return feedbackParagraphs(sentences);
+  }
+  function planSuggestions(){
+    const {entries,partial}=feedbackEvidence(),codes=new Set(),unknown=entries.some(item=>!item.reason);
+    for(const {concept,reason} of entries){
+      const vocabulary=/어휘|낱말|단어|뜻/.test(reason+' '+concept);if(vocabulary)codes.add('vocabulary');
+      if(/개념.*구분|개념.*정확/.test(reason))codes.add('core');
+      if(/적용|사례|연결/.test(reason+' '+concept))codes.add(/문법/.test(concept)?'grammar':'apply');
+      if(/요구|발문|조건/.test(reason))codes.add('read');
+      if(/본문|끝까지|선지|선택지|비교/.test(reason))codes.add('check');
+      if(/시간/.test(reason))codes.add('time');
+      if(/실수.*표시|답.*표시/.test(reason))codes.add('mark');
+      if(/문법/.test(concept))codes.add('grammar');
+      if(/작품|인물|화자|서술자|문학/.test(concept)&&!vocabulary)codes.add('literature');
+      if(/논증/.test(concept))codes.add('argument');
+      if(/서술형|서답형/.test(concept+' '+reason))codes.add('written');
+    }
+    if(partial.length)codes.add('written');return {codes,unknown,hasEvidence:entries.length>0||partial.length>0};
   }
   function buildPlanText(){
-    const name=$('#student').value.trim()||'학생',scope=$('#nextScope').value.trim(),memo=$('#planMemo').value.trim();if(!selectedPlans.length&&!scope&&!memo)return '';
-    const strategies=selectedPlans.map(item=>planSent[item]).filter(Boolean).map(text=>text.replace(/하겠습니다\.$/,'하는 데 중점을 두겠습니다.'));
-    const opening=`앞으로 ${name} 학생이 배운 내용을 자신 있게 활용할 수 있도록, 현재 이해한 부분을 바탕으로 보완이 필요한 내용을 차근차근 연결하겠습니다.`;
-    const detail=scope?`집중해서 살펴볼 범위는 ${scope}이며, 핵심 개념을 정리한 뒤 문제의 근거와 연결해 보겠습니다.`:'새로운 내용을 많이 늘리기보다, 이미 배운 핵심을 정확하게 설명하고 적용할 수 있는지 먼저 확인하겠습니다.';
-    return [opening+' '+detail+' '+strategies.join(' ')+(memo?' '+polishMemo(memo):''),'짧은 복습과 확인 문제를 꾸준히 이어 가면서, 어려운 부분은 예시와 설명을 바꾸어 다시 안내하겠습니다. 이후에는 학생이 스스로 풀이 순서를 정리하고 점검하도록 도와, 수업에서의 이해가 실제 문제 해결로 이어지게 하겠습니다. 가정에서는 무리하게 과제를 늘리기보다 오늘 배운 핵심을 한두 가지 설명해 보는 시간을 마련해 주시면 좋겠습니다. 학생의 작은 성취와 변화에 맞춰 지도 방향을 조정하며, 학부모님께도 그 과정을 꾸준히 전해 드리겠습니다.'].join('\n\n');
+    const scope=formatFeedbackText($('#nextScope').value),memo=memoParagraph($('#planMemo').value,'plan'),auto=planSuggestions(),enabled=$('#autoPlanFromErrors').checked;
+    const chosen={'핵심 개념 반복 학습':'core','다양한 문제에 적용':'apply','발문 꼼꼼히 읽기':'read','본문·선지 끝까지 확인':'check','시간 안배와 검토':'time','문학 작품 분석':'literature','문법 개념 적용':'grammar','서술형 조건 확인':'written'};
+    const labels={core:'핵심 개념 복습',apply:'개념·사례 연결',read:'발문 조건 확인',check:'본문·선택지 비교',time:'시간 안배·검토',literature:'작품 근거 분석',grammar:'문법 개념 적용',written:'서술형 채점 조건',vocabulary:'어휘 의미 확인',argument:'논증 근거 비교',mark:'답안 표시 점검'};
+    $('#autoPlanSummary').textContent=!enabled?'선택한 계획과 직접 입력한 내용으로 작성합니다.':auto.codes.size?'오답에서 연결한 지도 계획: '+[...auto.codes].map(code=>labels[code]).join(' · '):auto.unknown?'오답 원인을 입력하면 그에 맞는 지도 계획이 연결됩니다.':'오답 원인이나 △ 문항을 입력하면 지도 계획에 자동으로 반영됩니다.';
+    const codes=new Set(selectedPlans.map(item=>chosen[item]).filter(Boolean));if(enabled)for(const code of auto.codes)codes.add(code);
+    const sentences=[];if(scope)sentences.push(`다음 학습에서는 ${scope} 범위를 중심으로, 배운 내용을 정확히 이해하고 문제에 활용할 수 있는지 살펴보겠습니다.`);
+    if(enabled&&auto.unknown)sentences.push('원인이 아직 확인되지 않은 오답은 학생의 풀이를 먼저 들어 보고, 개념 이해와 문제 해석 중 보완이 필요한 부분을 구분하겠습니다.');
+    if(codes.has('core')&&codes.has('grammar'))sentences.push('문법의 핵심 개념과 구분 기준을 자신의 말로 설명한 뒤, 실제 문장에서 해당 개념이 쓰인 근거를 찾는 연습을 하겠습니다.');
+    else{if(codes.has('core'))sentences.push('헷갈리는 핵심 개념과 구분 기준을 짧게 복습하고, 학생이 자신의 말로 차이를 설명할 수 있는지 확인하겠습니다.');if(codes.has('grammar'))sentences.push('문법 개념을 실제 문장에 적용하며, 어떤 기준으로 판단했는지 근거를 짚어 설명하도록 지도하겠습니다.')}
+    if(codes.has('apply')&&!codes.has('grammar'))sentences.push('배운 개념을 다양한 자료와 사례에 연결하고, 비슷해 보이는 문제에서도 적용 기준이 어떻게 달라지는지 비교하겠습니다.');
+    else if(codes.has('apply'))sentences.push('자료와 사례의 조건을 먼저 정리한 뒤, 배운 개념을 적용할 수 있는 근거를 찾아 풀이하도록 돕겠습니다.');
+    if(codes.has('vocabulary'))sentences.push('낯선 어휘는 문맥 속에서 뜻을 확인하고, 비슷한 단어와 바꾸어 읽으며 선택지가 전달하는 의미를 정확히 이해하도록 돕겠습니다.');
+    if(codes.has('literature'))sentences.push('작품 속 인물의 심리와 상황, 표현의 의미와 주제를 연결해 살펴보고, 해석을 뒷받침하는 근거를 본문에서 직접 찾도록 지도하겠습니다.');
+    if(codes.has('argument'))sentences.push('글의 주장과 근거를 구분하고, 각 선택지가 어떤 논증 방식에 해당하는지 근거를 대조하며 판단하는 연습을 하겠습니다.');
+    if(codes.has('read')&&codes.has('check'))sentences.push('발문에서 요구하는 조건을 먼저 표시하고, 본문과 선택지의 근거를 끝까지 대조한 뒤 답을 판단하는 순서를 익히겠습니다.');
+    else{if(codes.has('read'))sentences.push('발문에서 무엇을 묻는지 먼저 정리하고, 반드시 확인해야 할 조건을 표시한 뒤 풀이를 시작하도록 지도하겠습니다.');if(codes.has('check'))sentences.push('본문의 근거와 선택지의 표현을 하나씩 대조하고, 비슷한 선택지 사이에서 의미가 달라지는 부분을 확인하는 연습을 하겠습니다.')}
+    if(codes.has('written'))sentences.push('서술형은 문제의 조건과 채점 기준을 먼저 살피고, 답안에 필요한 핵심 내용과 근거를 정리한 뒤 빠뜨린 부분이 없는지 점검하겠습니다.');
+    if(codes.has('time'))sentences.push('제한 시간에 맞춰 문항별 풀이 순서를 조절하고, 어려운 문항을 다시 살필 시간을 확보하는 연습을 이어 가겠습니다.');
+    if(codes.has('mark'))sentences.push('문제를 해결한 뒤 선택한 답과 실제 표시한 답이 일치하는지 확인하는 점검 습관을 기르겠습니다.');
+    if(memo)sentences.push(memo);return feedbackParagraphs(sentences);
   }
   function update(){
     const written=fmtDate($('#date').value),teacher=$('#teacher').value||'작성자',exam=$('#examDate').value?fmtDate($('#examDate').value):'-';
@@ -326,7 +380,7 @@ const strengths=['핵심 개념 이해','문제 해결력 향상','작품 분석
     const hasWrongQuestions=$$('.question-row .qresult').some(input=>['X','△'].includes(input.value));
     const hasWrongNotes=$$('.wrong-row').some(row=>[...row.querySelectorAll('input,select')].some(input=>input.value.trim()));
     $('#outWrong').closest('.feedback-block').hidden=!(hasWrongQuestions||hasWrongNotes);
-    $('#protectedText').textContent=Object.keys(manualEdits).length?'직접 수정한 문장 보호 중 · 선택을 바꿔도 유지됩니다. 선택으로 새 문단 작성으로 해제할 수 있습니다.':'선택에 맞춰 문장을 자동 작성합니다. 결과를 직접 고치면 그 문장을 보호합니다.';save();
+    $('#protectedText').textContent=Object.keys(manualEdits).length?'직접 수정한 문장 보호 중 · 바꾸려는 항목의 ‘새로 작성’을 누르면 현재 입력으로 다시 작성합니다.':'선택에 맞춰 문장을 자동 작성합니다. 결과를 직접 고치면 그 문장을 보호합니다.';save();
   }
 
   let selectedUnits=[];
@@ -695,6 +749,11 @@ const strengths=['핵심 개념 이해','문제 해결력 향상','작품 분석
       manualEdits[key]=formatFeedbackText(el.innerText);update();toast('내용은 유지하고 글 간격을 정리했습니다.');
     };
   });
+  $$('[data-regenerate]').forEach(button=>button.onclick=()=>{
+    const key=button.dataset.regenerate;
+    if(Object.prototype.hasOwnProperty.call(manualEdits,key)&&!confirm('이 항목의 직접 수정한 문장을 현재 메모·선택·오답에 맞춰 새로 작성할까요?'))return;
+    delete manualEdits[key];update();toast('이 항목만 현재 내용으로 새로 작성했습니다.');
+  });
   $('#makeQuestions').onclick=makeQuestionRows;$('#addQuestion').onclick=()=>{addQuestion();$('#questionCount').value=$$('.question-row').length;update()};$('#addWrong').onclick=()=>addWrong();$('#copyBtn').onclick=()=>copyText();
   const imageSaveDialog=$('#imageSaveDialog');$('#imageBtn').onclick=$('#imageTop').onclick=()=>imageSaveDialog.showModal();$('#imageSaveClose').onclick=()=>imageSaveDialog.close();imageSaveDialog.addEventListener('click',e=>{if(e.target===imageSaveDialog)imageSaveDialog.close()});
   $$('[data-image-mode]').forEach(b=>b.onclick=()=>{imageSaveDialog.close();saveImage(b.dataset.imageMode)});$('#folderImageButton').hidden=!window.showDirectoryPicker;
@@ -713,7 +772,7 @@ const strengths=['핵심 개념 이해','문제 해결력 향상','작품 분석
   const historyState={token:0,cursor:null};
   function changeDescriptions(row){
     if(row.action==='INSERT')return ['학생 작성본을 새로 저장했습니다.'];if(row.action==='DELETE')return ['학생 작성본을 삭제했습니다.'];
-    const old=row.old_data||{},next=row.new_data||{},names={student:'학생명',school:'학교',schoolLevel:'학교급',grade:'학년',semester:'학기',term:'시험',examDate:'시험일',date:'작성일',teacher:'보고서 작성자',scoreOverride:'실제 점수',totalScoreOverride:'총점',examScope:'시험 범위',publisher:'출판사',textbook:'교과서 옵션',textbookAuthor:'교과서 저자',strengthMemo:'향상된 점 메모',planMemo:'학습 방안 메모',nextScope:'다음 학습 범위',questions:'문항 분석',wrongs:'오답 분석',selectedStrengths:'향상된 점 선택',selectedPlans:'학습 방안 선택',manualEdits:'직접 수정한 피드백',selectedUnits:'선택 단원',questionCount:'문항 수',logoData:'로고'};
+    const old=row.old_data||{},next=row.new_data||{},names={student:'학생명',school:'학교',schoolLevel:'학교급',autoPlanFromErrors:'오답 기반 학습 방안 자동 반영',grade:'학년',semester:'학기',term:'시험',examDate:'시험일',date:'작성일',teacher:'보고서 작성자',scoreOverride:'실제 점수',totalScoreOverride:'총점',examScope:'시험 범위',publisher:'출판사',textbook:'교과서 옵션',textbookAuthor:'교과서 저자',strengthMemo:'향상된 점 메모',planMemo:'학습 방안 메모',nextScope:'다음 학습 범위',questions:'문항 분석',wrongs:'오답 분석',selectedStrengths:'향상된 점 선택',selectedPlans:'학습 방안 선택',manualEdits:'직접 수정한 피드백',selectedUnits:'선택 단원',questionCount:'문항 수',logoData:'로고'};
     const descriptions=[];const plain=value=>value===undefined||value===null||value===''?'(없음)':typeof value==='string'?value:Array.isArray(value)?JSON.stringify(value):JSON.stringify(value);
     for(const key of new Set([...Object.keys(old),...Object.keys(next)])){
       if(['savedAt','schemaVersion'].includes(key)||JSON.stringify(old[key])===JSON.stringify(next[key]))continue;
