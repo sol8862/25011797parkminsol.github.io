@@ -1109,6 +1109,50 @@ const strengths=['핵심 개념 이해','문제 해결력 향상','작품 분석
           "4-(1) 추론하며 읽기",
           "4-(2) 주장하는 글 쓰기"
         ]
+      },
+      "비상:박영민": {
+        "1학기": [
+          "1-(1) 깊이 감상하고 넓게 표현하기",
+          "1-(2) 상호 작용적 매체를 분석하기",
+          "2-(1) 글 속에 숨은 생각 찾기",
+          "2-(2) 실마리를 따라가며 듣기",
+          "3-(1) 단어가 만들어지는 원리",
+          "3-(2) 우리 주변의 다양한 어휘",
+          "4-(1) 문학으로 성장하는 우리",
+          "4-(2) 진솔하게 그린 나의 마음"
+        ],
+        "2학기": [
+          "1-(1) 요약하며 읽기",
+          "1-(2) 정보를 전달하는 글 쓰기",
+          "2-(1) 품사의 종류와 특성",
+          "2-(2) 대중 매체와 개인 인터넷 방송의 비교",
+          "3-(1) 동백꽃(김유정)",
+          "3-(2) 존중하고 배려하고",
+          "4-(1) 토의로 문제 해결하기",
+          "4-(2) 주장하는 글 쓰기"
+        ]
+      },
+      "비상:박현수": {
+        "1학기": [
+          "1-(1) 운율, 비유, 상징의 즐거움",
+          "1-(2) 추론하며 듣기",
+          "2-(1) 요약하며 읽기",
+          "2-(2) 정보를 전달하는 글 쓰기",
+          "3-(1) 품사로 빚어낸 세상",
+          "3-(2) 상호 작용적 매체와 소통",
+          "4-(1) 하늘은 맑건만(현덕)",
+          "4-(2) 토의하기"
+        ],
+        "2학기": [
+          "1-(1) 문학과 성장",
+          "1-(2) 탑차를 끄는 사계절의 산타(김지원)",
+          "2-(1) 단어의 짜임과 새말",
+          "2-(2) 어휘의 양상과 쓰임",
+          "3-(1) 추론하며 읽기",
+          "3-(2) 주장하는 글 쓰기",
+          "4-(1) 매체와 생활",
+          "4-(2) 존중하는 언어생활"
+        ]
       }
     }
   }
@@ -1118,7 +1162,7 @@ const strengths=['핵심 개념 이해','문제 해결력 향상','작품 분석
       const edition=['비상','천재'].includes(context.publisher)?context.publisher+':'+context.textbookAuthor:context.publisher;
       return (context.publisher==='동아'?catalog:editionCatalog[edition])?.[context.semester==='2학기'?'공통국어 2':'공통국어 1']||[];
     }
-    const hasAuthor=context.publisher==='천재'||(context.schoolLevel==='중등'&&((['1학년','2학년'].includes(context.grade)&&context.publisher==='미래엔')||(context.grade==='2학년'&&context.publisher==='비상')));
+    const hasAuthor=context.publisher==='천재'||(context.schoolLevel==='중등'&&(['1학년','2학년'].includes(context.grade)&&['미래엔','비상'].includes(context.publisher)));
     const edition=hasAuthor?context.publisher+':'+context.textbookAuthor:context.publisher;
     return gradeCatalog[context.schoolLevel]?.[context.grade]?.[edition]?.[context.semester]||[];
   }
@@ -1131,7 +1175,7 @@ const strengths=['핵심 개념 이해','문제 해결력 향상','작품 분석
     $$('#publisherToggle button').forEach(b=>b.classList.toggle('active',b.dataset.value===$('#publisher').value));
     const list=$('#unitChips');list.replaceChildren();$('#rangeChoices').replaceChildren();
     const publisher=$('#publisher').value,isMiddleThird=$('#schoolLevel').value==='중등'&&$('#grade').value==='3학년';
-    const authors=isHighFirst?(publisher==='비상'?['강호영','강영민']:publisher==='천재'?['김수학','김종철']:[]):isMiddleThird&&publisher==='천재'?['노','박']:$('#schoolLevel').value==='중등'&&$('#grade').value==='2학년'?(publisher==='미래엔'?['신유식']:publisher==='비상'?['박영민','박현숙']:publisher==='천재'?['김호웅']:[]):$('#schoolLevel').value==='중등'&&$('#grade').value==='1학년'&&publisher==='미래엔'?['민병곤','신유식']:[];
+    const authors=isHighFirst?(publisher==='비상'?['강호영','강영민']:publisher==='천재'?['김수학','김종철']:[]):isMiddleThird&&publisher==='천재'?['노','박']:$('#schoolLevel').value==='중등'&&$('#grade').value==='2학년'?(publisher==='미래엔'?['신유식']:publisher==='비상'?['박영민','박현숙']:publisher==='천재'?['김호웅']:[]):$('#schoolLevel').value==='중등'&&$('#grade').value==='1학년'?(publisher==='미래엔'?['민병곤','신유식']:publisher==='비상'?['박영민','박현수']:[]):[];
     if(authors.length&&!authors.includes($('#textbookAuthor').value))$('#textbookAuthor').value=authors[0];
     $('#authorOptions').hidden=!authors.length;$('#authorToggle').replaceChildren();
     for(const author of authors){const b=document.createElement('button');b.type='button';b.className='chip'+(author===$('#textbookAuthor').value?' active':'');b.textContent=author;b.dataset.value=author;b.onclick=()=>chooseOption('#textbookAuthor',author);$('#authorToggle').append(b)}
