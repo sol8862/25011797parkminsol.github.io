@@ -1153,6 +1153,73 @@ const strengths=['핵심 개념 이해','문제 해결력 향상','작품 분석
           "4-(1) 매체와 생활",
           "4-(2) 존중하는 언어생활"
         ]
+      },
+      "창비": {
+        "1학기": [
+          "01-(1) 운율, 비유, 상징",
+          "01-(2) 버려진 두부와 내 엄지발톱",
+          "02-(1) 요약하며 읽기",
+          "02-(2) 자료를 활용하여 글 쓰기",
+          "03-(1) 멍키 스패너(진형민)",
+          "03-(2) 잘 준비된 말을(이해인)",
+          "04-(1) 어휘의 양상과 쓰임",
+          "04-(2) 상호 작용적 매체로 소통하기(옥현진)"
+        ],
+        "2학기": [
+          "01-(1) 추론하며 듣기",
+          "01-(2) 추론하며 읽기",
+          "02-(1) 하늘은 맑건만(현덕)",
+          "02-(2) 토의로 문제 해결하기",
+          "03-(1) 품사의 종류와 특성",
+          "03-(2) 단어의 짜임과 새말",
+          "04-(1) 근거를 들어 글 쓰기",
+          "04-(2) 대중 매체와 개인 인터넷 방송"
+        ]
+      },
+      "지학사": {
+        "1학기": [
+          "1-(1) 우리 둘이(김준현)",
+          "1-(2) 오우가(윤선도)",
+          "1-(3) 매체에 따른 의사소통",
+          "2-(1) 요약하며 읽기",
+          "2-(2) 정보를 전달하는 글 쓰기",
+          "3-(1) 우리말 품사",
+          "3-(2) 존중하며 말하기",
+          "4-(1) 하늘은 맑건만(현덕)",
+          "4-(2) 추론하며 듣기"
+        ],
+        "2학기": [
+          "1-(1) 성장을 담은 문학",
+          "1-(2) 정서를 표현하는 글 쓰기",
+          "2-(1) 단어의 짜임과 새말",
+          "2-(2) 어휘의 양상과 쓰임",
+          "3-(1) 추론하며 읽기",
+          "3-(2) 주장을 담은 글 쓰기",
+          "4-(1) 슬기로운 매체 생활",
+          "4-(2) 토의로 문제 해결하기"
+        ]
+      },
+      "천재:노미숙": {
+        "1학기": [
+          "1-(1) 시의 표현",
+          "1-(2) 산문의 아름다움",
+          "2-(1) 어휘의 양상과 쓰임",
+          "2-(2) 매체로 소통하기",
+          "3-(1) 요약하며 읽기",
+          "3-(2) 정보를 전달하는 글 쓰기",
+          "4-(1) 갈등을 담은 문학",
+          "4-(2) 문제를 해결하는 토의"
+        ],
+        "2학기": [
+          "1-(1) 나를 키우는 문학",
+          "1-(2) 진솔하게 글 쓰기",
+          "2-(1) 대중매체와 개인 인터넷 방송",
+          "2-(2) 추론하며 듣기",
+          "3-(1) 품사의 종류와 특성",
+          "3-(2) 단어의 짜임",
+          "4-(1) 추론하며 읽기",
+          "4-(2) 주장하는 글 쓰기"
+        ]
       }
     }
   }
@@ -1175,7 +1242,7 @@ const strengths=['핵심 개념 이해','문제 해결력 향상','작품 분석
     $$('#publisherToggle button').forEach(b=>b.classList.toggle('active',b.dataset.value===$('#publisher').value));
     const list=$('#unitChips');list.replaceChildren();$('#rangeChoices').replaceChildren();
     const publisher=$('#publisher').value,isMiddleThird=$('#schoolLevel').value==='중등'&&$('#grade').value==='3학년';
-    const authors=isHighFirst?(publisher==='비상'?['강호영','강영민']:publisher==='천재'?['김수학','김종철']:[]):isMiddleThird&&publisher==='천재'?['노','박']:$('#schoolLevel').value==='중등'&&$('#grade').value==='2학년'?(publisher==='미래엔'?['신유식']:publisher==='비상'?['박영민','박현숙']:publisher==='천재'?['김호웅']:[]):$('#schoolLevel').value==='중등'&&$('#grade').value==='1학년'?(publisher==='미래엔'?['민병곤','신유식']:publisher==='비상'?['박영민','박현수']:[]):[];
+    const authors=isHighFirst?(publisher==='비상'?['강호영','강영민']:publisher==='천재'?['김수학','김종철']:[]):isMiddleThird&&publisher==='천재'?['노','박']:$('#schoolLevel').value==='중등'&&$('#grade').value==='2학년'?(publisher==='미래엔'?['신유식']:publisher==='비상'?['박영민','박현숙']:publisher==='천재'?['김호웅']:[]):$('#schoolLevel').value==='중등'&&$('#grade').value==='1학년'?(publisher==='미래엔'?['민병곤','신유식']:publisher==='비상'?['박영민','박현수']:publisher==='천재'?['노미숙']:[]):[];
     if(authors.length&&!authors.includes($('#textbookAuthor').value))$('#textbookAuthor').value=authors[0];
     $('#authorOptions').hidden=!authors.length;$('#authorToggle').replaceChildren();
     for(const author of authors){const b=document.createElement('button');b.type='button';b.className='chip'+(author===$('#textbookAuthor').value?' active':'');b.textContent=author;b.dataset.value=author;b.onclick=()=>chooseOption('#textbookAuthor',author);$('#authorToggle').append(b)}
