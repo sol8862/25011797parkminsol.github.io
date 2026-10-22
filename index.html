@@ -914,6 +914,28 @@ const strengths=['핵심 개념 이해','문제 해결력 향상','작품 분석
           "3-(2) 점검하고 조정하며 글 쓰기",
           "4-(1) 매체 환경에서 바르게 읽기"
         ]
+      },
+      "비상:박현숙": {
+        "1학기": [
+          "1-(1) 읽기 과정의 점검과 조정",
+          "1-(2) 문학 속 말하는 이나 보는 이",
+          "2-(1) 피동 표현과 인용 표현",
+          "2-(2) 매체 자료의 재현 방식",
+          "3-(1) 설명 방법과 논증 방법",
+          "3-(2) 설명하는 글 쓰기",
+          "4-(1) 듣기 말하기 과정의 점검과 조정",
+          "4-(2) 효과적으로 발표하기"
+        ],
+        "2학기": [
+          "1-(1) 사회를 비추는 문학",
+          "1-(2) 공감하고 조정하는 대화",
+          "2-(1) 한글의 원리와 가치",
+          "2-(2) 음운의 체계",
+          "3-(1) 복합양식의 글과 자료 읽기",
+          "3-(2) 복합양식 자료를 활용한 글 쓰기",
+          "4-(1) 반어, 풍자, 역설 표현",
+          "4-(2) 영상 매체 자료 제작하기"
+        ]
       }
     }
   }
@@ -936,7 +958,7 @@ const strengths=['핵심 개념 이해','문제 해결력 향상','작품 분석
     $$('#publisherToggle button').forEach(b=>b.classList.toggle('active',b.dataset.value===$('#publisher').value));
     const list=$('#unitChips');list.replaceChildren();$('#rangeChoices').replaceChildren();
     const publisher=$('#publisher').value,isMiddleThird=$('#schoolLevel').value==='중등'&&$('#grade').value==='3학년';
-    const authors=isHighFirst?(publisher==='비상'?['강호영','강영민']:publisher==='천재'?['김수학','김종철']:[]):isMiddleThird&&publisher==='천재'?['노','박']:$('#schoolLevel').value==='중등'&&$('#grade').value==='2학년'?(publisher==='미래엔'?['신유식']:publisher==='비상'?['박영민']:[]):[];
+    const authors=isHighFirst?(publisher==='비상'?['강호영','강영민']:publisher==='천재'?['김수학','김종철']:[]):isMiddleThird&&publisher==='천재'?['노','박']:$('#schoolLevel').value==='중등'&&$('#grade').value==='2학년'?(publisher==='미래엔'?['신유식']:publisher==='비상'?['박영민','박현숙']:[]):[];
     if(authors.length&&!authors.includes($('#textbookAuthor').value))$('#textbookAuthor').value=authors[0];
     $('#authorOptions').hidden=!authors.length;$('#authorToggle').replaceChildren();
     for(const author of authors){const b=document.createElement('button');b.type='button';b.className='chip'+(author===$('#textbookAuthor').value?' active':'');b.textContent=author;b.dataset.value=author;b.onclick=()=>chooseOption('#textbookAuthor',author);$('#authorToggle').append(b)}
