@@ -641,6 +641,40 @@ const strengths=['핵심 개념 이해','문제 해결력 향상','작품 분석
     ]
   }
 };
+  const gradeCatalog={
+  "중등": {
+    "3학년": {
+      "미래엔": {
+        "1학기": [
+          "01-(1) 상처가 더 꽃이다",
+          "01-(2) 노새 두 마리",
+          "02-(1) 자율주행차의 등장",
+          "02-(2) 독서 토론하기",
+          "03-(1) 국어의 음운",
+          "03-(2) 통일을 향한 국어의 길",
+          "04-(1) 생명을 불어넣는 마법사의 물"
+        ],
+        "2학기": [
+          "01-(1) 허생전(박지원)",
+          "01-(2) 봄은(신동엽)·껍데기는 가라(신동엽)·산(山)에 언덕에(신동엽)",
+          "02-(1) 문장의 짜임",
+          "02-(2) 보고하는 글 쓰기-우리 시 동부 지역 청소년 시설 보고서",
+          "03-(1) 소유에서 경험으로, 소비에서 나눔으로(오승현)·열보다 큰 아홉(이문구)",
+          "03-(2) 자신감 있게 말하기",
+          "04-(1) 비교하며 읽기-도시의 밤은 너무 눈부시다(박경화)·밤이 아름다운 도시(이진숙)",
+          "04-(2) 주장하는 글 쓰기-동물이 행복한 동물원은 없다"
+        ]
+      }
+    }
+  }
+};
+  function curriculumUnits(context){
+    if(context.schoolLevel==='고등'&&context.grade==='1학년'){
+      const edition=['비상','천재'].includes(context.publisher)?context.publisher+':'+context.textbookAuthor:context.publisher;
+      return (context.publisher==='동아'?catalog:editionCatalog[edition])?.[context.semester==='2학기'?'공통국어 2':'공통국어 1']||[];
+    }
+    return gradeCatalog[context.schoolLevel]?.[context.grade]?.[context.publisher]?.[context.semester]||[];
+  }
   function refreshCurriculum(){
     $$('#gradeToggle button').forEach(b=>b.classList.toggle('active',b.dataset.value===$('#grade').value));
     const isHighFirst=$('#schoolLevel').value==='고등'&&$('#grade').value==='1학년';
@@ -653,12 +687,8 @@ const strengths=['핵심 개념 이해','문제 해결력 향상','작품 분석
     if(authors.length&&!authors.includes($('#textbookAuthor').value))$('#textbookAuthor').value=authors[0];
     $('#authorOptions').hidden=!authors.length||!isHighFirst;$('#authorToggle').replaceChildren();
     for(const author of authors){const b=document.createElement('button');b.type='button';b.className='chip'+(author===$('#textbookAuthor').value?' active':'');b.textContent=author;b.dataset.value=author;b.onclick=()=>chooseOption('#textbookAuthor',author);$('#authorToggle').append(b)}
-    const edition=authors.length?publisher+':'+$('#textbookAuthor').value:publisher;
-    const highFirstCatalog=publisher==='동아'?catalog:editionCatalog[edition];
-    const curriculumByGrade={'고등':{'1학년':{'1학기':highFirstCatalog?.['공통국어 1'],'2학기':highFirstCatalog?.['공통국어 2']}},'중등':{}};
-    const source=curriculumByGrade[$('#schoolLevel').value]?.[$('#grade').value];
-    const available=source?.[$('#semester').value]||[];
-    $('#unitNote').textContent=available.length?'제공해 주신 '+publisher+(authors.length?' '+$('#textbookAuthor').value:'')+' 목차 기준입니다. 단원을 선택하거나 문항별 범위 칸에서 직접 입력하세요.':[$('#schoolLevel').value,$('#grade').value||'학년 선택',publisher,$('#semester').value].join(' · ')+' 목차 자료는 아직 없습니다. 시험 범위와 문항별 범위를 직접 입력할 수 있습니다.';
+    const available=curriculumUnits(Object.fromEntries(['schoolLevel','grade','publisher','textbookAuthor','semester'].map(key=>[key,$('#'+key).value])));
+    $('#unitNote').textContent=available.length?'제공해 주신 '+publisher+(authors.length&&isHighFirst?' '+$('#textbookAuthor').value:'')+' 목차 기준입니다. 단원을 선택하거나 문항별 범위 칸에서 직접 입력하세요.':[$('#schoolLevel').value,$('#grade').value||'학년 선택',publisher,$('#semester').value].join(' · ')+' 목차 자료는 아직 없습니다. 시험 범위와 문항별 범위를 직접 입력할 수 있습니다.';
     for(const unit of available){const b=document.createElement('button');b.type='button';b.className='chip'+(selectedUnits.includes(unit)?' active':'');b.textContent=unit;b.onclick=()=>{const i=selectedUnits.indexOf(unit);i<0?selectedUnits.push(unit):selectedUnits.splice(i,1);$('#examScope').value=selectedUnits.join(' · ');refreshCurriculum();update()};list.append(b);}
     refreshRangeOptions();
   }
@@ -824,7 +854,7 @@ function ocrCompact(t){return ocrClean(t).replace(/\s/g,'')}
 function ocrWords(data){return (data.blocks||[]).flatMap(b=>(b.paragraphs||[]).flatMap(p=>(p.lines||[]).flatMap(l=>l.words||[]))).filter(w=>w.text&&w.bbox)}
 function ocrLines(words){const lines=[];for(const w of [...words].sort((a,b)=>(a.bbox.y0+a.bbox.y1)-(b.bbox.y0+b.bbox.y1))){const y=(w.bbox.y0+w.bbox.y1)/2,h=w.bbox.y1-w.bbox.y0;let line=lines.find(l=>Math.abs(l.y-y)<Math.max(5,Math.min(h,l.h)*.48));if(!line){line={y,h,words:[]};lines.push(line)}line.words.push(w)}return lines.sort((a,b)=>a.y-b.y).map(l=>({...l,text:l.words.sort((a,b)=>a.bbox.x0-b.bbox.x0).map(w=>w.text).join(' ')}))}
 function ocrDate(t){const m=t.match(/(20\d{2})\s*[.\-/년]\s*(\d{1,2})\s*[.\-/월]\s*(\d{1,2})/);if(!m)return '';const v=`${m[1]}-${m[2].padStart(2,'0')}-${m[3].padStart(2,'0')}`,d=new Date(v+'T00:00:00');return Number.isNaN(d.getTime())||d.getDate()!==+m[3]?'':v}
-function ocrCanonical(text,kind){const candidates=kind==='type'?[...document.querySelector('#questionTemplate').content.querySelectorAll('.qtype-select option')].map(x=>x.value).filter(x=>x&&x!=='__custom__'):(function values(obj){return Array.isArray(obj)?obj.flatMap(values):obj&&typeof obj==='object'?Object.values(obj).flatMap(values):typeof obj==='string'?[obj]:[]})({catalog,editionCatalog});const comparable=t=>ocrCompact(t).replace(/(^|\b)0([1-9])(?=-|\()/g,'$1$2').replace(/[ㆍ•]/g,'·');return candidates.find(x=>comparable(x)===comparable(text))||text}
+function ocrCanonical(text,kind){const candidates=kind==='type'?[...document.querySelector('#questionTemplate').content.querySelectorAll('.qtype-select option')].map(x=>x.value).filter(x=>x&&x!=='__custom__'):(function values(obj){return Array.isArray(obj)?obj.flatMap(values):obj&&typeof obj==='object'?Object.values(obj).flatMap(values):typeof obj==='string'?[obj]:[]})({catalog,editionCatalog,gradeCatalog});const comparable=t=>ocrCompact(t).replace(/(^|\b)0([1-9])(?=-|\()/g,'$1$2').replace(/[ㆍ•]/g,'·');return candidates.find(x=>comparable(x)===comparable(text))||text}
 function ocrReadReport(data,width,height,canvas){
  const words=ocrWords(data),lines=ocrLines(words),all=data.text||lines.map(l=>l.text).join('\n'),result={fields:{},questions:[],texts:{},raw:all};
  const region=(x0,x1,y0,y1)=>ocrLines(words.filter(w=>{const x=(w.bbox.x0+w.bbox.x1)/2,y=(w.bbox.y0+w.bbox.y1)/2;return x>=x0*width&&x<x1*width&&y>=y0&&y<y1})).map(l=>l.text).join('\n');
@@ -882,7 +912,7 @@ function validateExamJSON(value){
 }
 function jsonReviewFields(){return Object.fromEntries([...$('#examJsonMeta').querySelectorAll('[data-json-meta]')].map(el=>[el.dataset.jsonMeta,el.value.trim()]))}
 function jsonContext(){const base=$('#examJsonTarget').value==='current'?collectData():{schoolLevel:'',grade:'',semester:'',publisher:'기타',textbookAuthor:''};return {...base,...Object.fromEntries(Object.entries(jsonReviewFields()).filter(([,v])=>v))}}
-function jsonAvailableUnits(context){if(context.schoolLevel!=='고등'||context.grade!=='1학년')return [];const edition=['비상','천재'].includes(context.publisher)?context.publisher+':'+context.textbookAuthor:context.publisher;return (context.publisher==='동아'?catalog:editionCatalog[edition])?.[context.semester==='2학기'?'공통국어 2':'공통국어 1']||[]}
+function jsonAvailableUnits(context){return curriculumUnits(context)}
 function jsonCanonical(text,choices){return choices.find(choice=>jsonComparable(choice)===jsonComparable(text))||text}
 function jsonRefreshReview(){
  if(!jsonExam)return;const units=jsonAvailableUnits(jsonContext());$('#examJsonRangeChoices').replaceChildren();for(const unit of units){const o=document.createElement('option');o.value=unit;$('#examJsonRangeChoices').append(o)}let need=0;
