@@ -978,6 +978,36 @@ const strengths=['핵심 개념 이해','문제 해결력 향상','작품 분석
           "4-(1) 원만한 관계를 위한 대화",
           "4-(2) 매체 자료의 재현 방식"
         ]
+      },
+      "천재:김호웅": {
+        "1학기": [
+          "1단원 보는 이와 말하는 이 (대단원)",
+          "01-(1) 시의 화자",
+          "01-(2) 소설의 시점과 서술자",
+          "2단원 설명과 이해 (대단원)",
+          "02-(1) 설명하는 글 읽기",
+          "02-(2) 점검ㆍ조정하며 설명하는 글 쓰기",
+          "3단원 상황에 맞는 표현 (대단원)",
+          "03-(1) 피동 표현과 인용 표현",
+          "03-(2) 마음을 나누는 대화",
+          "4단원 개성적 발상과 표현 (대단원)",
+          "04-(1) 반어와 역설로 표현하기",
+          "04-(2) 이야기와 영상으로 풍자하기"
+        ],
+        "2학기": [
+          "1단원 세상을 담은 글 (대단원)",
+          "01-(1) 문학과 사회",
+          "01-(2) 복합양식 자료를 활용하여 글 쓰기",
+          "2단원 점검하고 조정하고 (대단원)",
+          "02-(1) 점검ㆍ조정하며 읽기",
+          "02-(2) 점검ㆍ조정하며 발표하기",
+          "3단원 음운 체계와 문자 체계 (대단원)",
+          "03-(1) 우리말의 음운 체계",
+          "03-(2) 한글의 창제 정신과 원리",
+          "4단원 논증과 매체 (대단원)",
+          "04-(1) 주장하는 글 읽기",
+          "04-(2) 복합양식의 글과 매체 자료"
+        ]
       }
     }
   }
@@ -1000,7 +1030,7 @@ const strengths=['핵심 개념 이해','문제 해결력 향상','작품 분석
     $$('#publisherToggle button').forEach(b=>b.classList.toggle('active',b.dataset.value===$('#publisher').value));
     const list=$('#unitChips');list.replaceChildren();$('#rangeChoices').replaceChildren();
     const publisher=$('#publisher').value,isMiddleThird=$('#schoolLevel').value==='중등'&&$('#grade').value==='3학년';
-    const authors=isHighFirst?(publisher==='비상'?['강호영','강영민']:publisher==='천재'?['김수학','김종철']:[]):isMiddleThird&&publisher==='천재'?['노','박']:$('#schoolLevel').value==='중등'&&$('#grade').value==='2학년'?(publisher==='미래엔'?['신유식']:publisher==='비상'?['박영민','박현숙']:[]):[];
+    const authors=isHighFirst?(publisher==='비상'?['강호영','강영민']:publisher==='천재'?['김수학','김종철']:[]):isMiddleThird&&publisher==='천재'?['노','박']:$('#schoolLevel').value==='중등'&&$('#grade').value==='2학년'?(publisher==='미래엔'?['신유식']:publisher==='비상'?['박영민','박현숙']:publisher==='천재'?['김호웅']:[]):[];
     if(authors.length&&!authors.includes($('#textbookAuthor').value))$('#textbookAuthor').value=authors[0];
     $('#authorOptions').hidden=!authors.length;$('#authorToggle').replaceChildren();
     for(const author of authors){const b=document.createElement('button');b.type='button';b.className='chip'+(author===$('#textbookAuthor').value?' active':'');b.textContent=author;b.dataset.value=author;b.onclick=()=>chooseOption('#textbookAuthor',author);$('#authorToggle').append(b)}
