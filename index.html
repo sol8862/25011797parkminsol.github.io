@@ -1040,6 +1040,76 @@ const strengths=['핵심 개념 이해','문제 해결력 향상','작품 분석
           "04-(2) 이해하기 쉽게 발표하기"
         ]
       }
+    },
+    "1학년": {
+      "동아": {
+        "1학기": [
+          "1-(1) 문학의 표현",
+          "1-(2) 매체를 통한 만남",
+          "2-(1) 어휘의 세계",
+          "2-(2) 존중하는 말하기",
+          "3-(1) 효과적으로 요약하기",
+          "3-(2) 정보를 전달하는 글 쓰기",
+          "4-(1) 문학 속 성장",
+          "4-(2) 경험과 표현"
+        ],
+        "2학기": [
+          "1-(1) 추론하며 듣기",
+          "1-(2) 주장하는 글 쓰기",
+          "2-(1) 문학 속 갈등",
+          "2-(2) 문제 해결을 위한 토의",
+          "3-(1) 품사의 종류와 특성",
+          "3-(2) 단어의 짜임",
+          "4-(1) 추론하며 읽기",
+          "4-(2) 비교하며 보기"
+        ]
+      },
+      "미래엔:민병곤": {
+        "1학기": [
+          "1-(1) 후후후(성미정)",
+          "1-(2) 소나기(황순원)",
+          "1-(3) 나의 형벌(이세라)",
+          "2-(1) 추론하며 읽기",
+          "2-(2) 추론하며 듣기",
+          "3-(1) 단어의 갈래",
+          "3-(2) 자료를 활용하여 글쓰기",
+          "4-(1) 내 이름은 백석(유은실)",
+          "4-(2) 생활 속의 다양한 매체"
+        ],
+        "2학기": [
+          "1-(1) 문학 속의 갈등",
+          "1-(2) 문제를 해결하는 토의",
+          "2-(1) 요약하며 읽기",
+          "2-(2) 주장하는 글 쓰기",
+          "3-(1) 단어의 짜임과 새말",
+          "3-(2) 어휘의 양상과 쓰임",
+          "4-(1) 매체와 의사소통",
+          "4-(2) 존중하며 말하기"
+        ]
+      },
+      "미래엔:신유식": {
+        "1학기": [
+          "1-(1) 길(김종상)",
+          "1-(2) 사랑하는 별 하나(이성선)",
+          "1-(3) 매체로 소통하기",
+          "2-(1) 요약하며 읽기",
+          "2-(2) 정보를 전달하는 글 쓰기",
+          "3-(1) 추론하며 듣기",
+          "3-(2) 품사의 종류와 특성",
+          "4-(1) 옥수수 뺑소니(박상기)",
+          "4-(2) 정서를 표현하는 글 쓰기"
+        ],
+        "2학기": [
+          "1-(1) 동백꽃(김유정)",
+          "1-(2) 토의하기",
+          "2-(1) 슬기로운 매체 생활",
+          "2-(2) 존중하며 말하기",
+          "3-(1) 단어의 짜임과 새말",
+          "3-(2) 어휘의 양상과 쓰임",
+          "4-(1) 추론하며 읽기",
+          "4-(2) 주장하는 글 쓰기"
+        ]
+      }
     }
   }
 };
@@ -1048,7 +1118,7 @@ const strengths=['핵심 개념 이해','문제 해결력 향상','작품 분석
       const edition=['비상','천재'].includes(context.publisher)?context.publisher+':'+context.textbookAuthor:context.publisher;
       return (context.publisher==='동아'?catalog:editionCatalog[edition])?.[context.semester==='2학기'?'공통국어 2':'공통국어 1']||[];
     }
-    const hasAuthor=context.publisher==='천재'||(context.schoolLevel==='중등'&&context.grade==='2학년'&&['미래엔','비상'].includes(context.publisher));
+    const hasAuthor=context.publisher==='천재'||(context.schoolLevel==='중등'&&((['1학년','2학년'].includes(context.grade)&&context.publisher==='미래엔')||(context.grade==='2학년'&&context.publisher==='비상')));
     const edition=hasAuthor?context.publisher+':'+context.textbookAuthor:context.publisher;
     return gradeCatalog[context.schoolLevel]?.[context.grade]?.[edition]?.[context.semester]||[];
   }
@@ -1061,7 +1131,7 @@ const strengths=['핵심 개념 이해','문제 해결력 향상','작품 분석
     $$('#publisherToggle button').forEach(b=>b.classList.toggle('active',b.dataset.value===$('#publisher').value));
     const list=$('#unitChips');list.replaceChildren();$('#rangeChoices').replaceChildren();
     const publisher=$('#publisher').value,isMiddleThird=$('#schoolLevel').value==='중등'&&$('#grade').value==='3학년';
-    const authors=isHighFirst?(publisher==='비상'?['강호영','강영민']:publisher==='천재'?['김수학','김종철']:[]):isMiddleThird&&publisher==='천재'?['노','박']:$('#schoolLevel').value==='중등'&&$('#grade').value==='2학년'?(publisher==='미래엔'?['신유식']:publisher==='비상'?['박영민','박현숙']:publisher==='천재'?['김호웅']:[]):[];
+    const authors=isHighFirst?(publisher==='비상'?['강호영','강영민']:publisher==='천재'?['김수학','김종철']:[]):isMiddleThird&&publisher==='천재'?['노','박']:$('#schoolLevel').value==='중등'&&$('#grade').value==='2학년'?(publisher==='미래엔'?['신유식']:publisher==='비상'?['박영민','박현숙']:publisher==='천재'?['김호웅']:[]):$('#schoolLevel').value==='중등'&&$('#grade').value==='1학년'&&publisher==='미래엔'?['민병곤','신유식']:[];
     if(authors.length&&!authors.includes($('#textbookAuthor').value))$('#textbookAuthor').value=authors[0];
     $('#authorOptions').hidden=!authors.length;$('#authorToggle').replaceChildren();
     for(const author of authors){const b=document.createElement('button');b.type='button';b.className='chip'+(author===$('#textbookAuthor').value?' active':'');b.textContent=author;b.dataset.value=author;b.onclick=()=>chooseOption('#textbookAuthor',author);$('#authorToggle').append(b)}
