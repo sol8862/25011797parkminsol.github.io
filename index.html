@@ -893,6 +893,27 @@ const strengths=['핵심 개념 이해','문제 해결력 향상','작품 분석
           "4-(1) 개성적인 발상과 표현",
           "4-(2) 영상 매체 자료로 전하는 이야기"
         ]
+      },
+      "비상:박영민": {
+        "1학기": [
+          "1-(1) 보는 이와 말하는 이",
+          "1-(2) 경청하고 공감하며 대화하기",
+          "2-(1) 이해하고 비판하며 읽기",
+          "2-(2) 설명 방법을 활용하여 글 쓰기",
+          "3-(1) 우리말과 우리글",
+          "3-(2) 두근두근 발표",
+          "4-(1) 개성적으로 발상하고 표현하기",
+          "4-(2) 영상 매체 자료 제작하기"
+        ],
+        "2학기": [
+          "1-(1) 똑똑하게 글 읽기",
+          "1-(2) 복합양식 자료를 활용하여 글 쓰기",
+          "2-(1) 세상을 담은 문학",
+          "2-(2) 진솔하게 표현하며 갈등 조정하기",
+          "3-(1) 상황에 맞게 문법 요소 활용하기",
+          "3-(2) 점검하고 조정하며 글 쓰기",
+          "4-(1) 매체 환경에서 바르게 읽기"
+        ]
       }
     }
   }
@@ -902,7 +923,7 @@ const strengths=['핵심 개념 이해','문제 해결력 향상','작품 분석
       const edition=['비상','천재'].includes(context.publisher)?context.publisher+':'+context.textbookAuthor:context.publisher;
       return (context.publisher==='동아'?catalog:editionCatalog[edition])?.[context.semester==='2학기'?'공통국어 2':'공통국어 1']||[];
     }
-    const hasAuthor=context.publisher==='천재'||(context.schoolLevel==='중등'&&context.grade==='2학년'&&context.publisher==='미래엔');
+    const hasAuthor=context.publisher==='천재'||(context.schoolLevel==='중등'&&context.grade==='2학년'&&['미래엔','비상'].includes(context.publisher));
     const edition=hasAuthor?context.publisher+':'+context.textbookAuthor:context.publisher;
     return gradeCatalog[context.schoolLevel]?.[context.grade]?.[edition]?.[context.semester]||[];
   }
@@ -915,7 +936,7 @@ const strengths=['핵심 개념 이해','문제 해결력 향상','작품 분석
     $$('#publisherToggle button').forEach(b=>b.classList.toggle('active',b.dataset.value===$('#publisher').value));
     const list=$('#unitChips');list.replaceChildren();$('#rangeChoices').replaceChildren();
     const publisher=$('#publisher').value,isMiddleThird=$('#schoolLevel').value==='중등'&&$('#grade').value==='3학년';
-    const authors=isHighFirst?(publisher==='비상'?['강호영','강영민']:publisher==='천재'?['김수학','김종철']:[]):isMiddleThird&&publisher==='천재'?['노','박']:$('#schoolLevel').value==='중등'&&$('#grade').value==='2학년'&&publisher==='미래엔'?['신유식']:[];
+    const authors=isHighFirst?(publisher==='비상'?['강호영','강영민']:publisher==='천재'?['김수학','김종철']:[]):isMiddleThird&&publisher==='천재'?['노','박']:$('#schoolLevel').value==='중등'&&$('#grade').value==='2학년'?(publisher==='미래엔'?['신유식']:publisher==='비상'?['박영민']:[]):[];
     if(authors.length&&!authors.includes($('#textbookAuthor').value))$('#textbookAuthor').value=authors[0];
     $('#authorOptions').hidden=!authors.length;$('#authorToggle').replaceChildren();
     for(const author of authors){const b=document.createElement('button');b.type='button';b.className='chip'+(author===$('#textbookAuthor').value?' active':'');b.textContent=author;b.dataset.value=author;b.onclick=()=>chooseOption('#textbookAuthor',author);$('#authorToggle').append(b)}
